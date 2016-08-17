@@ -257,12 +257,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="GoalComposite.cpp" />
     <ClCompile Include="include\ai\PowerUp.h" />
     <ClCompile Include="MyTank.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="SteeringBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Goal.h" />
+    <ClInclude Include="GoalComposite.h" />
     <ClInclude Include="include\ai\AI.h" />
     <ClInclude Include="include\ai\Bullet.h" />
     <ClInclude Include="include\ai\ClientCommand.h" />

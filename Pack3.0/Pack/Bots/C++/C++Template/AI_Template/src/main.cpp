@@ -67,7 +67,7 @@ void MyInit()
 	{
 		Tank* tank = AI::GetInstance()->GetMyTank(i);
 		MyTank* myTank = new MyTank(i);
-		myTank->GetSteering()->SetTarget(glm::vec2(5, 1));
+		myTank->GetSteering()->SetTarget(glm::vec2(5, 20));
 		myTank->GetSteering()->SeekOn();
 		myTanks.push_back(myTank);
 	}
@@ -76,10 +76,10 @@ void AI_Placement()
 {
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_HEAVY, 5, 17);
-		Game::PlaceTank(TANK_HEAVY, 5, 18);
-		Game::PlaceTank(TANK_HEAVY, 5, 19);
-		Game::PlaceTank(TANK_HEAVY, 5, 20);
+		Game::PlaceTank(TANK_HEAVY, 5, 2);
+		Game::PlaceTank(TANK_HEAVY, 5, 3);
+		Game::PlaceTank(TANK_HEAVY, 5, 4);
+		Game::PlaceTank(TANK_HEAVY, 5, 5);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
 		Game::PlaceTank(TANK_LIGHT, 16, 2);

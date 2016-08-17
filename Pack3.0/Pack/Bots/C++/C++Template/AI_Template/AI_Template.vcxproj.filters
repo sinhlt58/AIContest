@@ -30,6 +30,12 @@
     <ClCompile Include="SteeringBehavior.cpp">
       <Filter>MyCode</Filter>
     </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalComposite.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ai\AI.h">
@@ -66,6 +72,12 @@
       <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="SteeringBehavior.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalComposite.h">
       <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>
