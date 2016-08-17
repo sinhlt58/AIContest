@@ -1,6 +1,9 @@
 #include <ai/Game.h>
 #include <ai/AI.h>
 #include <time.h>
+#include "../MyTank.h"
+#include <cstdio>
+#include <ctime>
 
 // ==================== HOW TO RUN THIS =====================
 // Call:
@@ -56,14 +59,27 @@
 // Arrange your tanks as you wish using PlaceTank() command
 // You can only place NUMBER_OF_TANK tanks in the map
 // IMPORTANT: Remember to place all your tanks and the coordinates must be integers.
+std::vector<MyTank*> myTanks;
+bool isInit = false;
+void MyInit()
+{
+	for (int i = 0; i<NUMBER_OF_TANK; i++)
+	{
+		Tank* tank = AI::GetInstance()->GetMyTank(i);
+		MyTank* myTank = new MyTank(i);
+		myTank->GetSteering()->SetTarget(glm::vec2(5, 1));
+		myTank->GetSteering()->SeekOn();
+		myTanks.push_back(myTank);
+	}
+}
 void AI_Placement()
 {
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_LIGHT, 1, 5);
-		Game::PlaceTank(TANK_MEDIUM, 3, 8);
-		Game::PlaceTank(TANK_HEAVY, 6, 10);
-		Game::PlaceTank(TANK_LIGHT, 4, 14);
+		Game::PlaceTank(TANK_HEAVY, 5, 17);
+		Game::PlaceTank(TANK_HEAVY, 5, 18);
+		Game::PlaceTank(TANK_HEAVY, 5, 19);
+		Game::PlaceTank(TANK_HEAVY, 5, 20);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
 		Game::PlaceTank(TANK_LIGHT, 16, 2);
@@ -78,6 +94,12 @@ void AI_Placement()
 // See <ai/Game.h> and <ai/AI.h> for supported APIs.
 void AI_Update()
 {
+	if (!isInit)
+	{
+		MyInit();
+		isInit = true;
+	}
+	
 	AI *p_AI = AI::GetInstance();
 
 	// =========================================================================================================
@@ -121,29 +143,43 @@ void AI_Update()
 			// Do something else
 		}
 	}
-
+	
 	// =========================================================================================================
 	// This is an example on how you command your tanks.
 	// In this example, I go through all of my "still intact" tanks, and give them random commands.
 	// =========================================================================================================
 	// Loop through all tank (if not dead yet)
-	for (int i = 0; i<NUMBER_OF_TANK; i++) {
-		Tank* tempTank = p_AI->GetMyTank(i);
-		//don't waste effort if tank's death
-		if ((tempTank == NULL) || (tempTank->GetHP() == 0))
-			continue;
-		
-		// Run randomly and fire as soon as cooldown finish.
-		// You may want a more ... intelligent algorithm here.
-		if (rand() % 100 > 90) {
-			int direction = rand() % 4 + 1;
-			Game::CommandTank(i, direction, true, true);	// Turn into the direction, keep moving, and firing like there is no tomorrow
-		}
-		else {
-			Game::CommandTank(i, NULL, true, true);	// Keep the old direction, keep on moving and firing.
-		}
+//	for (int i = 0; i<NUMBER_OF_TANK; i++) {
+//		Tank* tempTank = p_AI->GetMyTank(i);
+//		//don't waste effort if tank's death
+//		if ((tempTank == NULL) || (tempTank->GetHP() == 0))
+//			continue;
+//		
+//		// Run randomly and fire as soon as cooldown finish.
+//		// You may want a more ... intelligent algorithm here.
+//		Game::CommandTank(i, DIRECTION_UP, true, true);
+////		if (rand() % 100 > 90) {
+////			int direction = rand() % 4 + 1;
+////			Game::CommandTank(i, direction, true, true);	// Turn into the direction, keep moving, and firing like there is no tomorrow
+////		}
+////		else {
+////			Game::CommandTank(i, NULL, true, true);	// Keep the old direction, keep on moving and firing.
+////		}
+//	}
+
+	
+	std::clock_t start = std::clock();
+	for (auto tank : myTanks)
+	{
+		tank->Update();
 	}
 
+	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+
+	if (duration > 0.009)
+	{
+		cout << "Update time: " << duration << " s" << endl;
+	}
 	// =========================================================================================================
 	// This is an example on how you use your power up if you acquire one.
 	// If you have airstrike or EMP, you may use them anytime.

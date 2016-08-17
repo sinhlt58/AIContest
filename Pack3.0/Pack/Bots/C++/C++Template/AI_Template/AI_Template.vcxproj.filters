@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="MyCode">
+      <UniqueIdentifier>{c9450ba8-ac23-40f1-a08a-47f6fa9024d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -20,6 +23,12 @@
     </ClCompile>
     <ClCompile Include="include\ai\PowerUp.h">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTank.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="SteeringBehavior.cpp">
+      <Filter>MyCode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="include\ai\Strike.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTank.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringBehavior.h">
+      <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

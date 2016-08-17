@@ -258,7 +258,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\ai\PowerUp.h" />
+    <ClCompile Include="MyTank.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="SteeringBehavior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ai\AI.h" />
@@ -271,6 +273,8 @@
     <ClInclude Include="include\ai\Base.h" />
     <ClInclude Include="include\ai\Strike.h" />
     <ClInclude Include="include\ai\Tank.h" />
+    <ClInclude Include="MyTank.h" />
+    <ClInclude Include="SteeringBehavior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

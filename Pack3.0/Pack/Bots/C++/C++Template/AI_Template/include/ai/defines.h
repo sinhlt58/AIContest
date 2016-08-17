@@ -46,6 +46,7 @@
 /////////////////////////////
 //          MOVES          //
 /////////////////////////////
+#define DIRECTION_NONE				0
 #define DIRECTION_UP				1
 #define DIRECTION_RIGHT				2
 #define DIRECTION_DOWN				3
