@@ -4,6 +4,9 @@
 #include "../MyTank.h"
 #include <cstdio>
 #include <ctime>
+#include "../Node.h"
+#include <queue>
+#include "../AStarAlgorithm.h"
 
 // ==================== HOW TO RUN THIS =====================
 // Call:
@@ -168,18 +171,36 @@ void AI_Update()
 //	}
 
 	
-	std::clock_t start = std::clock();
+
 	for (auto tank : myTanks)
 	{
 		tank->Update();
 	}
 
+//	priority_queue<Node> pq;
+//	Node node1(glm::vec2(1,1), BLOCK_GROUND);
+//	node1.UpdateGscore(1);
+//	node1.UpdateHscore(2);
+//	Node node2(glm::vec2(1,8), BLOCK_GROUND);
+//	node2.UpdateGscore(1);
+//	node2.UpdateHscore(1);
+//	pq.push(node1);
+//	pq.push(node2);
+//
+//	while(!pq.empty())
+//	{
+//		pq.pop();
+//	}
+
+	//test A*
+	AStarAlgorithm algorithm;
+	std::clock_t start = std::clock();
+	algorithm.Search(glm::vec2(4, 8), glm::vec2(20, 8));
+
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 
-	if (duration > 0.009)
-	{
-		cout << "Update time: " << duration << " s" << endl;
-	}
+	cout << "Update time: " << duration << " s" << endl;
+	
 	// =========================================================================================================
 	// This is an example on how you use your power up if you acquire one.
 	// If you have airstrike or EMP, you may use them anytime.
