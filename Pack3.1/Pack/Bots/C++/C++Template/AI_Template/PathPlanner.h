@@ -10,16 +10,16 @@ class PathEdge;
 class PathPlanner
 {
 private:
+	typedef std::list<PathEdge> Path;
 	enum { no_closest_node_found = -1};
+	std::vector<glm::vec2> m_Path;
+	MyTank* m_pOwner;
 public:
 	PathPlanner(MyTank* owner);
 	~PathPlanner();
-	typedef std::list<PathEdge> Path;
-	                  private:
-	                  MyTank* m_pOwner;
+
 	glm::vec2 m_vDestinationPos;
-	bool RequestPathToPosition(glm::vec2 target) const;
-	Path GetPath();
-	std::vector<glm::vec2> AStarSearch(glm::vec2 start, glm::vec2 goal);
+	bool RequestPathToPosition(glm::vec2 target);
+	Path GetPathAsEdges() const;
 };
 

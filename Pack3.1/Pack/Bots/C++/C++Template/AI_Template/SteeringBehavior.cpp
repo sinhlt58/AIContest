@@ -8,7 +8,6 @@ SteeringBehavior::~SteeringBehavior()
 
 int SteeringBehavior::Calculate() const
 {
-//	return DIRECTION_UP;
 	if(On(seek))
 	{
 		return Seek(m_vTarget);
@@ -24,10 +23,9 @@ void SteeringBehavior::SetTarget(glm::vec2 target)
 int SteeringBehavior::Seek(glm::vec2 target) const
 {
 	glm::vec2 tankPosition = m_pOwner->GetPosition();
-//	std::cout << "My tank: "<< tankPosition.x << " " << tankPosition.y << std::endl;
 	glm::vec2 direction = target - tankPosition;
 
-	if (direction.length())
+	if (target != tankPosition)//dont know why direction = (0, 0) but length()=2 @@
 	{
 		direction = glm::normalize(direction);
 		if (direction.y == 0)
@@ -47,6 +45,5 @@ int SteeringBehavior::Seek(glm::vec2 target) const
 			return DIRECTION_RIGHT;
 		return DIRECTION_LEFT;
 	}
-	
 	return DIRECTION_NONE;
 }

@@ -13,8 +13,7 @@ public:
 	Node(glm::vec2 p, int type):m_vPosition(p),
 								m_iType(type),
 								m_fGscore(0),
-								m_fHscore(0),
-								m_pParrent(nullptr)
+								m_fHscore(0)
 	{
 	}
 
@@ -31,12 +30,9 @@ public:
 	bool operator<(const Node& right) const;
 	bool isValidAdjacentPosition(glm::vec2 position) const;
 	int GetIndexFromPosition() const;
-	Node* GetParrent() const;
-	void SetParrent(Node* p);
 private:
 	glm::vec2 m_vPosition;
 	float m_fGscore;
 	float m_fHscore;
 	int m_iType;
-	Node* m_pParrent;
 };

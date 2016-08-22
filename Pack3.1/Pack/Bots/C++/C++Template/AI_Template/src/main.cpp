@@ -64,14 +64,17 @@
 // IMPORTANT: Remember to place all your tanks and the coordinates must be integers.
 std::vector<MyTank*> myTanks;
 bool isInit = false;
+int test = 13;
 void MyInit()
 {
 	for (int i = 0; i<NUMBER_OF_TANK; i++)
 	{
 		Tank* tank = AI::GetInstance()->GetMyTank(i);
 		MyTank* myTank = new MyTank(i);
-		myTank->GetSteering()->SetTarget(glm::vec2(5, 20));
-		myTank->GetSteering()->SeekOn();
+//		myTank->GetSteering()->SetTarget(glm::vec2(20, 1));
+//		myTank->GetSteering()->SeekOn();
+		(*myTank).m_vTmpTarget = glm::vec2(20, test);
+		test += 1;
 		myTanks.push_back(myTank);
 	}
 }
@@ -79,10 +82,10 @@ void AI_Placement()
 {
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_HEAVY, 5, 2);
-		Game::PlaceTank(TANK_HEAVY, 5, 3);
-		Game::PlaceTank(TANK_HEAVY, 5, 4);
-		Game::PlaceTank(TANK_HEAVY, 5, 5);
+		Game::PlaceTank(TANK_LIGHT, 7, 20);
+		Game::PlaceTank(TANK_LIGHT, 6, 20);
+		Game::PlaceTank(TANK_LIGHT, 5, 20);
+		Game::PlaceTank(TANK_LIGHT, 4, 20);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
 		Game::PlaceTank(TANK_LIGHT, 16, 2);
@@ -170,37 +173,18 @@ void AI_Update()
 ////		}
 //	}
 
-	
-
+	std::clock_t start = std::clock();
 	for (auto tank : myTanks)
 	{
 		tank->Update();
+//		std::vector<glm::vec2> path =  algorithm.Search(glm::vec2(4, 8), glm::vec2(20, 8));
+//		for (glm::vec2 p : path)
+//			cout << p.x << " " << p.y << endl;
 	}
-
-//	priority_queue<Node> pq;
-//	Node node1(glm::vec2(1,1), BLOCK_GROUND);
-//	node1.UpdateGscore(1);
-//	node1.UpdateHscore(2);
-//	Node node2(glm::vec2(1,8), BLOCK_GROUND);
-//	node2.UpdateGscore(1);
-//	node2.UpdateHscore(1);
-//	pq.push(node1);
-//	pq.push(node2);
-//
-//	while(!pq.empty())
-//	{
-//		pq.pop();
-//	}
-
-	//test A*
-	AStarAlgorithm algorithm;
-	std::clock_t start = std::clock();
-	algorithm.Search(glm::vec2(4, 8), glm::vec2(20, 8));
 
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 
 	cout << "Update time: " << duration << " s" << endl;
-	
 	// =========================================================================================================
 	// This is an example on how you use your power up if you acquire one.
 	// If you have airstrike or EMP, you may use them anytime.

@@ -36,14 +36,32 @@
     <ClCompile Include="SteeringBehavior.cpp">
       <Filter>MyCode</Filter>
     </ClCompile>
-    <ClCompile Include="PathPlanner.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AStarAlgorithm.cpp">
+      <Filter>MyCode</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>MyCode</Filter>
     </ClCompile>
-    <ClCompile Include="AStarAlgorithm.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PathPlanner.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalEvaluator.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalFollowPath.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalMoveToPosition.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalThink.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalTraverseEdge.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalType.cpp">
+      <Filter>MyCode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,16 +111,34 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PathEdge.h">
-      <Filter>Header Files</Filter>
+      <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="PathPlanner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Header Files</Filter>
+      <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="AStarAlgorithm.h">
-      <Filter>Header Files</Filter>
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalTraverseEdge.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalMoveToPosition.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalThink.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalType.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalFollowPath.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalEvaluator.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

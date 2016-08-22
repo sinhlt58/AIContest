@@ -1,6 +1,6 @@
 #pragma once
 #include <stdexcept>
-
+#include <iostream>
 struct Telegram;
 
 template<class entity_type>
@@ -23,7 +23,7 @@ public:
 	virtual ~Goal(){}
 
 	virtual void Activate() = 0;
-	virtual void Process() = 0;
+	virtual int Process() = 0;
 	virtual void Terminate() = 0;
 	virtual bool HandleMessage(const Telegram& msg) { return  false; }
 
@@ -36,7 +36,7 @@ public:
 };
 
 template <class entity_type>
-void Goal<entity_type>::ActivateIfInactive()
+void Goal<entity_type>::ReactivateIfFailed()
 {
 	if (hasFailed())
 	{
@@ -45,7 +45,7 @@ void Goal<entity_type>::ActivateIfInactive()
 }
 
 template <class entity_type>
-void Goal<entity_type>::ReactivateIfFailed()
+void Goal<entity_type>::ActivateIfInactive()
 {
 	if(isInactive())
 	{

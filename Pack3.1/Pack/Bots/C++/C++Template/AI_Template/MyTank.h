@@ -3,10 +3,12 @@
 #include "glm/vec2.hpp"
 #include "SteeringBehavior.h"
 #include "PathPlanner.h"
+#include "GoalThink.h"
 
 class Tank;
 class SteeringBehavior;
 class PathPlanner;
+class GoalThink;
 
 class MyTank
 {
@@ -22,6 +24,8 @@ public:
 	glm::vec2 GetPosition() const;
 	SteeringBehavior* GetSteering() const;
 	PathPlanner* GetPathPlanner() const;
+	bool isAtPosition(glm::vec2 p) const;
+	glm::vec2 m_vTmpTarget;
 private:
 	int m_iId;
 
@@ -31,6 +35,7 @@ private:
 	PathPlanner* m_pPathPlanner;
 
 	//Brain.
+	GoalThink* m_pBrain;
 
 	//Target system.
 };

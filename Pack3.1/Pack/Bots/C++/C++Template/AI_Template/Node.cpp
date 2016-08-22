@@ -70,13 +70,3 @@ int Node::GetIndexFromPosition() const
 {
 	return (int(m_vPosition.y) - 1)*(MAP_W - 2) + int(m_vPosition.x - 1);
 }
-
-Node* Node::GetParrent() const
-{
-	return m_pParrent;
-}
-
-void Node::SetParrent(Node* p)
-{
-	m_pParrent = p;
-}

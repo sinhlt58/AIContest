@@ -5,20 +5,21 @@ MyTank::MyTank(int id):m_iId(id)
 {
 	m_pSteeringBehavior = new SteeringBehavior(this);
 	m_pPathPlanner = new PathPlanner(this);
+	m_pBrain = new GoalThink(this);
 }
 
 MyTank::~MyTank()
 {
 	delete m_pSteeringBehavior;
 	delete m_pPathPlanner;
+	delete m_pBrain;
 }
 
 void MyTank::Update()
 {
 	//update every loop.
+	m_pBrain->Process();
 	UpdateMovement();
-//	int direction = m_pSteeringBehavior->Calculate();
-//	Game::CommandTank(m_iId, direction, true, false);
 }
 
 void MyTank::UpdateMovement()
@@ -26,9 +27,11 @@ void MyTank::UpdateMovement()
 	int direction = m_pSteeringBehavior->Calculate();
 	if (direction != DIRECTION_NONE)
 	{
-		Game::CommandTank(m_iId, direction, true, false);
+		Game::CommandTank(m_iId, direction, true, true);
+	}else
+	{
+		Game::CommandTank(m_iId, DIRECTION_UP, false, true);
 	}
-
 }
 
 Tank* MyTank::GetApiTank() const
@@ -52,4 +55,10 @@ SteeringBehavior* MyTank::GetSteering() const
 PathPlanner* MyTank::GetPathPlanner() const
 {
 	return m_pPathPlanner;
+}
+
+bool MyTank::isAtPosition(glm::vec2 p) const
+{
+	return GetPosition().x == p.x &&
+		GetPosition().y == p.y;
 }

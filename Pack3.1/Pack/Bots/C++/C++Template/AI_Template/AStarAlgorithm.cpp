@@ -38,32 +38,30 @@ std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal)
 
 		if (node->GetPosition() == goal)
 		{
-//			Node* run = node;
-//			std::cout << node->GetPosition().x << " " << node->GetPosition().y << std::endl;
-//			while(run->GetParrent() != nullptr)
-//			{
-//				std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAaa";
-//				std::cout << run->GetPosition().x << " " << run->GetPosition().y << std::endl;
-//				run = run->GetParrent();
-//			}
+			int x, y;
 			int index = node->GetIndexFromPosition();
 			while(cameFrom[index] != noParrent)
 			{
-				index = cameFrom[index];
-				int x, y;
 				IndexToPosition(index, x, y);
-				std::cout << x << " " << y << std::endl;
+//				std::cout << x << " " << y << std::endl;
+				auto it = path.begin();
+				path.insert(it, glm::vec2(x, y));
+				index = cameFrom[index];
+			}
+			while(!pq.empty())
+			{
+				pq.pop();
 			}
 			return path;
 		}
 
 		for (glm::vec2 ajPos :  node->GetAdjacentNodePos())
-		{
-			
+		{		
 			Node* child = new Node(ajPos, BLOCK_GROUND);
-			if (closedNodes[child->GetIndexFromPosition()] == false)
+			if (closedNodes[child->GetIndexFromPosition()] == false
+				|| openNodes[child->GetIndexFromPosition()] > child->GetPriority())
 			{	
-//				child->SetParrent(node);
+				openNodes[child->GetIndexFromPosition()] = child->GetPriority();
 				cameFrom[child->GetIndexFromPosition()] = node->GetIndexFromPosition();
 				child->UpdateGscore(node->GetGscore() + 1);
 				child->UpdateHscore(Manhattan(ajPos, goal));
@@ -73,23 +71,13 @@ std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal)
 				delete child;
 			}
 		}
+		delete node;
 	}
 
 	return path;
 }
 
-//bool AStarAlgorithm::isVisited(Node& node) const
-//{
-//	return m_ClosedNodes[node.GetIndexFromPosition()] != nullptr;
-//}
-//
-//bool AStarAlgorithm::isInFrontier(Node& node) const
-//{
-//	return m_OpenNodes[node.GetIndexFromPosition()] > 0;
-//}
-
-
-float AStarAlgorithm::Manhattan(glm::vec2& p1, glm::vec2& p2) const
+float AStarAlgorithm::Manhattan(glm::vec2& p1, glm::vec2& p2)
 {
 	return abs(p1.x - p2.x) + 
 		   abs(p1.y - p2.y);

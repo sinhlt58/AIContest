@@ -260,6 +260,12 @@
     <ClCompile Include="AStarAlgorithm.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="GoalComposite.cpp" />
+    <ClCompile Include="GoalEvaluator.cpp" />
+    <ClCompile Include="GoalFollowPath.cpp" />
+    <ClCompile Include="GoalMoveToPosition.cpp" />
+    <ClCompile Include="GoalThink.cpp" />
+    <ClCompile Include="GoalTraverseEdge.cpp" />
+    <ClCompile Include="GoalType.cpp" />
     <ClCompile Include="include\ai\PowerUp.h" />
     <ClCompile Include="MyTank.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -271,6 +277,12 @@
     <ClInclude Include="AStarAlgorithm.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="GoalComposite.h" />
+    <ClInclude Include="GoalEvaluator.h" />
+    <ClInclude Include="GoalFollowPath.h" />
+    <ClInclude Include="GoalMoveToPosition.h" />
+    <ClInclude Include="GoalThink.h" />
+    <ClInclude Include="GoalTraverseEdge.h" />
+    <ClInclude Include="GoalType.h" />
     <ClInclude Include="include\ai\AI.h" />
     <ClInclude Include="include\ai\Bullet.h" />
     <ClInclude Include="include\ai\ClientCommand.h" />

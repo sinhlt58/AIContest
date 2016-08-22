@@ -1,6 +1,7 @@
 #pragma once
 #include "Goal.h"
 #include <list>
+#include <iostream>
 
 template <class entity_type>
 class GoalComposite : public Goal<entity_type>
@@ -16,7 +17,7 @@ public:
 	virtual ~GoalComposite() { RemoveAllSubgoals(); }
 
 	virtual void Activate() = 0;
-	virtual void Process() = 0;
+	virtual int Process() = 0;
 	virtual void Terminate() = 0;
 
 	bool HandleMessage(const Telegram& msg) override
@@ -28,6 +29,7 @@ public:
 template <class entity_type>
 int GoalComposite<entity_type>::ProcessSubgoals()
 {
+//	std::cout << m_SubGoals.size() << std::endl;
 	while(!m_SubGoals.empty() && (m_SubGoals.front()->isComplete() || m_SubGoals.front()->hasFailed()))
 	{
 		m_SubGoals.front()->Terminate();
@@ -37,7 +39,7 @@ int GoalComposite<entity_type>::ProcessSubgoals()
 	if(!m_SubGoals.empty())
 	{
 		int StatusOfSubGoals = m_SubGoals.front()->Process();
-		if (StatusOfSubGoals == completed && m_SubGoals.size())
+		if (StatusOfSubGoals == completed && m_SubGoals.size() > 1)
 		{
 			return active;
 		}

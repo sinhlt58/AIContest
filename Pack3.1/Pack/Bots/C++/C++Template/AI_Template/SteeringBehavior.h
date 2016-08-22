@@ -27,6 +27,7 @@ public:
 	}
 
 	void SetTarget(glm::vec2 target);
+	glm::vec2 m_vTarget;
 private:
 	enum behavior_type
 	{
@@ -35,7 +36,7 @@ private:
 	};
 
 	MyTank* m_pOwner;
-	glm::vec2 m_vTarget;
+
 	int m_iFlags;
 
 	bool On(behavior_type bt) const
