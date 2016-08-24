@@ -11,8 +11,8 @@ public:
 	AStarAlgorithm();
 	~AStarAlgorithm();
 	static std::vector<glm::vec2> Search(glm::vec2 start, glm::vec2 goal);
+	static float Manhattan(glm::vec2 p1, glm::vec2 p2);
 private:
-	static float Manhattan(glm::vec2& p1, glm::vec2& p2);
 	static void IndexToPosition(int index, int &x, int &y);
 };
 

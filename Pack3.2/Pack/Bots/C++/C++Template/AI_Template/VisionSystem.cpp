@@ -30,6 +30,7 @@ void VisionSystem::UpdateVision()
 		VisionRecord& info = m_visionMap[i];
 		info.m_vLastSeenPosition = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
 		info.m_bShootable = isShootable(m_pOwner->GetPosition(), info.m_vLastSeenPosition);
+		info.hp = enemyTank->GetHP();
 		if (info.m_bShootable)
 		{
 			std::cout << "My tank " << m_pOwner->ID() << ": can shoot enemy tank " << i << std::endl;
@@ -57,6 +58,15 @@ bool VisionSystem::isEnemyShootable(int enemyId)
 	return false;
 }
 
+bool VisionSystem::isEnemyAlive(int enemyId)
+{
+	return m_visionMap.find(enemyId)->second.hp > 0;
+}
+
+glm::vec2 VisionSystem::GetEnemyPosition(int enemyId)
+{
+	return m_visionMap.find(enemyId)->second.m_vLastSeenPosition;
+}
 
 bool VisionSystem::isWithinView(glm::vec2& p1, glm::vec2& p2) const
 {

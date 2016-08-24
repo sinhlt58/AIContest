@@ -77,7 +77,7 @@ std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal)
 	return path;
 }
 
-float AStarAlgorithm::Manhattan(glm::vec2& p1, glm::vec2& p2)
+float AStarAlgorithm::Manhattan(glm::vec2 p1, glm::vec2 p2)
 {
 	return abs(p1.x - p2.x) + 
 		   abs(p1.y - p2.y);

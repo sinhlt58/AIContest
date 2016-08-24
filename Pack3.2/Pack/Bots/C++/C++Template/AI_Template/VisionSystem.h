@@ -15,6 +15,8 @@ public:
 
 	bool isEnemyWithinView(int enemyId);
 	bool isEnemyShootable(int enemyId);
+	bool isEnemyAlive(int enemyId);
+	glm::vec2 GetEnemyPosition(int enymyId);
 private:
 	MyTank* m_pOwner;
 	std::map<int, VisionRecord> m_visionMap;

@@ -5,12 +5,14 @@
 #include "PathPlanner.h"
 #include "GoalThink.h"
 #include "VisionSystem.h"
+#include "TargetingSystem.h"
 
 class Tank;
 class SteeringBehavior;
 class PathPlanner;
 class GoalThink;
 class VisionSystem;
+class TargetingSystem;
 
 class MyTank
 {
@@ -23,14 +25,29 @@ public:
 
 	Tank* GetApiTank() const;
 
-	glm::vec2 GetPosition() const;
+	
 	SteeringBehavior* GetSteering() const;
 	PathPlanner* GetPathPlanner() const;
+	VisionSystem* GetVisionSystem()const;
+	TargetingSystem* GetTargetingSystem()const;
+
+	glm::vec2 GetPosition() const;
 	bool isAtPosition(glm::vec2 p) const;
 	glm::vec2 m_vTmpTarget;
 	int ID()const { return m_iId; }
+
+	void FireOn() { m_bIsShoot = true; }
+	void FireOff() { m_bIsShoot = false; }
+	void MoveOn() { m_bIsMove = true; }
+	void MoveOff() { m_bIsMove = false; }
+	void SetDirection(int d) { m_iCurrentDirection = d; }
+
+	void AimAndShoot();
 private:
 	int m_iId;
+	bool m_bIsShoot;
+	bool m_bIsMove;
+	int m_iCurrentDirection;
 
 	//Steering behavior.
 	SteeringBehavior* m_pSteeringBehavior;
@@ -45,5 +62,6 @@ private:
 	VisionSystem* m_pVisionSystem;
 
 	//Target system.
+	TargetingSystem* m_pTargetingSystem;
 };
 

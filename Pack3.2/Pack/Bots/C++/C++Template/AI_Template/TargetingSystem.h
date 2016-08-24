@@ -10,8 +10,13 @@ public:
 	~TargetingSystem();
 
 	void Update();
+
+	bool isTargetingEnemyPresent();
+	bool isTargetingEnemyShootable();
+	glm::vec2 GetTargetingEnemyPosition();
+	int GetAimDirection();
 private:
 	MyTank* m_pOwner;
-	glm::vec2 m_vCurrentTarget;
+	int m_iTargetEnemyId;
 };
 
