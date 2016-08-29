@@ -1,11 +1,6 @@
 #include "GoalTraverseEdge.h"
 #include "GoalType.h"
 
-GoalTraverseEdge::~GoalTraverseEdge()
-{
-}
-
-
 GoalTraverseEdge::GoalTraverseEdge(MyTank* pOwner, PathEdge edge, bool lastEdge):
 	Goal<MyTank>(pOwner, goal_traverse_edge),
 	m_Edge(edge),
@@ -38,14 +33,12 @@ int GoalTraverseEdge::Process()
 	
 	if(m_pOwner->isAtPosition(m_Edge.Destination()))
 	{
-		m_iStatus = completed;
-//		m_pOwner->GetSteering()->SeekOff();
+		m_iStatus = completed;	
 	}
 	return m_iStatus;
 }
 
 void GoalTraverseEdge::Terminate()
 {
-//	m_pOwner->GetSteering()->SeekOff();
-	std::cout << "Position when terminate: " << m_pOwner->GetPosition().x << " " << m_pOwner->GetPosition().y << std::endl;
+	m_pOwner->GetSteering()->SeekOff();
 }

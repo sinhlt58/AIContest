@@ -33,7 +33,7 @@ void VisionSystem::UpdateVision()
 		info.hp = enemyTank->GetHP();
 		if (info.m_bShootable)
 		{
-			std::cout << "My tank " << m_pOwner->ID() << ": can shoot enemy tank " << i << std::endl;
+//			std::cout << "My tank " << m_pOwner->ID() << ": can shoot enemy tank " << i << std::endl;
 		}
 	}
 }
@@ -75,33 +75,36 @@ bool VisionSystem::isWithinView(glm::vec2& p1, glm::vec2& p2) const
 
 bool VisionSystem::isShootable(glm::vec2 p1, glm::vec2 p2) const
 {
-	int roundX1 = round(p1.x);
-	int roundY1 = round(p1.y);
-	int roundX2 = round(p2.x);
-	int roundY2 = round(p2.y);
-	int maxX, maxY, minX, minY;
-
-	if (roundY1 == roundY2)
-	{
-		minX = roundX1 > roundX2 ? roundX2 : roundX1;
-		maxX = roundX1 > roundX2 ? roundX1 : roundX2;
-		for (int x = minX; x <= maxX; x++)
-		{
-			if (AI::GetInstance()->GetBlock(x, roundY1) != BLOCK_GROUND)
-				return false;
-		}
-		return true;
-	}else if (roundX1 == roundX2)
-	{
-		minY = roundY1 > roundY2 ? roundY2 : roundY1;
-		maxY = roundY1 > roundY2 ? roundY1 : roundY2;
-		for (int y = minY; y <= maxY; y++)
-		{
-			if (AI::GetInstance()->GetBlock(roundX1, y) != BLOCK_GROUND)
-				return false;
-		}
-		return true;
-	}
-
-	return false;
+//	int roundX1 = round(p1.x);
+//	int roundY1 = round(p1.y);
+//	int roundX2 = round(p2.x);
+//	int roundY2 = round(p2.y);
+//	int maxX, maxY, minX, minY;
+//
+//	if (roundY1 == roundY2)
+//	{
+//		minX = roundX1 > roundX2 ? roundX2 : roundX1;
+//		maxX = roundX1 > roundX2 ? roundX1 : roundX2;
+//		for (int x = minX; x <= maxX; x++)
+//		{
+//			if (AI::GetInstance()->GetBlock(x, roundY1) != BLOCK_GROUND
+//				&& AI::GetInstance()->GetBlock(x, roundY1) != BLOCK_WATER)
+//				return false;
+//		}
+//		return true;
+//	}else if (roundX1 == roundX2)
+//	{
+//		minY = roundY1 > roundY2 ? roundY2 : roundY1;
+//		maxY = roundY1 > roundY2 ? roundY1 : roundY2;
+//		for (int y = minY; y <= maxY; y++)
+//		{
+//			if (AI::GetInstance()->GetBlock(roundX1, y) != BLOCK_GROUND
+//				&& AI::GetInstance()->GetBlock(roundX1, y) != BLOCK_WATER)
+//				return false;
+//		}
+//		return true;
+//	}
+//
+//	return false;
+	return m_pOwner->isShootableBase(p2);
 }

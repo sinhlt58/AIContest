@@ -4,15 +4,18 @@
 
 class MyTank;
 
-class GoalFollowPath : public GoalComposite<MyTank>
+class GoalHuntEnemy : public GoalComposite<MyTank>
 {
 public:
-	GoalFollowPath(MyTank* pOwner, std::list<PathEdge> p);
+	GoalHuntEnemy(MyTank* pOwner);
+	~GoalHuntEnemy();
 
 	void Activate() override;
 	int Process() override;
 	void Terminate() override;
+
 private:
-	std::list<PathEdge> m_Path;
+	glm::vec2 m_vCurrentAimPosition;
+	glm::vec2 m_vCurrentGoodPosition;
 };
 

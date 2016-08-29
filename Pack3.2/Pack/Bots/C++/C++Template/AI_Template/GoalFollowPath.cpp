@@ -2,11 +2,6 @@
 #include "GoalType.h"
 #include "GoalTraverseEdge.h"
 
-GoalFollowPath::~GoalFollowPath()
-{
-}
-
-
 GoalFollowPath::GoalFollowPath(MyTank* pOwner, std::list<PathEdge> p):
 						GoalComposite(pOwner, goal_follow_path),
 						m_Path(p)

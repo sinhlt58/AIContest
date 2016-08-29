@@ -1,5 +1,6 @@
 #include "MyTank.h"
 #include "include/ai/Game.h"
+#include "HelperFunctions.h"
 
 MyTank::MyTank(int id):m_iId(id),
 					   m_bIsShoot(false),
@@ -10,7 +11,8 @@ MyTank::MyTank(int id):m_iId(id),
 	m_pPathPlanner = new PathPlanner(this);
 	m_pBrain = new GoalThink(this);
 	m_pVisionSystem = new VisionSystem(this);
-	m_pTargetingSystem = new TargetingSystem(this);
+
+	m_pBrainUpdateRgulator = new Regulator(1);
 }
 
 MyTank::~MyTank()
@@ -19,17 +21,20 @@ MyTank::~MyTank()
 	delete m_pPathPlanner;
 	delete m_pBrain;
 	delete m_pVisionSystem;
-	delete m_pTargetingSystem;
+
+	delete m_pBrainUpdateRgulator;
 }
 
 void MyTank::Update()
 {
 	//update every loop.
+	m_pVisionSystem->UpdateVision();
+	if(m_pBrainUpdateRgulator->isReady())
+	{
+		m_pBrain->Aribitrate();
+	}
 	m_pBrain->Process();
 	UpdateMovement();
-	m_pVisionSystem->UpdateVision();
-	m_pTargetingSystem->Update();
-	AimAndShoot();
 
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 }
@@ -37,14 +42,9 @@ void MyTank::Update()
 void MyTank::UpdateMovement()
 {
 	int direction = m_pSteeringBehavior->Calculate();
-	if (direction != DIRECTION_NONE)
+	if (direction != DIRECTION_NONE && m_bIsMove)
 	{
-		MoveOn();
 		SetDirection(direction);
-	}else
-	{
-		MoveOff();
-		SetDirection(DIRECTION_UP);
 	}
 }
 
@@ -58,6 +58,11 @@ glm::vec2 MyTank::GetPosition() const
 {
 	Tank* tank = GetApiTank();
 	return glm::vec2(tank->GetX(), tank->GetY());
+}
+
+int MyTank::GetCoolDown() const
+{
+	return AI::GetInstance()->GetMyTank(m_iId)->GetCoolDown();
 }
 
 SteeringBehavior* MyTank::GetSteering() const
@@ -75,9 +80,9 @@ VisionSystem* MyTank::GetVisionSystem() const
 	return m_pVisionSystem;
 }
 
-TargetingSystem* MyTank::GetTargetingSystem() const
+GoalThink* MyTank::GetBrain() const
 {
-	return m_pTargetingSystem;
+	return m_pBrain;
 }
 
 bool MyTank::isAtPosition(glm::vec2 p) const
@@ -85,16 +90,58 @@ bool MyTank::isAtPosition(glm::vec2 p) const
 	return GetPosition() == p;
 }
 
-void MyTank::AimAndShoot()
+
+void MyTank::AimAndShootAtPosition(glm::vec2 position)
 {
-	if (m_pTargetingSystem->isTargetingEnemyPresent() 
-		&& m_pTargetingSystem->isTargetingEnemyShootable())
+	int aimDirection = GetDirectionToPosition(position);
+	if (aimDirection != DIRECTION_NONE)
 	{
-		//aim here
-		int aimDirection = m_pTargetingSystem->GetAimDirection();
-		cout << "aim direction: " << aimDirection << endl;
 		SetDirection(aimDirection);
-		FireOn();
 		MoveOff();
+		FireOn();
 	}
+}
+
+int MyTank::GetDirectionToPosition(glm::vec2 position)
+{
+	int roundMyTankX = GetRoundPosition(GetPosition()).x;
+	int roundMyTankY = GetRoundPosition(GetPosition()).y;
+	int roundPositionX = GetRoundPosition(position).x;
+	int roundPositionY = GetRoundPosition(position).y;
+
+	if (roundMyTankX == roundPositionX)
+	{
+		if (roundPositionY > roundMyTankY)
+			return DIRECTION_DOWN;
+		return DIRECTION_UP;
+	}
+
+	if (roundMyTankY == roundPositionY)
+	{
+		if (roundPositionX > roundMyTankX)
+			return DIRECTION_RIGHT;
+		return DIRECTION_LEFT;
+	}
+
+	return DIRECTION_NONE;
+}
+
+bool MyTank::isEnemyInView()
+{
+	return false;
+}
+
+bool MyTank::isShootableAEnemy(glm::vec2 enemyPosition)
+{
+	return TargetMgr->isShootableAEnemy(GetPosition(), enemyPosition);
+}
+
+bool MyTank::isShootableBase(glm::vec2 enemyBasePositon)
+{
+	return TargetMgr->isShootableBase(GetPosition(), enemyBasePositon);
+}
+
+bool MyTank::isBulletDangerous(glm::vec2 bulletPosition)
+{
+	return false;
 }

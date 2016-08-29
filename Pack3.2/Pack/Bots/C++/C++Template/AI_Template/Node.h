@@ -2,11 +2,6 @@
 #include <glm/detail/type_vec2.hpp>
 #include <vector>
 
-const std::vector<glm::vec2> dirs = {glm::vec2(1,0),
-									 glm::vec2(0,1),
-									 glm::vec2(-1,0),
-									 glm::vec2(0,-1)};
-
 class Node
 {
 public:
@@ -25,10 +20,10 @@ public:
 	void UpdateHscore(float s);
 	float GetGscore() const{ return m_fGscore; }
 	float GetHscore() const{ return m_fHscore; }
-	std::vector<glm::vec2> GetAdjacentNodePos() const;
+	std::vector<glm::vec2> GetAdjacentNodePos(int currentTankId, int targetTankId, glm::vec2 goal) const;
 	float GetPriority() const;
 	bool operator<(const Node& right) const;
-	bool isValidAdjacentPosition(glm::vec2 position) const;
+	bool isValidAdjacentPosition(glm::vec2 position, int currentTankId, int targetTankId, glm::vec2 goal) const;
 	int GetIndexFromPosition() const;
 private:
 	glm::vec2 m_vPosition;

@@ -29,7 +29,6 @@ public:
 template <class entity_type>
 int GoalComposite<entity_type>::ProcessSubgoals()
 {
-//	std::cout << m_SubGoals.size() << std::endl;
 	while(!m_SubGoals.empty() && (m_SubGoals.front()->isComplete() || m_SubGoals.front()->hasFailed()))
 	{
 		m_SubGoals.front()->Terminate();

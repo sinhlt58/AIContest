@@ -8,7 +8,6 @@ class GoalMoveToPosition : public GoalComposite<MyTank>
 {
 public:
 	GoalMoveToPosition(MyTank* pOwner, glm::vec2 d);
-	~GoalMoveToPosition();
 
 	void Activate() override;
 	int Process() override;

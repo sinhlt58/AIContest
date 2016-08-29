@@ -33,6 +33,7 @@ public:
 	bool isActive()const { return m_iStatus == active; }
 	bool isInactive()const { return m_iStatus == inactive; }
 	bool hasFailed()const { return m_iStatus == failed; }
+	int GetType()const { return m_iType; }
 };
 
 template <class entity_type>

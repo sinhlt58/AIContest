@@ -6,6 +6,7 @@
 #include "GoalThink.h"
 #include "VisionSystem.h"
 #include "TargetingSystem.h"
+#include "Regulator.h"
 
 class Tank;
 class SteeringBehavior;
@@ -25,13 +26,13 @@ public:
 
 	Tank* GetApiTank() const;
 
-	
 	SteeringBehavior* GetSteering() const;
 	PathPlanner* GetPathPlanner() const;
 	VisionSystem* GetVisionSystem()const;
-	TargetingSystem* GetTargetingSystem()const;
+	GoalThink* GetBrain()const;
 
 	glm::vec2 GetPosition() const;
+	int GetCoolDown()const;
 	bool isAtPosition(glm::vec2 p) const;
 	glm::vec2 m_vTmpTarget;
 	int ID()const { return m_iId; }
@@ -42,7 +43,12 @@ public:
 	void MoveOff() { m_bIsMove = false; }
 	void SetDirection(int d) { m_iCurrentDirection = d; }
 
-	void AimAndShoot();
+	void AimAndShootAtPosition(glm::vec2 position);
+	int GetDirectionToPosition(glm::vec2 position);
+	bool isEnemyInView();
+	bool isShootableAEnemy(glm::vec2 enemyPosition);
+	bool isShootableBase(glm::vec2 enemyBasePositon);
+	bool isBulletDangerous(glm::vec2 bulletPosition);
 private:
 	int m_iId;
 	bool m_bIsShoot;
@@ -61,7 +67,6 @@ private:
 	//How this tank sees enemies.
 	VisionSystem* m_pVisionSystem;
 
-	//Target system.
-	TargetingSystem* m_pTargetingSystem;
+	Regulator* m_pBrainUpdateRgulator;
 };
 

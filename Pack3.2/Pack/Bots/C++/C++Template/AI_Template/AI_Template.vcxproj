@@ -259,10 +259,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AStarAlgorithm.cpp" />
+    <ClCompile Include="EvaluationPosition.cpp" />
+    <ClCompile Include="EvaluatorAttackMainBase.cpp" />
+    <ClCompile Include="EvaluatorDodgeBullet.cpp" />
+    <ClCompile Include="EvaluatorHuntEnemy.cpp" />
+    <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="GoalAtackMainBase.cpp" />
+    <ClCompile Include="GoalAttackSideBase.cpp" />
     <ClCompile Include="GoalComposite.cpp" />
+    <ClCompile Include="GoalDefendBase.cpp" />
+    <ClCompile Include="GoalDodgeBullet.cpp" />
     <ClCompile Include="GoalEvaluator.cpp" />
     <ClCompile Include="GoalFollowPath.cpp" />
+    <ClCompile Include="GoalHuntEnemy.cpp" />
     <ClCompile Include="GoalMoveToPosition.cpp" />
     <ClCompile Include="GoalThink.cpp" />
     <ClCompile Include="GoalTraverseEdge.cpp" />
@@ -271,6 +281,7 @@
     <ClCompile Include="MyTank.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PathPlanner.cpp" />
+    <ClCompile Include="Regulator.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="SteeringBehavior.cpp" />
     <ClCompile Include="TargetingSystem.cpp" />
@@ -279,14 +290,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStarAlgorithm.h" />
+    <ClInclude Include="EvaluationPosition.h" />
+    <ClInclude Include="EvaluatorAttackMainBase.h" />
+    <ClInclude Include="EvaluatorDodgeBullet.h" />
+    <ClInclude Include="EvaluatorHuntEnemy.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="Goal.h" />
+    <ClInclude Include="GoalAtackMainBase.h" />
+    <ClInclude Include="GoalAttackSideBase.h" />
     <ClInclude Include="GoalComposite.h" />
+    <ClInclude Include="GoalDefendBase.h" />
+    <ClInclude Include="GoalDodgeBullet.h" />
     <ClInclude Include="GoalEvaluator.h" />
     <ClInclude Include="GoalFollowPath.h" />
+    <ClInclude Include="GoalHuntEnemy.h" />
     <ClInclude Include="GoalMoveToPosition.h" />
     <ClInclude Include="GoalThink.h" />
     <ClInclude Include="GoalTraverseEdge.h" />
     <ClInclude Include="GoalType.h" />
+    <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="include\ai\AI.h" />
     <ClInclude Include="include\ai\Bullet.h" />
     <ClInclude Include="include\ai\ClientCommand.h" />
@@ -301,6 +323,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="PathEdge.h" />
     <ClInclude Include="PathPlanner.h" />
+    <ClInclude Include="Regulator.h" />
     <ClInclude Include="SteeringBehavior.h" />
     <ClInclude Include="TargetingSystem.h" />
     <ClInclude Include="VisionRecord.h" />

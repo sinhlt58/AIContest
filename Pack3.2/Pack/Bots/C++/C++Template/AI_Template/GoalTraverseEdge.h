@@ -10,7 +10,7 @@ public:
 	GoalTraverseEdge(MyTank* pOwner,
 					PathEdge edge,
 					bool lastEdge);
-	~GoalTraverseEdge();
+
 private:
 	PathEdge m_Edge;
 	bool m_bLastEdgeInPath;

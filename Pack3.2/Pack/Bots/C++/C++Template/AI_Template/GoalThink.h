@@ -1,6 +1,8 @@
 #pragma once
 #include "GoalComposite.h"
 #include "MyTank.h"
+#include "GoalEvaluator.h"
+#include <vector>
 
 class MyTank;
 
@@ -16,5 +18,13 @@ public:
 	void Activate() override;
 	int Process() override;
 	void Terminate() override;
+
+	void AddGoalHuntEnemy();
+	void AddGoalDodgeBullet();
+
+	void AddGoalAttackMainBase();
+
+private:
+	std::vector<GoalEvaluator*> m_vEvaluators;
 };
 

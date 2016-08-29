@@ -5,8 +5,9 @@
 #include <cstdio>
 #include <ctime>
 #include "../Node.h"
-#include <queue>
 #include "../AStarAlgorithm.h"
+#include "../Globals.h"
+#include <set>
 
 // ==================== HOW TO RUN THIS =====================
 // Call:
@@ -82,15 +83,15 @@ void AI_Placement()
 {
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_LIGHT, 5, 1);
-		Game::PlaceTank(TANK_LIGHT, 5, 8);
-		Game::PlaceTank(TANK_LIGHT, 5, 14);
-		Game::PlaceTank(TANK_LIGHT, 5, 19);
+		Game::PlaceTank(TANK_LIGHT, 5, 2);
+		Game::PlaceTank(TANK_LIGHT, 5, 3);
+		Game::PlaceTank(TANK_LIGHT, 5, 17);
+		Game::PlaceTank(TANK_LIGHT, 5, 18);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_LIGHT, 16, 2);
-		Game::PlaceTank(TANK_MEDIUM, 17, 8);
-		Game::PlaceTank(TANK_HEAVY, 17, 13);
+		Game::PlaceTank(TANK_HEAVY, 15, 8);
+		Game::PlaceTank(TANK_LIGHT, 15, 10);
+		Game::PlaceTank(TANK_LIGHT, 15, 12);
 		Game::PlaceTank(TANK_HEAVY, 16, 19);
 	}
 }
@@ -177,13 +178,8 @@ void AI_Update()
 	for (auto tank : myTanks)
 	{
 		tank->Update();
-//		std::vector<glm::vec2> path =  algorithm.Search(glm::vec2(4, 8), glm::vec2(20, 8));
-//		for (glm::vec2 p : path)
-//			cout << p.x << " " << p.y << endl;
 	}
-
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-
 	cout << "Update time: " << duration << " s" << endl;
 	// =========================================================================================================
 	// This is an example on how you use your power up if you acquire one.
@@ -215,6 +211,8 @@ void AI_Update()
 	// Leave this here, don't remove it.
 	// This command will send all of your tank command to server
 	Game::GetInstance()->SendCommand();
+	Globals::s_TotalLoops++;
+//	std::cout << "Num of loops: " << Globals::s_TotalLoops << std::endl;
 }
 
 ////////////////////////////////////////////////////////////
