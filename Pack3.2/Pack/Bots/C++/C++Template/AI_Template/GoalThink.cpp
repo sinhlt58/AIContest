@@ -63,12 +63,12 @@ void GoalThink::Activate()
 
 int GoalThink::Process()
 {
-	ActivateIfInactive();
-	int subgoalStatus = ProcessSubgoals();
-	if (subgoalStatus == completed || subgoalStatus == failed)
-	{
-		m_iStatus = inactive;
-	}
+//	ActivateIfInactive();
+	m_iStatus = ProcessSubgoals();
+//	if (subgoalStatus == completed || subgoalStatus == failed)
+//	{
+//		m_iStatus = inactive;
+//	}
 	return m_iStatus;
 }
 

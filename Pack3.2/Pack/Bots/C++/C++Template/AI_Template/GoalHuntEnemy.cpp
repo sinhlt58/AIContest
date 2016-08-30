@@ -19,6 +19,7 @@ void GoalHuntEnemy::Activate()
 	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
 	//add subgoal to positon.
 	RemoveAllSubgoals();
+	
 	AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
 }
 

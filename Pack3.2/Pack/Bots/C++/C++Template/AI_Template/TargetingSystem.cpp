@@ -270,8 +270,8 @@ glm::vec2 TargetingSystem::GetBestPositionForSniperToReaload(MyTank* myTank)
 	for (glm::vec2 p : positionsToEvaluated)
 	{
 		EvaluationPosition ep = EvaluationPosition(p);
-		ep.EvaluateDistanceToMyTankScore(myTank, 1);
-		ep.EvaluateNumLineOfFireScore(-5);
+		ep.EvaluateDistanceToMyTankScore(myTank, 15);
+		ep.EvaluateNumLineOfFireScore(-50);
 		pq.push(ep);
 	}
 

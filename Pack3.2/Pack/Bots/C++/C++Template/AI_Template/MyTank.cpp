@@ -12,7 +12,7 @@ MyTank::MyTank(int id):m_iId(id),
 	m_pBrain = new GoalThink(this);
 	m_pVisionSystem = new VisionSystem(this);
 
-	m_pBrainUpdateRgulator = new Regulator(1);
+	m_pBrainUpdateRgulator = new Regulator(2);
 }
 
 MyTank::~MyTank()
@@ -28,11 +28,11 @@ MyTank::~MyTank()
 void MyTank::Update()
 {
 	//update every loop.
-	m_pVisionSystem->UpdateVision();
-	if(m_pBrainUpdateRgulator->isReady())
-	{
+//	m_pVisionSystem->UpdateVision();
+//	if(m_pBrainUpdateRgulator->isReady())
+//	{
 		m_pBrain->Aribitrate();
-	}
+//	}
 	m_pBrain->Process();
 	UpdateMovement();
 
@@ -45,6 +45,11 @@ void MyTank::UpdateMovement()
 	if (direction != DIRECTION_NONE && m_bIsMove)
 	{
 		SetDirection(direction);
+	}
+	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
+	{
+		SetDirection(DIRECTION_LEFT);
+		FireOn();
 	}
 }
 

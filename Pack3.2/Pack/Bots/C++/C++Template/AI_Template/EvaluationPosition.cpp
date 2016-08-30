@@ -27,7 +27,7 @@ bool EvaluationPosition::operator<(const EvaluationPosition& right) const
 /*Functions for pick best enemy target*/
 void EvaluationPosition::EvaluateDistanceToMyTankScore(MyTank* myTank, float weight)
 {
-	m_fScore += 1/(Manhattan(myTank->GetPosition(), m_vPosition)*weight + 1);
+	m_fScore += 1/(Manhattan(myTank->GetPosition(), m_vPosition) + 1)*weight;
 }
 
 void EvaluationPosition::EvaluateDistanceToItemsScore(float weight)

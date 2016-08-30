@@ -17,49 +17,45 @@ AStarAlgorithm::~AStarAlgorithm()
 
 std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal, int currentTankId, int targetTankId)
 {
+	int numLimitedExpandedNodes = 50;
+	int currentNumExpandedNodes = 0;
+
 	bool closedNodes[numNodes] = { false };
 	float openNodes[numNodes] = { 0 };
-//	std::priority_queue<Node> pq;
 	std::multiset<Node> prioritySet;
 	
-	int cameFrom[numNodes] = {noParrent};
+	int cameFrom[numNodes];
+	for (int i = 0; i < numNodes; i++)
+		cameFrom[i] = noParrent;
 
 	std::vector<glm::vec2> path;
 
 	Node* node;
 	node = new Node(start, BLOCK_GROUND);
 	node->UpdateHscore(Manhattan(start, goal));
-//	pq.push(*node);
-	prioritySet.insert(*node);
-	closedNodes[node->GetIndexFromPosition()] = true;
-	openNodes[node->GetIndexFromPosition()] = node->GetPriority();
+	prioritySet.insert(*node);	
 
 	while(!prioritySet.empty())
 	{
-//		node = new Node(pq.top().GetPosition(), pq.top().Type());
-//		pq.pop();
 		auto first = prioritySet.begin();
 		node = new Node(first->GetPosition(), first->Type());
 		prioritySet.erase(first);
 		openNodes[node->GetIndexFromPosition()] = 0;
 		closedNodes[node->GetIndexFromPosition()] = true;
-
-		if (node->GetPosition() == goal || prioritySet.size() >= 21)
+		currentNumExpandedNodes++;
+		if (node->GetPosition() == goal || currentNumExpandedNodes >= numLimitedExpandedNodes)
 		{
 			int x, y;
 			int index = node->GetIndexFromPosition();
 			while(cameFrom[index] != noParrent)
 			{
 				IndexToPosition(index, x, y);
-//				std::cout << x << " " << y << std::endl;
 				auto it = path.begin();
 				path.insert(it, glm::vec2(x, y));
 				index = cameFrom[index];
 			}
-//			while(!pq.empty())
-//			{
-//				pq.pop();
-//			}
+			auto it = path.begin();
+			path.insert(it, start);
 			while(!prioritySet.empty())
 			{
 				auto it = prioritySet.begin();
@@ -76,7 +72,6 @@ std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal, i
 			child->UpdateHscore(Manhattan(ajPos, goal));
 			if (closedNodes[child->GetIndexFromPosition()] == false)
 			{	
-//				pq.push(*child);
 				if (openNodes[child->GetIndexFromPosition()] == 0)
 				{	
 					openNodes[child->GetIndexFromPosition()] = child->GetPriority();

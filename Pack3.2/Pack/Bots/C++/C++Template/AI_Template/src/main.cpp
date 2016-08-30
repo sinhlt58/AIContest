@@ -65,17 +65,13 @@
 // IMPORTANT: Remember to place all your tanks and the coordinates must be integers.
 std::vector<MyTank*> myTanks;
 bool isInit = false;
-int test = 13;
+
 void MyInit()
 {
 	for (int i = 0; i<NUMBER_OF_TANK; i++)
 	{
 		Tank* tank = AI::GetInstance()->GetMyTank(i);
 		MyTank* myTank = new MyTank(i);
-//		myTank->GetSteering()->SetTarget(glm::vec2(20, 1));
-//		myTank->GetSteering()->SeekOn();
-		(*myTank).m_vTmpTarget = glm::vec2(20, test);
-		test += 1;
 		myTanks.push_back(myTank);
 	}
 }
@@ -83,16 +79,16 @@ void AI_Placement()
 {
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_LIGHT, 5, 2);
-		Game::PlaceTank(TANK_LIGHT, 5, 3);
-		Game::PlaceTank(TANK_LIGHT, 5, 17);
-		Game::PlaceTank(TANK_LIGHT, 5, 18);
+		Game::PlaceTank(TANK_LIGHT, 5, 5);
+		Game::PlaceTank(TANK_LIGHT, 5, 8);
+		Game::PlaceTank(TANK_LIGHT, 5, 13);
+		Game::PlaceTank(TANK_LIGHT, 5, 16);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_HEAVY, 15, 8);
-		Game::PlaceTank(TANK_LIGHT, 15, 10);
-		Game::PlaceTank(TANK_LIGHT, 15, 12);
-		Game::PlaceTank(TANK_HEAVY, 16, 19);
+		Game::PlaceTank(TANK_HEAVY, 14, 1);
+		Game::PlaceTank(TANK_HEAVY, 16, 1);
+		Game::PlaceTank(TANK_HEAVY, 14, 20);
+		Game::PlaceTank(TANK_HEAVY, 16, 20);
 	}
 }
 
@@ -106,7 +102,7 @@ void AI_Update()
 		MyInit();
 		isInit = true;
 	}
-	
+
 	AI *p_AI = AI::GetInstance();
 
 	// =========================================================================================================
@@ -180,7 +176,7 @@ void AI_Update()
 		tank->Update();
 	}
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-	cout << "Update time: " << duration << " s" << endl;
+//	cout << "Update time: " << duration << " s" << endl;
 	// =========================================================================================================
 	// This is an example on how you use your power up if you acquire one.
 	// If you have airstrike or EMP, you may use them anytime.

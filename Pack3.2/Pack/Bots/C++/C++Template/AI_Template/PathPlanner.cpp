@@ -11,24 +11,26 @@ PathPlanner::PathPlanner(MyTank* owner)
 bool PathPlanner::RequestPathToPosition(glm::vec2 target)
 {
 	//Astar here
-//	std::cout << "Not round target: " << target.x << " " << target.y << std::endl;
-	std::cout << "Rounded target: " << GetRoundPosition(target).x << " " << GetRoundPosition(target).y << std::endl;
-	if (GetRoundPosition(m_pOwner->GetPosition()) == GetRoundPosition(target))
+	glm::vec2 findPosition = GetRoundPosition(m_pOwner->GetPosition());
+	glm::vec2 goal = GetRoundPosition(target);
+	std::cout << "Find position: " << findPosition.x << " " << findPosition.y << std::endl;
+	std::cout << "Rounded target: " << goal.x << " " << goal.y << std::endl;
+	if (findPosition == goal || goal == glm::vec2(0,0))
 	{
+		std::cout << "Goal is equal to root or invalid goal.\n";
 		return false;
 	}
 		
-	m_Path = AStarAlgorithm::Search(GetRoundPosition(m_pOwner->GetPosition()), GetRoundPosition(target),
+	m_Path = AStarAlgorithm::Search(findPosition, goal,
 		m_pOwner->ID(), -1);
+
+	std::cout << "After run A star.\n";
 
 	if (m_Path.size() < 2)
 	{
 		return false;
-		std::cout << "size less than 2.\n";
 	}
 		
-
-	std::cout << "After run A star.\n";
 	return true;
 }
 

@@ -19,6 +19,7 @@ void GoalMoveToPosition::Activate()
 	}else
 	{
 		std::cout << "Cant find a path.\n";
+//		m_iStatus = failed;
 	}
 }
 
@@ -26,11 +27,6 @@ int GoalMoveToPosition::Process()
 {
 	ActivateIfInactive();
 	m_iStatus = ProcessSubgoals();
-	if(m_iStatus == completed)
-	{
-		std::cout << "Completed";
-	}
-
 	ReactivateIfFailed();
 
 	return m_iStatus;
