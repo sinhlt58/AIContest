@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\MyCode">
+      <UniqueIdentifier>{cdc95d08-00f4-4d9b-90dc-bafc45f3a529}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ai\PowerUp.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AStarAlgorithm.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluationPosition.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluatorAttackMainBase.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluatorDodgeBullet.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluatorHuntEnemy.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Globals.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Goal.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalAtackMainBase.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalAttackSideBase.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalComposite.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalDefendBase.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalDodgeBullet.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalEvaluator.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalFollowPath.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalHuntEnemy.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalMoveToPosition.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalThink.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalTraverseEdge.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalType.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyTank.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PathPlanner.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Regulator.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SteeringBehavior.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TargetingSystem.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VisionRecord.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VisionSystem.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ai\AI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\Obstacle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\Tank.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\ClientCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\Base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ai\Strike.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AStarAlgorithm.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluationPosition.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluatorAttackMainBase.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluatorDodgeBullet.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluatorHuntEnemy.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Globals.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Goal.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalAtackMainBase.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalAttackSideBase.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalComposite.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalDefendBase.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalDodgeBullet.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalEvaluator.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalFollowPath.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalHuntEnemy.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalMoveToPosition.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalThink.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalTraverseEdge.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalType.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HelperFunctions.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyTank.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Node.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PathEdge.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PathPlanner.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Regulator.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SteeringBehavior.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TargetingSystem.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VisionRecord.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VisionSystem.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
