@@ -14,6 +14,7 @@ class PathPlanner;
 class GoalThink;
 class VisionSystem;
 class TargetingSystem;
+class Bullet;
 
 class MyTank
 {
@@ -30,8 +31,11 @@ public:
 	PathPlanner* GetPathPlanner() const;
 	VisionSystem* GetVisionSystem()const;
 	GoalThink* GetBrain()const;
+	Bullet* GetCurrentClosestDangerBullet() const { return m_pClosestDangerBullet; }
+	void SetCurrentClosestDangerBullet(Bullet* p) { m_pClosestDangerBullet = p; }
 
 	glm::vec2 GetPosition() const;
+	float GetSpeed() const;
 	int GetCoolDown()const;
 	bool isAtPosition(glm::vec2 p) const;
 	glm::vec2 m_vTmpTarget;
@@ -46,12 +50,21 @@ public:
 	void AimAndShootAtPosition(glm::vec2 position);
 	int GetDirectionToPosition(glm::vec2 position);
 	bool isEnemyInView();
-	bool isShootableAEnemy(glm::vec2 enemyPosition);
+	bool isShootableAEnemy(glm::vec2 enemyPosition) const;
 	bool isShootableBase(glm::vec2 enemyBasePositon);
 	bool isBulletDangerous(glm::vec2 bulletPosition);
+	bool isSafe()const;
+
+	/*Target enemy functions*/
+	bool isCurrentEnemyTargetPresent() const
+	{ return m_iCurrentTargetEnemyId != -1; }
+	void SetCurrentEnemyId(int id) { m_iCurrentTargetEnemyId = id; };
+	int GetCurrentEnemyId() const
+	{ return m_iCurrentTargetEnemyId; }
+	bool m_bIsShoot;
 private:
 	int m_iId;
-	bool m_bIsShoot;
+	
 	bool m_bIsMove;
 	int m_iCurrentDirection;
 
@@ -68,5 +81,10 @@ private:
 	VisionSystem* m_pVisionSystem;
 
 	Regulator* m_pBrainUpdateRgulator;
+
+	/*tmp maybe can be removed*/
+	Bullet* m_pClosestDangerBullet;
+
+	int m_iCurrentTargetEnemyId;
 };
 

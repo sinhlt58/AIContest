@@ -13,6 +13,9 @@ MyTank::MyTank(int id):m_iId(id),
 	m_pVisionSystem = new VisionSystem(this);
 
 	m_pBrainUpdateRgulator = new Regulator(1);
+	m_pClosestDangerBullet = nullptr;
+
+	m_iCurrentTargetEnemyId = -1;
 }
 
 MyTank::~MyTank()
@@ -50,7 +53,7 @@ void MyTank::UpdateMovement()
 	{
 //		FireOn();
 //		SetDirection(DIRECTION_LEFT);
-	}		
+	}
 }
 
 Tank* MyTank::GetApiTank() const
@@ -63,6 +66,11 @@ glm::vec2 MyTank::GetPosition() const
 {
 	Tank* tank = GetApiTank();
 	return glm::vec2(tank->GetX(), tank->GetY());
+}
+
+float MyTank::GetSpeed() const
+{
+	return AI::GetInstance()->GetMyTank(m_iId)->GetSpeed();
 }
 
 int MyTank::GetCoolDown() const
@@ -136,7 +144,7 @@ bool MyTank::isEnemyInView()
 	return false;
 }
 
-bool MyTank::isShootableAEnemy(glm::vec2 enemyPosition)
+bool MyTank::isShootableAEnemy(glm::vec2 enemyPosition) const
 {
 	return TargetMgr->isShootableAEnemy(GetPosition(), enemyPosition);
 }
@@ -149,4 +157,20 @@ bool MyTank::isShootableBase(glm::vec2 enemyBasePositon)
 bool MyTank::isBulletDangerous(glm::vec2 bulletPosition)
 {
 	return false;
+}
+
+bool MyTank::isSafe() const
+{
+	for (glm::vec2 p : TargetMgr->GetAllAliveEnemyPositions())
+	{
+		if(isShootableAEnemy(p))
+			return false;
+	}
+	
+	if (TargetMgr->GetAllDangerBulletPositions(GetPosition()).size() > 0)
+	{
+		return false;
+	}
+	
+	return true;
 }

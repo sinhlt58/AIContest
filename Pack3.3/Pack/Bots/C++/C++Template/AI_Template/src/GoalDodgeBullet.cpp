@@ -14,7 +14,7 @@ GoalDodgeBullet::GoalDodgeBullet(MyTank* pOwner):GoalComposite(pOwner, goal_dodg
 void GoalDodgeBullet::Activate()
 {
 	m_iStatus = active;
-	glm::vec2 safePosition = TargetMgr->GetBestPositionForSniperToReaload(m_pOwner);
+	glm::vec2 safePosition = TargetMgr->GetBestPositionToDodge(m_pOwner, m_pOwner->GetCurrentClosestDangerBullet());
 	RemoveAllSubgoals();
 	m_pOwner->MoveOn();
 	AddSubgoal(new GoalMoveToPosition(m_pOwner, safePosition));

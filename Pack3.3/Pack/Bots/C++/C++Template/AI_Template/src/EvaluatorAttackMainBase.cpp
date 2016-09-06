@@ -1,4 +1,6 @@
 #include "EvaluatorAttackMainBase.h"
+#include "Globals.h"
+#include "ai/AI.h"
 
 EvaluatorAttackMainBase::~EvaluatorAttackMainBase()
 {
@@ -6,7 +8,9 @@ EvaluatorAttackMainBase::~EvaluatorAttackMainBase()
 
 float EvaluatorAttackMainBase::CalculateDesirability(MyTank* pTank)
 {
-	return 10;
+//	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
+//		return 9999;
+	return goalAttackMainBase;
 }
 
 void EvaluatorAttackMainBase::SetGoal(MyTank* pTank)

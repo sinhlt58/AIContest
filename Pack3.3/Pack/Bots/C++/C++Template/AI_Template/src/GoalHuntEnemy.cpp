@@ -1,6 +1,10 @@
 #include "GoalHuntEnemy.h"
 #include "GoalType.h"
 #include "GoalMoveToPosition.h"
+#include "GoalShootEnemy.h"
+#include "GoalReload.h"
+#include "Globals.h"
+#include "HelperFunctions.h"
 
 GoalHuntEnemy::~GoalHuntEnemy()
 {
@@ -17,10 +21,33 @@ void GoalHuntEnemy::Activate()
 	m_vCurrentAimPosition = TargetMgr->GetBestEnemyTargetPositionToAttack(m_pOwner);
 	//chose best position to go.
 	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
+//	PrintVector("Mytank position: ", m_pOwner->GetPosition());
+//	PrintVector("Target position: ", m_vCurrentAimPosition);
+//	PrintVector("Position to attack: ", m_vCurrentGoodPosition);
 	//add subgoal to positon.
 	RemoveAllSubgoals();
 	
-	AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
+	//not shoot when too far or cooldown of enemy is zero (assume enemy will attack soo :D.)
+//	if (m_pOwner->isSafe())
+//	{
+		if (m_pOwner->isShootableAEnemy(m_vCurrentAimPosition))
+		{
+			if (m_pOwner->isCurrentEnemyTargetPresent())
+			{	
+				Tank* enemTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
+				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+			}
+		}
+		else
+		{
+			AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
+		}
+//	}else
+//	{
+//		AddSubgoal(new GoalReload(m_pOwner));
+//	}
+		
+	
 }
 
 int GoalHuntEnemy::Process()
@@ -28,21 +55,11 @@ int GoalHuntEnemy::Process()
 	//if see enemy then attack.
 	ActivateIfInactive();
 	m_iStatus = ProcessSubgoals();
-	if (m_pOwner->isShootableAEnemy(m_vCurrentAimPosition))
-	{
-		m_pOwner->FireOn();
-		m_pOwner->MoveOff();
-		m_pOwner->AimAndShootAtPosition(m_vCurrentAimPosition);
-	}
-	else
-	{
-		m_pOwner->FireOff();
-		m_pOwner->MoveOn();
-	}
 	ReactivateIfFailed();
 	return m_iStatus;
 }
 
 void GoalHuntEnemy::Terminate()
 {
+	m_pOwner->MoveOn();
 }

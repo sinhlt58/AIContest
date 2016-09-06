@@ -105,6 +105,15 @@
     <ClCompile Include="src\VisionSystem.cpp">
       <Filter>Resource Files\MyCode</Filter>
     </ClCompile>
+    <ClCompile Include="src\GoalReload.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluatorReload.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalShootEnemy.cpp">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ai\AI.h">
@@ -222,6 +231,15 @@
       <Filter>Resource Files\MyCode</Filter>
     </ClInclude>
     <ClInclude Include="src\VisionSystem.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalReload.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluatorReload.h">
+      <Filter>Resource Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalShootEnemy.h">
       <Filter>Resource Files\MyCode</Filter>
     </ClInclude>
   </ItemGroup>

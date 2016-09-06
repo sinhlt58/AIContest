@@ -1,4 +1,5 @@
 #include "EvaluatorDodgeBullet.h"
+#include "Globals.h"
 
 EvaluatorDodgeBullet::~EvaluatorDodgeBullet()
 {
@@ -7,11 +8,19 @@ EvaluatorDodgeBullet::~EvaluatorDodgeBullet()
 
 float EvaluatorDodgeBullet::CalculateDesirability(MyTank* pTank)
 {
-//	if (pTank->GetCoolDown() > 0)
-//	{
-//		return 100;
-//	}
-	return 1;
+	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
+		return 0;
+
+	Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(pTank->GetPosition());
+	if (closestBullet)
+	{
+		if (TargetMgr->isBulletDangerous(pTank, closestBullet))
+		{
+			pTank->SetCurrentClosestDangerBullet(closestBullet);
+			return 1;
+		}
+	}
+	return goalDodgeBullet;
 }
 
 void EvaluatorDodgeBullet::SetGoal(MyTank* pTank)

@@ -11,16 +11,25 @@ PathPlanner::PathPlanner(MyTank* owner)
 bool PathPlanner::RequestPathToPosition(glm::vec2 target)
 {
 	//Astar here
+//	std::cout << "Before run A star.\n";
 	glm::vec2 findPosition = GetRoundPosition(m_pOwner->GetPosition());
 	glm::vec2 goal = GetRoundPosition(target);
 //	std::cout << "Find position: " << findPosition.x << " " << findPosition.y << std::endl;
 //	std::cout << "Rounded target: " << goal.x << " " << goal.y << std::endl;
-	if (findPosition == goal || goal == glm::vec2(0,0))
+	if (findPosition == goal)
 	{
-//		std::cout << "Goal is equal to root or invalid goal.\n";
+//		std::cout << "Goal is equal to root.\n";
+//		PrintVector("Tank position: ", m_pOwner->GetPosition());
+//		PrintVector("Goal: ", goal);
 		return false;
 	}
-		
+	
+	if (goal == glm::vec2(0, 0))
+	{
+//		std::cout << "Goal is 0 0\n";
+		return false;
+	}
+
 	m_Path = AStarAlgorithm::Search(findPosition, goal,
 		m_pOwner->ID(), -1);
 
@@ -28,13 +37,14 @@ bool PathPlanner::RequestPathToPosition(glm::vec2 target)
 
 	if (m_Path.size() < 2)
 	{
+//		std::cout << "Size too small.\n";
 		return false;
 	}
-		
+	
 	return true;
 }
 
-PathPlanner::Path PathPlanner::GetPathAsEdges() const
+PathPlanner::Path PathPlanner::GetPathAsEdges(glm::vec2 goal) const
 {
 	Path pathAsEdges;
 
@@ -71,6 +81,12 @@ PathPlanner::Path PathPlanner::GetPathAsEdges() const
 								   pathAsEdges.front().Source(),
 								   PathEdge::normal_edge));
 		}
+	}
+	if (GetRoundPosition(goal) != goal)
+	{
+		pathAsEdges.push_back(PathEdge(GetRoundPosition(goal),
+									   goal,
+								       PathEdge::normal_edge));
 	}
 	return pathAsEdges;
 }

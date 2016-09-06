@@ -27,6 +27,7 @@ public:
 	bool isValidAdjacentPosition(glm::vec2 position, int currentTankId, int targetTankId, glm::vec2 goal) const;
 	int GetIndexFromPosition() const;
 	void UpdatePriorityLineOfFire();
+	void UpdatePriorityBullet();
 private:
 	glm::vec2 m_vPosition;
 	float m_fGscore;

@@ -1,6 +1,7 @@
 #pragma once
 #include "GoalComposite.h"
 #include "MyTank.h"
+#include "ai/AI.h"
 
 class MyTank;
 

@@ -20,6 +20,6 @@ public:
 
 	glm::vec2 m_vDestinationPos;
 	bool RequestPathToPosition(glm::vec2 target);
-	Path GetPathAsEdges() const;
+	Path GetPathAsEdges(glm::vec2 goal) const;
 };
 

@@ -1,4 +1,5 @@
 #include "EvaluatorHuntEnemy.h"
+#include "Globals.h"
 
 EvaluatorHuntEnemy::~EvaluatorHuntEnemy()
 {
@@ -6,11 +7,11 @@ EvaluatorHuntEnemy::~EvaluatorHuntEnemy()
 
 float EvaluatorHuntEnemy::CalculateDesirability(MyTank* pTank)
 {
-//	if (pTank->GetCoolDown() <= 0)
-//	{
-//		return 100;
-//	}
-	return 1;
+	if (pTank->GetCoolDown() <= 0)
+	{
+		return 100;
+	}
+	return goalHuntEnemy;
 }
 
 void EvaluatorHuntEnemy::SetGoal(MyTank* pTank)

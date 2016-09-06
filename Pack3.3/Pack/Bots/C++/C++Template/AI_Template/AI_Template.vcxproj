@@ -263,6 +263,7 @@
     <ClCompile Include="src\EvaluatorAttackMainBase.cpp" />
     <ClCompile Include="src\EvaluatorDodgeBullet.cpp" />
     <ClCompile Include="src\EvaluatorHuntEnemy.cpp" />
+    <ClCompile Include="src\EvaluatorReload.cpp" />
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\Goal.cpp" />
     <ClCompile Include="src\GoalAtackMainBase.cpp" />
@@ -274,6 +275,8 @@
     <ClCompile Include="src\GoalFollowPath.cpp" />
     <ClCompile Include="src\GoalHuntEnemy.cpp" />
     <ClCompile Include="src\GoalMoveToPosition.cpp" />
+    <ClCompile Include="src\GoalReload.cpp" />
+    <ClCompile Include="src\GoalShootEnemy.cpp" />
     <ClCompile Include="src\GoalThink.cpp" />
     <ClCompile Include="src\GoalTraverseEdge.cpp" />
     <ClCompile Include="src\GoalType.cpp" />
@@ -303,6 +306,7 @@
     <ClInclude Include="src\EvaluatorAttackMainBase.h" />
     <ClInclude Include="src\EvaluatorDodgeBullet.h" />
     <ClInclude Include="src\EvaluatorHuntEnemy.h" />
+    <ClInclude Include="src\EvaluatorReload.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Goal.h" />
     <ClInclude Include="src\GoalAtackMainBase.h" />
@@ -314,6 +318,8 @@
     <ClInclude Include="src\GoalFollowPath.h" />
     <ClInclude Include="src\GoalHuntEnemy.h" />
     <ClInclude Include="src\GoalMoveToPosition.h" />
+    <ClInclude Include="src\GoalReload.h" />
+    <ClInclude Include="src\GoalShootEnemy.h" />
     <ClInclude Include="src\GoalThink.h" />
     <ClInclude Include="src\GoalTraverseEdge.h" />
     <ClInclude Include="src\GoalType.h" />

@@ -8,6 +8,8 @@
 #include "EvaluatorHuntEnemy.h"
 #include "GoalHuntEnemy.h"
 #include "EvaluatorAttackMainBase.h"
+#include "GoalReload.h"
+#include "EvaluatorReload.h"
 
 
 GoalThink::GoalThink(MyTank* pOwner):GoalComposite(pOwner, goal_think)
@@ -15,6 +17,7 @@ GoalThink::GoalThink(MyTank* pOwner):GoalComposite(pOwner, goal_think)
 	m_vEvaluators.push_back(new EvaluatorDodgeBullet(1));
 	m_vEvaluators.push_back(new EvaluatorHuntEnemy(1));
 	m_vEvaluators.push_back(new EvaluatorAttackMainBase(1));
+	m_vEvaluators.push_back(new EvaluatorReload(1));
 }
 
 GoalThink::~GoalThink()
@@ -88,8 +91,15 @@ void GoalThink::AddGoalAttackMainBase()
 	AddSubgoal(new GoalAtackMainBase(m_pOwner));
 }
 
+void GoalThink::AddGoalReload()
+{
+	RemoveAllSubgoals();
+	AddSubgoal(new GoalReload(m_pOwner));
+}
+
 void GoalThink::AddGoalDodgeBullet()
 {
 	RemoveAllSubgoals();
 	AddSubgoal(new GoalDodgeBullet(m_pOwner));
+//	AddSubgoal(new GoalReload(m_pOwner));
 }

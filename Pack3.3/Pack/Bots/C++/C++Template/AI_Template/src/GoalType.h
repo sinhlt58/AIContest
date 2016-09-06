@@ -11,6 +11,8 @@ enum
 	goal_dodge_bullet,
 	goal_attack_main_base,
 	goal_attack_side_base,
-	goal_defend_base
+	goal_defend_base,
+	goal_reload,
+	goal_shoot_enemy
 };
 

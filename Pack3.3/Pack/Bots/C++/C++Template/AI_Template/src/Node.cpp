@@ -4,6 +4,7 @@
 #include "ai/AI.h"
 #include "Globals.h"
 #include "EvaluationPosition.h"
+#include "HelperFunctions.h"
 
 Node::~Node()
 {
@@ -85,12 +86,12 @@ bool Node::isValidAdjacentPosition(glm::vec2 position, int currentTankId, int ta
 			
 		if (teamTank)
 		{
-			if (abs(position.x - teamTank->GetX()) < 1 && abs(position.y - teamTank->GetY()) < 1)			
+			if (isTwoSquareOverLap(position, glm::vec2(teamTank->GetX(), teamTank->GetY())))
 				return false;
 		}
 		if (enemyTank)
 		{
-			if (abs(position.x - enemyTank->GetX()) < 1 && abs(position.y - enemyTank->GetY()) < 1)
+			if (isTwoSquareOverLap(position, glm::vec2(enemyTank->GetX(), enemyTank->GetY())))
 				return false;
 		}
 	}
@@ -107,5 +108,12 @@ void Node::UpdatePriorityLineOfFire()
 {
 	EvaluationPosition ep(m_vPosition);
 	ep.EvaluateNumLineOfFireScore(5);
+	m_fPriority += ep.GetScore();
+}
+
+void Node::UpdatePriorityBullet()
+{
+	EvaluationPosition ep(m_vPosition);
+	ep.EvaluateDangerouseBullets(5);
 	m_fPriority += ep.GetScore();
 }

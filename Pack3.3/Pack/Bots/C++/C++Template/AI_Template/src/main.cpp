@@ -8,6 +8,7 @@
 #include "AStarAlgorithm.h"
 #include "Globals.h"
 #include <set>
+#include "HelperFunctions.h"
 
 // ==================== HOW TO RUN THIS =====================
 // Call:
@@ -79,15 +80,15 @@ void AI_Placement()
 {
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_LIGHT, 5, 5);
-		Game::PlaceTank(TANK_LIGHT, 5, 8);
-		Game::PlaceTank(TANK_LIGHT, 5, 13);
-		Game::PlaceTank(TANK_LIGHT, 5, 16);
+		Game::PlaceTank(TANK_LIGHT, 5, 1);
+		Game::PlaceTank(TANK_LIGHT, 6, 1);
+		Game::PlaceTank(TANK_LIGHT, 5, 20);
+		Game::PlaceTank(TANK_LIGHT, 6, 20);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_LIGHT, 14, 1);
+		Game::PlaceTank(TANK_LIGHT, 15, 1);
 		Game::PlaceTank(TANK_LIGHT, 16, 1);
-		Game::PlaceTank(TANK_LIGHT, 14, 20);
+		Game::PlaceTank(TANK_LIGHT, 15, 20);
 		Game::PlaceTank(TANK_LIGHT, 16, 20);
 	}
 }
@@ -101,8 +102,7 @@ void AI_Update()
 	{
 		MyInit();
 		isInit = true;
-	}
-
+	}	
 	AI *p_AI = AI::GetInstance();
 
 	// =========================================================================================================

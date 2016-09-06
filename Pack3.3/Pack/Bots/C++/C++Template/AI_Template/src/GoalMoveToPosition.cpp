@@ -2,6 +2,7 @@
 #include "GoalType.h"
 #include "GoalFollowPath.h"
 #include <iostream>
+#include "HelperFunctions.h"
 
 GoalMoveToPosition::GoalMoveToPosition(MyTank* pOwner, glm::vec2 d):
 	GoalComposite(pOwner, goal_move_to_position),
@@ -15,7 +16,7 @@ void GoalMoveToPosition::Activate()
 	RemoveAllSubgoals();
 	if(m_pOwner->GetPathPlanner()->RequestPathToPosition(m_vDestination))
 	{
-		AddSubgoal(new GoalFollowPath(m_pOwner, m_pOwner->GetPathPlanner()->GetPathAsEdges()));
+		AddSubgoal(new GoalFollowPath(m_pOwner, m_pOwner->GetPathPlanner()->GetPathAsEdges(m_vDestination)));
 	}else
 	{
 //		std::cout << "Cant find a path.\n";
@@ -34,4 +35,5 @@ int GoalMoveToPosition::Process()
 
 void GoalMoveToPosition::Terminate()
 {
+	m_pOwner->MoveOn();
 }

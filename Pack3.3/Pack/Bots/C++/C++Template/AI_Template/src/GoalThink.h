@@ -21,8 +21,8 @@ public:
 
 	void AddGoalHuntEnemy();
 	void AddGoalDodgeBullet();
-
 	void AddGoalAttackMainBase();
+	void AddGoalReload();
 
 private:
 	std::vector<GoalEvaluator*> m_vEvaluators;

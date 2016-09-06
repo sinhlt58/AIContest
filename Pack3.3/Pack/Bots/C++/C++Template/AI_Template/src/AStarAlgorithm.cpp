@@ -3,6 +3,7 @@
 #include <iostream>
 #include <set>
 #include "Globals.h"
+#include "HelperFunctions.h"
 
 AStarAlgorithm::AStarAlgorithm()
 {
@@ -43,6 +44,7 @@ std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal, i
 		openNodes[node->GetIndexFromPosition()] = 0;
 		closedNodes[node->GetIndexFromPosition()] = true;
 		currentNumExpandedNodes++;
+
 		if (node->GetPosition() == goal || currentNumExpandedNodes >= numLimitedExpandedNodes)
 		{
 			int x, y;
@@ -64,13 +66,14 @@ std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal, i
 			delete node;
 			return path;
 		}
-		
+
 		for (glm::vec2 ajPos :  node->GetAdjacentNodePos(currentTankId, targetTankId, goal))
 		{
 			Node* child = new Node(ajPos, BLOCK_GROUND);
 			child->UpdateGscore(node->GetGscore() + 1);
 			child->UpdateHscore(Manhattan(ajPos, goal));
-			child->UpdatePriorityLineOfFire();
+//			child->UpdatePriorityLineOfFire();
+			child->UpdatePriorityBullet();
 			if (closedNodes[child->GetIndexFromPosition()] == false)
 			{	
 				if (openNodes[child->GetIndexFromPosition()] == 0)
