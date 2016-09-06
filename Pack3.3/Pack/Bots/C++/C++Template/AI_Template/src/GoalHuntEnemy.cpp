@@ -35,6 +35,7 @@ void GoalHuntEnemy::Activate()
 			if (m_pOwner->isCurrentEnemyTargetPresent())
 			{	
 				Tank* enemTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
+				int typeEnemy = enemTank->GetType();
 				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
 			}
 		}

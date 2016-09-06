@@ -394,10 +394,10 @@ glm::vec2 TargetingSystem::GetBestPositionForSniperToReaload(MyTank* myTank)
 		if (!isTheSamePositionWithOtherTank(myTank->GetPosition(), p))
 		{
 			EvaluationPosition ep = EvaluationPosition(p);
-			ep.EvaluateDistanceToMyTankScore(myTank, 5);
-			ep.EvaluateNumLineOfFireScore(-30);
+			ep.EvaluateDistanceToMyTankScore(myTank, 10);
+			ep.EvaluateNumLineOfFireScore(-10);
 			ep.EvaluateDangerouseBullets(-20);
-			ep.EvaluateOrthogonalWithMyTankScore(myTank->GetPosition(), 15);
+//			ep.EvaluateOrthogonalWithMyTankScore(myTank->GetPosition(), 5);
 			//		if (myTank->isCurrentEnemyTargetPresent())
 			//		{
 			//			Tank* enemyTank = AI::GetInstance()->GetEnemyTank(myTank->GetCurrentEnemyId());
