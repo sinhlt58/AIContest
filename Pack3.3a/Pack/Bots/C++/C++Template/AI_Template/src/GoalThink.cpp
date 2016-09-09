@@ -101,5 +101,4 @@ void GoalThink::AddGoalDodgeBullet()
 {
 	RemoveAllSubgoals();
 	AddSubgoal(new GoalDodgeBullet(m_pOwner));
-//	AddSubgoal(new GoalReload(m_pOwner));
 }

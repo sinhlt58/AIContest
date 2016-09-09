@@ -35,60 +35,58 @@ void MyTank::Update()
 {
 	//update every loop.
 //	m_pVisionSystem->UpdateVision();
-//	if(m_pBrainUpdateRgulator->isReady())
-//	{
-//		m_pBrain->Aribitrate();
-//	}
-//	m_pBrain->Process();
+	if(m_pBrainUpdateRgulator->isReady())
+	{
+		m_pBrain->Aribitrate();
+	}
+	m_pBrain->Process();
 	UpdateMovement();
+	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
+	{
+		if (numMove < 0)
+		{
+			FireOff();
+			MoveOn();
+			SetDirection(DIRECTION_DOWN);
+			numMove++;
+		}else
+		{
+			FireOn();
+			MoveOff();
+			SetDirection(DIRECTION_LEFT);
+		}
+	}
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
+	SetCurrentClosestDangerBullet(nullptr);
+	SetBestDirToDodgeDangerBullet(glm::vec2());
 }
 
 void MyTank::UpdateMovement()
 {
-	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
+	if (AI::GetInstance()->GetMyTeam() == TEAM_1)
 	{
-		FireOn();
-		MoveOff();
-		SetDirection(DIRECTION_LEFT);
-	}
-	else
-	{
-		FireOff();
-		m_pSteeringBehavior->SeekOn();
-		MoveOn();
-		for (Bullet* b : AI::GetInstance()->GetEnemyBullets())
-		{
-//						std::cout << "Type bullet: " << b->GetType() << ", pos: \n";
-//						PrintVector("", glm::vec2(b->GetX(), b->GetY()));
-//						std::cout << "Speed: " << b->GetSpeed() << std::endl;
-		}
-		//		std::cout << isShootableAEnemy(glm::vec2(16, 6)) << std::endl;
-		Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(GetPosition());
-		if (closestBullet)
-		{
-			MoveOn();
-//			PrintVector("Tank pos: ", GetPosition());
-//			PrintVector("Closest bullet pos: ", glm::vec2(closestBullet->GetX(), closestBullet->GetY()));
-//			std::cout << "Time to hit tank: " << TargetMgr->GetTimeAInViewBulletToHitATank(GetPosition(), closestBullet) << std::endl;
-//			SetDirection(DIRECTION_UP);
-//			numMove++;
-			if (TargetMgr->isTheClosestBulletDangerous(this, closestBullet))
-			{
-				glm::vec2 bestDirToDodge = GetBestDirToDodgeDangerBullet();
-				glm::vec2 posToDodge = GetPosition() + bestDirToDodge * GetSpeed();
-				m_pSteeringBehavior->SetTarget(posToDodge);
-			}else
-			{
-				MoveOff();
-			}
-			
-		}
-		else
-		{
-			MoveOff();
-		}
-	
+//		FireOff();
+//		m_pSteeringBehavior->SeekOn();
+//		MoveOn();
+//		Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(GetPosition());
+//		if (closestBullet)
+//		{
+//			MoveOn();
+//			if (TargetMgr->isTheClosestBulletDangerous(this, closestBullet))
+//			{
+//				glm::vec2 bestDirToDodge = GetBestDirToDodgeDangerBullet();
+//				glm::vec2 posToDodge = GetPosition() + bestDirToDodge * GetSpeed();
+//				m_pSteeringBehavior->SetTarget(posToDodge);
+//			}else
+//			{
+//				MoveOff();
+//			}
+//			
+//		}
+//		else
+//		{
+//			MoveOff();
+//		}
 	}
 	int direction = m_pSteeringBehavior->Calculate();
 	if (direction != DIRECTION_NONE && m_bIsMove)

@@ -622,12 +622,9 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 		{
 			myTank->SetCurrentClosestDangerBullet(closestBullet);
 			myTank->SetBestDirToDodgeDangerBullet(bestPosToDodge);
-			std::cout << "Time to hit: " << timeToHit << std::endl;
-			std::cout << "Best time to dodge: " << bestTimeToDodge << std::endl;
 			return true;
 		}
 	}
-
 	return false;
 }
 

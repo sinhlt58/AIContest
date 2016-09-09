@@ -7,7 +7,7 @@ EvaluatorReload::~EvaluatorReload()
 float EvaluatorReload::CalculateDesirability(MyTank* pTank)
 {
 	if (pTank->GetCoolDown() >= 0)
-		return 100;
+		return 1;
 	return 1;
 }
 

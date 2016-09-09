@@ -35,5 +35,5 @@ int GoalMoveToPosition::Process()
 
 void GoalMoveToPosition::Terminate()
 {
-	m_pOwner->MoveOn();
+//	m_pOwner->MoveOn();
 }

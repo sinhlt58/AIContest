@@ -42,5 +42,5 @@ int GoalReload::Process()
 
 void GoalReload::Terminate()
 {
-	m_pOwner->MoveOn();
+//	m_pOwner->MoveOn();
 }

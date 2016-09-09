@@ -41,6 +41,7 @@ void GoalHuntEnemy::Activate()
 		}
 		else
 		{
+//			m_pOwner->MoveOn();
 			AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
 		}
 //	}else
@@ -62,5 +63,5 @@ int GoalHuntEnemy::Process()
 
 void GoalHuntEnemy::Terminate()
 {
-	m_pOwner->MoveOn();
+//	m_pOwner->MoveOff();
 }

@@ -1,6 +1,7 @@
 #include "GoalDodgeBullet.h"
 #include "GoalType.h"
 #include "GoalMoveToPosition.h"
+#include "HelperFunctions.h"
 
 GoalDodgeBullet::~GoalDodgeBullet()
 {
@@ -14,10 +15,15 @@ GoalDodgeBullet::GoalDodgeBullet(MyTank* pOwner):GoalComposite(pOwner, goal_dodg
 void GoalDodgeBullet::Activate()
 {
 	m_iStatus = active;
-//	glm::vec2 safePosition = TargetMgr->GetBestPositionToDodge(m_pOwner, m_pOwner->GetCurrentClosestDangerBullet());
-//	RemoveAllSubgoals();
-//	m_pOwner->MoveOn();
-//	AddSubgoal(new GoalMoveToPosition(m_pOwner, safePosition));
+	RemoveAllSubgoals();
+	glm::vec2 bestDirToDodge = m_pOwner->GetBestDirToDodgeDangerBullet();
+	if (bestDirToDodge != glm::vec2())
+	{
+		glm::vec2 posToDodge = m_pOwner->GetPosition() + bestDirToDodge * m_pOwner->GetSpeed();
+		m_pOwner->GetSteering()->SetTarget(posToDodge);
+		m_pOwner->GetSteering()->SeekOn();
+		m_pOwner->MoveOn();
+	}
 }
 
 int GoalDodgeBullet::Process()
@@ -30,4 +36,6 @@ int GoalDodgeBullet::Process()
 
 void GoalDodgeBullet::Terminate()
 {
+	m_pOwner->GetSteering()->SeekOff();
+	m_pOwner->MoveOff();
 }
