@@ -14,11 +14,8 @@ float EvaluatorDodgeBullet::CalculateDesirability(MyTank* pTank)
 	Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(pTank->GetPosition());
 	if (closestBullet)
 	{
-		if (TargetMgr->isBulletDangerous(pTank, closestBullet))
-		{
-			pTank->SetCurrentClosestDangerBullet(closestBullet);
-			return 1;
-		}
+		pTank->SetCurrentClosestDangerBullet(closestBullet);
+		return 1;
 	}
 	return goalDodgeBullet;
 }

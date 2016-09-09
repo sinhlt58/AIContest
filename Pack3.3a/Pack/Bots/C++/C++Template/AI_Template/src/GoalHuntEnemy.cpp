@@ -21,9 +21,9 @@ void GoalHuntEnemy::Activate()
 	m_vCurrentAimPosition = TargetMgr->GetBestEnemyTargetPositionToAttack(m_pOwner);
 	//chose best position to go.
 	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
-	PrintVector("Mytank position: ", m_pOwner->GetPosition());
-	PrintVector("Target position: ", m_vCurrentAimPosition);
-	PrintVector("Position to attack: ", m_vCurrentGoodPosition);
+//	PrintVector("Mytank position: ", m_pOwner->GetPosition());
+//	PrintVector("Target position: ", m_vCurrentAimPosition);
+//	PrintVector("Position to attack: ", m_vCurrentGoodPosition);
 	//add subgoal to positon.
 	RemoveAllSubgoals();
 	

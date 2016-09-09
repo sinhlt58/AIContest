@@ -9,6 +9,7 @@
 #include "Globals.h"
 #include <set>
 #include "HelperFunctions.h"
+#include <glm/detail/func_geometric.inl>
 
 // ==================== HOW TO RUN THIS =====================
 // Call:
@@ -78,18 +79,19 @@ void MyInit()
 }
 void AI_Placement()
 {
+	int test = 6;
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_LIGHT, 5, 1);
-		Game::PlaceTank(TANK_LIGHT, 6, 1);
-		Game::PlaceTank(TANK_LIGHT, 5, 20);
-		Game::PlaceTank(TANK_LIGHT, 6, 20);
+		Game::PlaceTank(TANK_HEAVY, 4, test);
+		Game::PlaceTank(TANK_HEAVY, 5, test);
+		Game::PlaceTank(TANK_HEAVY, 6, test);
+		Game::PlaceTank(TANK_HEAVY, 3, test+1);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_LIGHT, 15, 1);
-		Game::PlaceTank(TANK_LIGHT, 16, 1);
-		Game::PlaceTank(TANK_LIGHT, 15, 20);
-		Game::PlaceTank(TANK_LIGHT, 16, 20);
+		Game::PlaceTank(TANK_LIGHT, 16, 7);
+		Game::PlaceTank(TANK_LIGHT, 16, 15);
+		Game::PlaceTank(TANK_LIGHT, 16, 14);
+		Game::PlaceTank(TANK_HEAVY, 16, 20);
 	}
 }
 
@@ -104,12 +106,22 @@ void AI_Update()
 		isInit = true;
 	}	
 	AI *p_AI = AI::GetInstance();
+	/*test*/
+	glm::vec2 tankPos = glm::vec2(5, 6);
+	glm::vec2 bulletPos = glm::vec2(7.6, 6);
+	glm::vec2 bulletDir = glm::vec2(-1, 0);
+	glm::vec2 dodgeDir = glm::vec2(0, -1);
+//	std::cout << glm::dot(glm::vec2(1, 0), glm::vec2(-1, 0)) << std::endl;
+//	std::cout << "Distance to dodge by dir: " << TargetMgr->CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dodgeDir) << std::endl;
+//	std::cout << "Is valid dir and time: " << TargetMgr->isPossibleToMoveByDirAndTime(tankPos, 0.2, glm::vec2(-1, 0), 3) << std::endl;
+//	std::cout << "Time to tank: " << TargetMgr->GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, 1.2) << std::endl;
 
 	// =========================================================================================================
 	// Check if there will be any airstrike or EMP
 	// The GetIncomingStrike() function will return an array of strike object. Both called by your team
 	// or enemy team.
 	// =========================================================================================================
+
 	std::vector<Strike*> strike = p_AI->GetIncomingStrike();
 	for (int i = 0; i<strike.size(); i++)
 	{

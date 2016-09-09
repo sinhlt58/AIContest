@@ -1,6 +1,7 @@
 #include "SteeringBehavior.h"
 #include "glm/glm.hpp"
 #include <iostream>
+#include "HelperFunctions.h"
 
 SteeringBehavior::~SteeringBehavior()
 {
@@ -24,7 +25,6 @@ int SteeringBehavior::Seek(glm::vec2 target) const
 {
 	glm::vec2 tankPosition = m_pOwner->GetPosition();
 	glm::vec2 direction = target - tankPosition;
-
 	if (target != tankPosition)//dont know why direction = (0, 0) but length()=2 @@
 	{
 		direction = glm::normalize(direction);

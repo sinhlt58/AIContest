@@ -33,6 +33,8 @@ public:
 	GoalThink* GetBrain()const;
 	Bullet* GetCurrentClosestDangerBullet() const { return m_pClosestDangerBullet; }
 	void SetCurrentClosestDangerBullet(Bullet* p) { m_pClosestDangerBullet = p; }
+	glm::vec2 GetBestDirToDodgeDangerBullet()const { return m_vBestDirToDodgeDangerousBullet; }
+	void SetBestDirToDodgeDangerBullet(glm::vec2 d) { m_vBestDirToDodgeDangerousBullet = d; }
 
 	glm::vec2 GetPosition() const;
 	float GetSpeed() const;
@@ -84,7 +86,10 @@ private:
 
 	/*tmp maybe can be removed*/
 	Bullet* m_pClosestDangerBullet;
+	glm::vec2 m_vBestDirToDodgeDangerousBullet;
 
 	int m_iCurrentTargetEnemyId;
+
+	int numMove;
 };
 

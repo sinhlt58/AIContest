@@ -21,8 +21,8 @@ void GoalReload::Activate()
 	if (!m_pOwner->isSafe())
 	{
 		AddSubgoal(new GoalMoveToPosition(m_pOwner, safePosition));
-		PrintVector("Tank pos: ", m_pOwner->GetPosition());
-		PrintVector("Safe pos: ", safePosition);
+//		PrintVector("Tank pos: ", m_pOwner->GetPosition());
+//		PrintVector("Safe pos: ", safePosition);
 	}	
 	else
 	{

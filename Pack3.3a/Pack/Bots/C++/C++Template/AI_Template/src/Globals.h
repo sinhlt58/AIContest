@@ -3,6 +3,9 @@
 #include <vector>
 #include "ai/defines.h"
 
+#define TANK_WIDTH 1
+#define HALF_TANK_WIDTH 0.5
+
 class Globals
 {
 public:

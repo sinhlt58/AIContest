@@ -73,7 +73,7 @@ std::vector<glm::vec2> AStarAlgorithm::Search(glm::vec2 start, glm::vec2 goal, i
 			child->UpdateGscore(node->GetGscore() + 1);
 			child->UpdateHscore(Manhattan(ajPos, goal));
 //			child->UpdatePriorityLineOfFire();
-			child->UpdatePriorityBullet();
+//			child->UpdatePriorityBullet();
 			if (closedNodes[child->GetIndexFromPosition()] == false)
 			{	
 				if (openNodes[child->GetIndexFromPosition()] == 0)

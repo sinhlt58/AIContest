@@ -25,11 +25,10 @@ inline bool isPointInsideTank(glm::vec2 p, glm::vec2 tankPos)
 
 inline bool isPointInsideXView(glm::vec2 p, glm::vec2 tankPos)
 {
-	float error = 0.5;
-	float margin = 0.5 + error;
+	float margin = 0.5;
 	if (!isPointInsideTank(p, tankPos))
 	{
-		if (tankPos.y - margin < p.y && p.y < tankPos.y + margin)
+		if (tankPos.y - margin <= p.y && p.y <= tankPos.y + margin)
 			return true;
 		return false;
 	}
@@ -38,9 +37,12 @@ inline bool isPointInsideXView(glm::vec2 p, glm::vec2 tankPos)
 
 inline bool isPointInsideYView(glm::vec2 p, glm::vec2 tankPos)
 {
+	float margin = 0.5;
 	if (!isPointInsideTank(p, tankPos))
 	{
-		return !isPointInsideXView(p, tankPos);
+		if (tankPos.x - margin <= p.x && p.x <= tankPos.x + margin)
+			return true;
+		return false;
 	}
 	return false;
 }

@@ -1,7 +1,9 @@
 #include "MyTank.h"
 #include "ai/Game.h"
 #include "HelperFunctions.h"
+#include "Globals.h"
 
+//int numMove;
 MyTank::MyTank(int id):m_iId(id),
 					   m_bIsShoot(false),
 					   m_bIsMove(false),
@@ -16,6 +18,7 @@ MyTank::MyTank(int id):m_iId(id),
 	m_pClosestDangerBullet = nullptr;
 
 	m_iCurrentTargetEnemyId = -1;
+	numMove = 0;
 }
 
 MyTank::~MyTank()
@@ -32,28 +35,67 @@ void MyTank::Update()
 {
 	//update every loop.
 //	m_pVisionSystem->UpdateVision();
-	if(m_pBrainUpdateRgulator->isReady())
-	{
-		m_pBrain->Aribitrate();
-	}
-	m_pBrain->Process();
+//	if(m_pBrainUpdateRgulator->isReady())
+//	{
+//		m_pBrain->Aribitrate();
+//	}
+//	m_pBrain->Process();
 	UpdateMovement();
-
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 }
 
 void MyTank::UpdateMovement()
 {
+	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
+	{
+		FireOn();
+		MoveOff();
+		SetDirection(DIRECTION_LEFT);
+	}
+	else
+	{
+		FireOff();
+		m_pSteeringBehavior->SeekOn();
+		MoveOn();
+		for (Bullet* b : AI::GetInstance()->GetEnemyBullets())
+		{
+//						std::cout << "Type bullet: " << b->GetType() << ", pos: \n";
+//						PrintVector("", glm::vec2(b->GetX(), b->GetY()));
+//						std::cout << "Speed: " << b->GetSpeed() << std::endl;
+		}
+		//		std::cout << isShootableAEnemy(glm::vec2(16, 6)) << std::endl;
+		Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(GetPosition());
+		if (closestBullet)
+		{
+			MoveOn();
+//			PrintVector("Tank pos: ", GetPosition());
+//			PrintVector("Closest bullet pos: ", glm::vec2(closestBullet->GetX(), closestBullet->GetY()));
+//			std::cout << "Time to hit tank: " << TargetMgr->GetTimeAInViewBulletToHitATank(GetPosition(), closestBullet) << std::endl;
+//			SetDirection(DIRECTION_UP);
+//			numMove++;
+			if (TargetMgr->isTheClosestBulletDangerous(this, closestBullet))
+			{
+				glm::vec2 bestDirToDodge = GetBestDirToDodgeDangerBullet();
+				glm::vec2 posToDodge = GetPosition() + bestDirToDodge * GetSpeed();
+				m_pSteeringBehavior->SetTarget(posToDodge);
+			}else
+			{
+				MoveOff();
+			}
+			
+		}
+		else
+		{
+			MoveOff();
+		}
+	
+	}
 	int direction = m_pSteeringBehavior->Calculate();
 	if (direction != DIRECTION_NONE && m_bIsMove)
 	{
 		SetDirection(direction);
 	}
-	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
-	{
-//		FireOn();
-//		SetDirection(DIRECTION_LEFT);
-	}
+	
 }
 
 Tank* MyTank::GetApiTank() const

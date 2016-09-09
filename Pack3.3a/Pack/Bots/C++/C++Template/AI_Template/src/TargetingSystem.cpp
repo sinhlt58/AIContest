@@ -83,15 +83,10 @@ bool TargetingSystem::isShootableBase(glm::vec2 checkPosition, glm::vec2 enemyBa
 	return isEmptyBetweenPoints(checkPosition, enemyBasePositon, blockTypes);
 }
 
-bool TargetingSystem::isBulletDangerous(glm::vec2 checkPosition, glm::vec2 bulletPosition)
-{
-	return false;
-}
-
 bool TargetingSystem::isEmptyBetweenPoints(glm::vec2 p1, glm::vec2 p2, std::vector<int> blockTypes)
 {
 	float halfTankWidth = 0.5;
-	if (isTankInViewX(p1, p2))
+	if (isPointInsideXView(p1, p2))
 	{
 		if (!isSpecialDividedByOneHalf(p1.y) && !isSpecialDividedByOneHalf(p2.y))
 		{
@@ -122,7 +117,7 @@ bool TargetingSystem::isEmptyBetweenPoints(glm::vec2 p1, glm::vec2 p2, std::vect
 			return isEmptyBetweenTwoPoints(glm::vec2(p1.x, p1.y - halfTankWidth), glm::vec2(p2.x, p2.y - halfTankWidth), blockTypes)
 				&& isEmptyBetweenTwoPoints(glm::vec2(p1.x, p1.y + halfTankWidth), glm::vec2(p2.x, p2.y + halfTankWidth), blockTypes);
 		}
-	}else if(isTankInViewY(p1, p2))
+	}else if(isPointInsideYView(p1, p2))
 	{
 		if (!isSpecialDividedByOneHalf(p1.x) && !isSpecialDividedByOneHalf(p2.x))
 		{
@@ -533,11 +528,12 @@ std::vector<Bullet*> TargetingSystem::GetAllDangerBulletPositions(glm::vec2 tank
 	for (Bullet* bullet : enemyBullets)
 	{
 		glm::vec2 bulletPos = glm::vec2(bullet->GetX(), bullet->GetY());
+		
 		if (isInView(bulletPos, tankPosition))
 		{
 			glm::vec2 bulletDir = GetDirByDefineDir(bullet->GetDirection());
 			glm::vec2 vecBulletToTankPos;
-			glm::vec2 sum;
+		
 			if (isPointInsideXView(bulletPos, tankPosition))
 			{
 				vecBulletToTankPos = glm::vec2(bulletPos.x - tankPosition.x, 0);
@@ -548,17 +544,14 @@ std::vector<Bullet*> TargetingSystem::GetAllDangerBulletPositions(glm::vec2 tank
 			if (glm::length(vecBulletToTankPos) > 0)
 			{
 				vecBulletToTankPos = glm::normalize(vecBulletToTankPos);
-				sum = bulletDir + vecBulletToTankPos;
-				if (sum == glm::vec2())
+				float dot = glm::dot(vecBulletToTankPos, bulletDir);
+				if (dot == -1 || dot < 0) //dont know why some time == -1 doesnt work.!
 				{
 					bullets.push_back(bullet);
-//					PrintVector("Dangerous bullet: ", bulletPos);
 				}
 			}	
 		}else
 		{
-//			PrintVector("Not dangerous bullet: ", bulletPos);
-//			std::cout << "Type: " << bullet->GetType() << std::endl;
 		}
 	}
 
@@ -571,111 +564,193 @@ Bullet* TargetingSystem::GetClosestDangerBullet(glm::vec2 tankPosition)
 	if(!bullets.empty())
 	{
 		Bullet* closetBullet = bullets[0];
-		float closet = 9999;
+		float closetTime = 9999;
 		for (Bullet* bullet : bullets)
 		{
-			if (glm::length(glm::vec2(bullet->GetX(),bullet->GetY())) < closet)
+			glm::vec2 bulletPos = glm::vec2(bullet->GetX(), bullet->GetY());
+			glm::vec2 bulletDir = GetDirByDefineDir(bullet->GetDirection());
+			float bulletSpeed = bullet->GetSpeed();
+			int timeToHit = GetTimeAInViewBulletToHitATank(tankPosition, bulletPos, bulletDir, bulletSpeed);
+			if (timeToHit < closetTime)
+			{
 				closetBullet = bullet;
+				closetTime = timeToHit;
+			}
+				
 		}
 		return closetBullet;
+	}else
+	{
 	}
 	return nullptr;
 }
 
-bool TargetingSystem::isBulletDangerous(MyTank* myTank, Bullet* closestBullet)
+bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closestBullet)
 {
-	glm::vec2 tankPosition = myTank->GetPosition();
-	glm::vec2 bulletPosition = glm::vec2(closestBullet->GetX(), closestBullet->GetY());
+	glm::vec2 bulletPos = glm::vec2(closestBullet->GetX(), closestBullet->GetY());
 	glm::vec2 bulletDir = GetDirByDefineDir(closestBullet->GetDirection());
-	glm::vec2 vecBulletToPosition = bulletPosition - tankPosition;
-	float distanceFromBulletToTank = 0;
-	float distanceNeedToDodge = 0;
-	float widthOfBullet = 0;
-	float halfTankWidth = 0.5;
-	float timeBulletToTravel = 0;
-	float timeToDodge = 0;
-	float noise = 0;
+	float bulletSpeed = closestBullet->GetSpeed();
+	glm::vec2 tankPos = myTank->GetPosition();
+	float tankSpeed = myTank->GetSpeed();
 
-	if (glm::length(vecBulletToPosition) > 0)
+	glm::vec2 bestPosToDodge;
+	int bestTimeToDodge = 99;
+	int timeToHit = GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, bulletSpeed);
+
+	for (glm::vec2 dirToDodge : dirs)
 	{
-		if (isPointInsideXView(bulletPosition, tankPosition))
+		float dot = glm::dot(dirToDodge, bulletDir);
+		if (dot == 0)
 		{
-			distanceFromBulletToTank = abs(vecBulletToPosition.x) - halfTankWidth;
-			distanceNeedToDodge = halfTankWidth - abs(vecBulletToPosition.y) + widthOfBullet;
-		}else if(isPointInsideYView(bulletPosition, tankPosition))
-		{
-			distanceFromBulletToTank = abs(vecBulletToPosition.y) - halfTankWidth;
-			distanceNeedToDodge = halfTankWidth - abs(vecBulletToPosition.x) + widthOfBullet;
+			float distanceToDodge =
+				CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dirToDodge);
+			int timeToDodge = CalculateTimeToDodgeByDistance(tankSpeed, distanceToDodge);
+			if (isPossibleToMoveByDirAndTime(tankPos, tankSpeed, dirToDodge, timeToDodge))
+			{
+				if (timeToDodge < bestTimeToDodge)
+				{
+					bestTimeToDodge = timeToDodge;
+					bestPosToDodge = dirToDodge;
+				}
+			}
 		}
-		timeBulletToTravel = distanceFromBulletToTank / closestBullet->GetSpeed();
-		timeToDodge = distanceNeedToDodge / myTank->GetSpeed();
-		if (timeToDodge >= timeBulletToTravel)
+	}
+
+	if (bestPosToDodge != glm::vec2())
+	{
+		if (timeToHit <= bestTimeToDodge)
+		{
+			myTank->SetCurrentClosestDangerBullet(closestBullet);
+			myTank->SetBestDirToDodgeDangerBullet(bestPosToDodge);
+			std::cout << "Time to hit: " << timeToHit << std::endl;
+			std::cout << "Best time to dodge: " << bestTimeToDodge << std::endl;
 			return true;
-		return false;
+		}
+	}
+
+	return false;
+}
+
+int TargetingSystem::GetTimeAInViewBulletToHitATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed)
+{
+	float timeToHit = 0;
+	int result = 0;
+	float distance = GetDistanceFromAInViewBulletToATank(tankPos, bulletPos, bulletDir);
+	timeToHit = distance / bulletSpeed;
+	if (int(timeToHit) == timeToHit)
+	{
+		result = int(timeToHit);
+	}
+	else
+	{
+		result = int(timeToHit) + 1;
+	}
+
+	return result;
+}
+
+float TargetingSystem::GetDistanceFromAInViewBulletToATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir)
+{
+	float distance = 0;
+	float tankHalfWidth = 0.5;
+	if (bulletDir.y == 0)
+	{
+		distance = abs(tankPos.x - bulletPos.x) - tankHalfWidth;
+	}else if (bulletDir.x == 0)
+	{
+		distance = abs(tankPos.y - bulletPos.y) - tankHalfWidth;
+	}
+	return distance;
+}
+
+float TargetingSystem::CalculateDistanceToDodgeBulletByDir(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, glm::vec2 dodgeDir)
+{
+	glm::vec2 bestDirToDodge;
+	float distanceToDodgeByDir = 0;
+	if (bulletDir.y == 0)
+	{
+		bestDirToDodge = glm::vec2(0, tankPos.y - bulletPos.y);
+	}
+	else if (bulletDir.x == 0)
+	{
+		bestDirToDodge = glm::vec2(tankPos.x - bulletPos.x, 0);
+	}
+
+	if (glm::length(bestDirToDodge) == 0)
+	{
+		distanceToDodgeByDir = HALF_TANK_WIDTH;
+	}
+	else
+	{
+		float dot = glm::dot(glm::normalize(bestDirToDodge), dodgeDir);
+		if (dot == 1)
+		{
+			distanceToDodgeByDir = HALF_TANK_WIDTH - glm::length(bestDirToDodge);
+		}else if (dot == -1)
+		{
+			distanceToDodgeByDir = HALF_TANK_WIDTH + glm::length(bestDirToDodge);
+		}else
+		{
+			
+		}
+	}
+	return distanceToDodgeByDir;
+}
+
+int TargetingSystem::CalculateTimeToDodgeByDistance(float speed, float distance)
+{
+	return int(distance / speed) + 1;
+}
+
+bool TargetingSystem::isPossibleToMoveByDirAndTime(glm::vec2 tankPos, float tankSpeed, glm::vec2 dirToMove, int timeToMove)
+{
+	glm::vec2 currentTankPos = tankPos;
+	for (int i=0; i<timeToMove; i++)
+	{
+		glm::vec2 futurePos = currentTankPos + tankSpeed * dirToMove;
+		if (!isValidTankPosition(futurePos))
+			return false;
+		currentTankPos = futurePos;
 	}
 	return true;
 }
 
-glm::vec2 TargetingSystem::GetBestPositionToDodge(MyTank* myTank, Bullet* closestBullet)
+/*check valid tank position*/
+
+bool TargetingSystem::isValidTankPosition(glm::vec2 tankPos)
 {
-	glm::vec2 tankPosition = myTank->GetPosition();
-	glm::vec2 bulletPosition = glm::vec2(closestBullet->GetX(), closestBullet->GetY());
-	glm::vec2 bulletDir = GetDirByDefineDir(closestBullet->GetDirection());
-
-	std::vector<glm::vec2> positionsToEvaluated = GetPositionsForDodgeBullet(myTank->GetPosition());
-	std::priority_queue<EvaluationPosition> pq;
-
-	for (glm::vec2 p : positionsToEvaluated)
+	for (glm::vec2 p : GetAllIntegerPositionsTankOverLap(tankPos))
 	{
-		EvaluationPosition ep = EvaluationPosition(p);
-		ep.EvaluateDistanceToMyTankScore(myTank, 2);
-//		ep.EvaluateNumLineOfFireScore(-2);
-		ep.EvaluateOrthogonalScore(bulletDir, myTank->GetPosition(), 2);
-		ep.EvaluateBestDirToDodgeScore(tankPosition, GetBestDirToDodge(bulletPosition, tankPosition, bulletDir), 10);
-		pq.push(ep);
+		if (!isValidGroundPosition(p))
+			return false;
 	}
-
-	if (!pq.empty())
-		return pq.top().GetPosition();
-
-	return glm::vec2();
+	return true;
 }
 
-std::vector<glm::vec2> TargetingSystem::GetPositionsForDodgeBullet(glm::vec2 tankPos)
+std::vector<int> TargetingSystem::ExtractCoordinate(float xOrY)
 {
-	std::vector<glm::vec2> positions;
-	for (glm::vec2 dir : dirs)
+	float tankWidth = 0.5;
+	std::vector<int> result;
+	if (int(xOrY) == xOrY)
 	{
-		glm::vec2 p = tankPos + dir;
-		while (isValidGroundPosition(GetRoundPosition(p)))
-		{
-			positions.push_back(p);
-			p = p + dir;
-		}
+		result.push_back(xOrY);
+	}else
+	{
+		result.push_back(round(xOrY + tankWidth));
+		result.push_back(round(xOrY - tankWidth));
 	}
-	return positions;
+	return result;
 }
 
-glm::vec2 TargetingSystem::GetBestDirToDodge(glm::vec2 bulletPos, glm::vec2 tankPos, glm::vec2 bulletDir)
+std::vector<glm::vec2> TargetingSystem::GetAllIntegerPositionsTankOverLap(glm::vec2 tankPos)
 {
-	glm::vec2 vecBulletToTank = bulletPos - tankPos;
-	glm::vec2 bestDirToDodge;
-	if (glm::length(vecBulletToTank) > 0)
+	std::vector<glm::vec2> overLapPositions;
+	for (int x : ExtractCoordinate(tankPos.x))
 	{
-		if (bulletDir.x == 0)
+		for (int y : ExtractCoordinate((tankPos.y)))
 		{
-			if (vecBulletToTank.x != 0)
-				bestDirToDodge = glm::normalize(glm::vec2(-vecBulletToTank.x, 0));
-			else
-				bestDirToDodge = glm::vec2(1, 0);
-		}
-		else if (bulletDir.y == 0)
-		{
-			if (vecBulletToTank.y != 0)
-				bestDirToDodge = glm::normalize(glm::vec2(0, -vecBulletToTank.y));
-			else
-				bestDirToDodge = glm::vec2(0, 1);
+			overLapPositions.push_back(glm::vec2(x, y));
 		}
 	}
-	return bestDirToDodge;
+	return overLapPositions;
 }

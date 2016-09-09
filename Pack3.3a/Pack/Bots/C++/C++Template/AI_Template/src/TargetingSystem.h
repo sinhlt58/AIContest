@@ -14,7 +14,6 @@ public:
 
 	bool isShootableAEnemy(glm::vec2 checkPosition, glm::vec2 enemyPosition);
 	bool isShootableBase(glm::vec2 checkPosition, glm::vec2 enemyBasePositon);
-	bool isBulletDangerous(glm::vec2 checkPosition, glm::vec2 bulletPosition);
 	bool isEmptyBetweenPoints(glm::vec2 p1, glm::vec2 p2, std::vector<int> typeBlocks);
 	bool isEmptyBetweenTwoPoints(glm::vec2 p1, glm::vec2 p2, std::vector<int> typeBlocks);
 
@@ -39,10 +38,13 @@ public:
 	/*functions for dodge bullets*/
 	std::vector<Bullet*> GetAllDangerBulletPositions(glm::vec2 tankPosition);
 	Bullet* GetClosestDangerBullet(glm::vec2 tankPosition);
-	bool isBulletDangerous(MyTank* myTank, Bullet* bullet);
-	glm::vec2 GetBestPositionToDodge(MyTank* myTank, Bullet* closestBullet);
-	std::vector<glm::vec2> GetPositionsForDodgeBullet(glm::vec2 tankPos);
-	glm::vec2 GetBestDirToDodge(glm::vec2 bulletPos, glm::vec2 tankPos, glm::vec2 bulletDir);
+	bool isTheClosestBulletDangerous(MyTank* myTank, Bullet* closestBullet);
+	float GetDistanceFromAInViewBulletToATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir);
+	int GetTimeAInViewBulletToHitATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
+	float CalculateDistanceToDodgeBulletByDir(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, glm::vec2 dodgeDir);
+	int CalculateTimeToDodgeByDistance(float speed, float distance);
+	bool isPossibleToMoveByDirAndTime(glm::vec2 tankPos, float tankSpeed, glm::vec2 dirToMove, int timeToMove);
+	
 
 	/*Helpful functions*/
 	void ChoseEnemyToTarget(int enemyId);
@@ -54,6 +56,11 @@ public:
 	bool isValidPositionByType(glm::vec2 position, std::vector<int> types);
 	std::vector<glm::vec2> GetAllTankPositions();
 	bool isTheSamePositionWithOtherTank(glm::vec2 myTankPosition, glm::vec2 checkedPosition);
+	
+	/*Check valid tank position*/
+	bool isValidTankPosition(glm::vec2 tankPos);
+	std::vector<int> ExtractCoordinate(float xOrY);
+	std::vector<glm::vec2> GetAllIntegerPositionsTankOverLap(glm::vec2 tankPos);
 
 	static TargetingSystem* GetInstance();
 private:
