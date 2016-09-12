@@ -23,6 +23,8 @@ void GoalDodgeBullet::Activate()
 		m_pOwner->GetSteering()->SetTarget(posToDodge);
 		m_pOwner->GetSteering()->SeekOn();
 		m_pOwner->MoveOn();
+//		PrintVector("Tank pos: ", m_pOwner->GetPosition());
+//		PrintVector("Best dir to dodge: ", bestDirToDodge);
 	}
 }
 

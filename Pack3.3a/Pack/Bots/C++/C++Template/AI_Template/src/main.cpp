@@ -111,6 +111,7 @@ void AI_Update()
 	glm::vec2 bulletPos = glm::vec2(7.6, 6);
 	glm::vec2 bulletDir = glm::vec2(-1, 0);
 	glm::vec2 dodgeDir = glm::vec2(0, -1);
+//	std::cout << isPointInsideTank(glm::vec2(7.8, 1), glm::vec2(7.6, 1)) << std::endl;
 //	std::cout << glm::dot(glm::vec2(1, 0), glm::vec2(-1, 0)) << std::endl;
 //	std::cout << "Distance to dodge by dir: " << TargetMgr->CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dodgeDir) << std::endl;
 //	std::cout << "Is valid dir and time: " << TargetMgr->isPossibleToMoveByDirAndTime(tankPos, 0.2, glm::vec2(-1, 0), 3) << std::endl;
@@ -188,7 +189,7 @@ void AI_Update()
 		tank->Update();
 	}
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-//	cout << "Update time: " << duration << " s" << endl;
+	cout << "Update time: " << duration << " s" << endl;
 	// =========================================================================================================
 	// This is an example on how you use your power up if you acquire one.
 	// If you have airstrike or EMP, you may use them anytime.

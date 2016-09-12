@@ -547,34 +547,39 @@ std::vector<Bullet*> TargetingSystem::GetAllDangerBulletPositions(glm::vec2 tank
 	for (Bullet* bullet : enemyBullets)
 	{
 		glm::vec2 bulletPos = glm::vec2(bullet->GetX(), bullet->GetY());
-		
-		if (isInView(bulletPos, tankPosition))
+		if (bullet->IsAlive())
 		{
-			glm::vec2 bulletDir = GetDirByDefineDir(bullet->GetDirection());
-			glm::vec2 vecBulletToTankPos;
-		
-			if (isPointInsideXView(bulletPos, tankPosition))
+			if (isInView(bulletPos, tankPosition))
 			{
-				vecBulletToTankPos = glm::vec2(bulletPos.x - tankPosition.x, 0);
-			}else if(isPointInsideYView(bulletPos, tankPosition))
-			{
-				vecBulletToTankPos = glm::vec2(0, bulletPos.y - tankPosition.y);
-			}
-			if (glm::length(vecBulletToTankPos) > 0)
-			{
-				vecBulletToTankPos = glm::normalize(vecBulletToTankPos);
-				float dot = glm::dot(vecBulletToTankPos, bulletDir);
-				if (dot == -1 || dot < 0) //dont know why some time == -1 doesnt work.!
+				glm::vec2 bulletDir = GetDirByDefineDir(bullet->GetDirection());
+				glm::vec2 vecBulletToTankPos;
+
+				if (isPointInsideXView(bulletPos, tankPosition))
+				{
+					vecBulletToTankPos = glm::vec2(bulletPos.x - tankPosition.x, 0);
+				}
+				else if (isPointInsideYView(bulletPos, tankPosition))
+				{
+					vecBulletToTankPos = glm::vec2(0, bulletPos.y - tankPosition.y);
+				}
+				if (glm::length(vecBulletToTankPos) > 0)
+				{
+					vecBulletToTankPos = glm::normalize(vecBulletToTankPos);
+					float dot = glm::dot(vecBulletToTankPos, bulletDir);
+					if (dot == -1 || dot < 0) //dont know why some time == -1 doesnt work.!
+					{
+						bullets.push_back(bullet);
+					}
+				}
+				else
 				{
 					bullets.push_back(bullet);
 				}
-			}else
+			}
+			else if (isPointInsideTank(bulletPos, tankPosition))
 			{
 				bullets.push_back(bullet);
 			}
-		}else if (isPointInsideTank(bulletPos, tankPosition))
-		{
-			bullets.push_back(bullet);
 		}
 	}
 
@@ -658,6 +663,8 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 		glm::vec2 bestPosToCover = FindPosToConverIfCantDodgeSideBySide(tankPos, tankSpeed, bulletPos, bulletDir);
 		if (bestPosToCover != glm::vec2())
 		{
+//			PrintVector("Closest bullet pos: ", bulletPos);
+//			PrintVector("Best pos to cover:", bestPosToCover);
 			if (bulletDir.y == 0)
 			{
 				bestDirToDodge = glm::normalize(glm::vec2(bestPosToCover.x - tankPos.x, 0));
@@ -694,7 +701,8 @@ glm::vec2 TargetingSystem::FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPo
 		{
 			glm::vec2 childPos = node + tankSpeed * dir;
 			auto it = std::find(closedList.begin(), closedList.end(), childPos);
-			if (it == closedList.end() && isValidTankPosition(childPos))
+			if (it == closedList.end() && isValidTankPosition(childPos) 
+				&& !isTheSamePositionWithOtherTank(tankPos, childPos))
 			{
 				frontier.push_back(childPos);
 			}
@@ -781,7 +789,7 @@ bool TargetingSystem::isPossibleToMoveByDirAndTime(glm::vec2 tankPos, float tank
 	for (int i=0; i<timeToMove; i++)
 	{
 		glm::vec2 futurePos = currentTankPos + tankSpeed * dirToMove;
-		if (!isValidTankPosition(futurePos))
+		if (!isValidTankPosition(futurePos) || isTheSamePositionWithOtherTank(tankPos, futurePos))
 			return false;
 		currentTankPos = futurePos;
 	}
