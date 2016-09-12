@@ -82,13 +82,13 @@ void AI_Placement()
 	int test = 6;
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_HEAVY, 2, test);
-		Game::PlaceTank(TANK_HEAVY, 6, test);
+		Game::PlaceTank(TANK_HEAVY, 5, 1);
+		Game::PlaceTank(TANK_LIGHT, 6, 7);
 		Game::PlaceTank(TANK_HEAVY, 5, 20);
-		Game::PlaceTank(TANK_HEAVY, 4, test);
+		Game::PlaceTank(TANK_LIGHT, 6, 14);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_MEDIUM, 16, 6);
+		Game::PlaceTank(TANK_HEAVY, 16, 6);
 		Game::PlaceTank(TANK_LIGHT, 17, 15);
 		Game::PlaceTank(TANK_LIGHT, 16, 14);
 		Game::PlaceTank(TANK_HEAVY, 16, 20);
@@ -188,7 +188,7 @@ void AI_Update()
 		tank->Update();
 	}
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-	cout << "Update time: " << duration << " s" << endl;
+//	cout << "Update time: " << duration << " s" << endl;
 	// =========================================================================================================
 	// This is an example on how you use your power up if you acquire one.
 	// If you have airstrike or EMP, you may use them anytime.

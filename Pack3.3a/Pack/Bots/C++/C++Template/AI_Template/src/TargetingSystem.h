@@ -39,12 +39,12 @@ public:
 	std::vector<Bullet*> GetAllDangerBulletPositions(glm::vec2 tankPosition);
 	Bullet* GetClosestDangerBullet(glm::vec2 tankPosition);
 	bool isTheClosestBulletDangerous(MyTank* myTank, Bullet* closestBullet);
+	glm::vec2 FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPos, float tankSpeed, glm::vec2 bulletPos, glm::vec2 bulletDir);
 	float GetDistanceFromAInViewBulletToATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir);
 	int GetTimeAInViewBulletToHitATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
 	float CalculateDistanceToDodgeBulletByDir(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, glm::vec2 dodgeDir);
 	int CalculateTimeToDodgeByDistance(float speed, float distance);
 	bool isPossibleToMoveByDirAndTime(glm::vec2 tankPos, float tankSpeed, glm::vec2 dirToMove, int timeToMove);
-	
 
 	/*Helpful functions*/
 	void ChoseEnemyToTarget(int enemyId);
@@ -53,6 +53,7 @@ public:
 	int GetNumChosen(int enemyId);
 	std::vector<glm::vec2> GetAllAliveEnemyPositions();
 	bool isValidGroundPosition(glm::vec2 p);
+	bool isPosInMap(glm::vec2 p);
 	bool isValidPositionByType(glm::vec2 position, std::vector<int> types);
 	std::vector<glm::vec2> GetAllTankPositions();
 	bool isTheSamePositionWithOtherTank(glm::vec2 myTankPosition, glm::vec2 checkedPosition);

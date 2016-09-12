@@ -26,7 +26,6 @@ void GoalHuntEnemy::Activate()
 //	PrintVector("Position to attack: ", m_vCurrentGoodPosition);
 	//add subgoal to positon.
 	RemoveAllSubgoals();
-	
 	//not shoot when too far or cooldown of enemy is zero (assume enemy will attack soo :D.)
 //	if (m_pOwner->isSafe())
 //	{

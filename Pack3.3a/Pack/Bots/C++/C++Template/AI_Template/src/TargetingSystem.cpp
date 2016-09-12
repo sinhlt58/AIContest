@@ -216,7 +216,19 @@ std::vector<glm::vec2> TargetingSystem::GetPositionsForAttackEnemy(MyTank* myTan
 //	}
 //
 //	return positions;
-	return GenarateGroundedPositionsUsingBFS(enemyPosition, 30);
+//	return GenarateGroundedPositionsUsingBFS(enemyPosition, 30);
+	std::vector<glm::vec2> positions;
+	for (glm::vec2 dir : dirs)
+	{
+		glm::vec2 p = enemyPosition + dir;
+		while (isPosInMap(p))
+		{
+			if (isValidTankPosition(p) && isShootableAEnemy(p, enemyPosition))
+				positions.push_back(p);
+			p = p + dir;
+		}
+	}
+	return positions;
 }
 
 std::vector<glm::vec2> TargetingSystem::GetSafePositionsForEvaluation(MyTank* myTank)
@@ -264,10 +276,17 @@ bool TargetingSystem::isValidGroundPosition(glm::vec2 position)
 	return isValidPositionByType(position, types);
 }
 
-bool TargetingSystem::isValidPositionByType(glm::vec2 position, std::vector<int> types)
+bool TargetingSystem::isPosInMap(glm::vec2 position)
 {
 	if (position.x < 0 || position.x >= MAP_W ||
 		position.y < 0 || position.y >= MAP_H)
+		return false;
+	return true;
+}
+
+bool TargetingSystem::isValidPositionByType(glm::vec2 position, std::vector<int> types)
+{
+	if (!isPosInMap(position))
 		return false;
 	int typeBlock = AI::GetInstance()->GetBlock(position.x, position.y);
 	for (int type : types)
@@ -339,8 +358,8 @@ glm::vec2 TargetingSystem::GetBestEnemyTargetPositionToAttack(MyTank* myTank)
 			glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
 			EvaluationPosition ep = EvaluationPosition(enemyPos);
 			ep.EvaluateDistanceToMyTankScore(myTank, 10);
-			ep.EvaluateCloseToMainBase(GetMyMainBasePosition(), 300);
-//			ep.EvaluateShootableEnemy(myTank->GetPosition(), 10);
+//			ep.EvaluateCloseToMainBase(GetMyMainBasePosition(), 300);
+			ep.EvaluateShootableEnemy(myTank->GetPosition(), 50);
 //			ep.EvaluateNumberOfMyTankChosenScore(i, 15);
 			ep.SetTargetEnemyId(i);//this is a little bit dump ##!.
 			pq.push(ep);
@@ -368,9 +387,9 @@ glm::vec2 TargetingSystem::GetBestPositionForSniperToAttack(MyTank* myTank, glm:
 		{
 			EvaluationPosition ep = EvaluationPosition(p);
 			ep.EvaluateDistanceToMyTankScore(myTank, 10);
-			ep.EvaluateRangeAttackForSniperScore(enemyPosition, 10);
-			ep.EvaluateNumLineOfFireScore(5);
-			ep.EvaluateDangerouseBullets(-50);
+//			ep.EvaluateRangeAttackForSniperScore(enemyPosition, 10);
+//			ep.EvaluateNumLineOfFireScore(5);
+//			ep.EvaluateDangerouseBullets(-50);
 			pq.push(ep);
 		}		
 	}
@@ -549,9 +568,13 @@ std::vector<Bullet*> TargetingSystem::GetAllDangerBulletPositions(glm::vec2 tank
 				{
 					bullets.push_back(bullet);
 				}
-			}	
-		}else
+			}else
+			{
+				bullets.push_back(bullet);
+			}
+		}else if (isPointInsideTank(bulletPos, tankPosition))
 		{
+			bullets.push_back(bullet);
 		}
 	}
 
@@ -593,13 +616,19 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 	glm::vec2 tankPos = myTank->GetPosition();
 	float tankSpeed = myTank->GetSpeed();
 
-	glm::vec2 bestPosToDodge;
+	glm::vec2 bestDirToDodge;
 	int bestTimeToDodge = 99;
 	int timeToHit = GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, bulletSpeed);
+
+	/*If can dodge side by side then this value will be true,
+	if not the bot will find best dir to cover as soon as possible
+	*/
+	bool canDodgeSideBySide = false;
 
 	for (glm::vec2 dirToDodge : dirs)
 	{
 		float dot = glm::dot(dirToDodge, bulletDir);
+		/*Dodge side by side*/
 		if (dot == 0)
 		{
 			float distanceToDodge =
@@ -610,22 +639,69 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 				if (timeToDodge < bestTimeToDodge)
 				{
 					bestTimeToDodge = timeToDodge;
-					bestPosToDodge = dirToDodge;
+					bestDirToDodge = dirToDodge;
 				}
 			}
 		}
 	}
 
-	if (bestPosToDodge != glm::vec2())
+	if (bestDirToDodge != glm::vec2())
 	{
 		if (timeToHit <= bestTimeToDodge)
 		{
 			myTank->SetCurrentClosestDangerBullet(closestBullet);
-			myTank->SetBestDirToDodgeDangerBullet(bestPosToDodge);
+			myTank->SetBestDirToDodgeDangerBullet(bestDirToDodge);
+			return true;
+		}
+	}else //if cant dodge side by side, then go to good pos to cover.
+	{
+		glm::vec2 bestPosToCover = FindPosToConverIfCantDodgeSideBySide(tankPos, tankSpeed, bulletPos, bulletDir);
+		if (bestPosToCover != glm::vec2())
+		{
+			if (bulletDir.y == 0)
+			{
+				bestDirToDodge = glm::normalize(glm::vec2(bestPosToCover.x - tankPos.x, 0));
+			}else if(bulletDir.x == 0)
+			{
+				bestDirToDodge = glm::normalize(glm::vec2(0, bestPosToCover.y - tankPos.y));
+			}
+			myTank->SetCurrentClosestDangerBullet(closestBullet);
+			myTank->SetBestDirToDodgeDangerBullet(bestDirToDodge);
 			return true;
 		}
 	}
 	return false;
+}
+
+glm::vec2 TargetingSystem::FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPos, float tankSpeed, glm::vec2 bulletPos, glm::vec2 bulletDir)
+{
+	glm::vec2 bestPosToCover;
+	std::list<glm::vec2> frontier;
+	std::vector<glm::vec2> closedList;
+	frontier.push_back(tankPos);
+
+	while(!frontier.empty())
+	{
+		closedList.push_back(frontier.front());
+		glm::vec2 node = frontier.front();
+		frontier.pop_front();
+		if (!isShootableAEnemy(node, bulletPos) && !isPointInsideTank(node, tankPos))
+		{
+			bestPosToCover = node;
+			break;
+		}
+		for (glm::vec2 dir : dirs)
+		{
+			glm::vec2 childPos = node + tankSpeed * dir;
+			auto it = std::find(closedList.begin(), closedList.end(), childPos);
+			if (it == closedList.end() && isValidTankPosition(childPos))
+			{
+				frontier.push_back(childPos);
+			}
+		}
+	}
+
+	return bestPosToCover;
 }
 
 int TargetingSystem::GetTimeAInViewBulletToHitATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed)

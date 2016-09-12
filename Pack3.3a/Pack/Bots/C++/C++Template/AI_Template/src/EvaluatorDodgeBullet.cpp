@@ -17,7 +17,7 @@ float EvaluatorDodgeBullet::CalculateDesirability(MyTank* pTank)
 			return 1000;
 		}	
 	}
-	return 1;
+	return 0;
 }
 
 void EvaluatorDodgeBullet::SetGoal(MyTank* pTank)
