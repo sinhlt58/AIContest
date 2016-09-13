@@ -39,6 +39,19 @@ inline glm::vec2 GetDirByDefineDir(int defineDir)
 	return glm::vec2();
 }
 
+inline int GetDefaultDirByVectorDir(glm::vec2 dir)
+{
+	if (dir == dirLeft)
+		return DIRECTION_LEFT;
+	if (dir == dirRight)
+		return DIRECTION_RIGHT;
+	if (dir == dirUp)
+		return DIRECTION_UP;
+	if (dir == dirDown)
+		return DIRECTION_DOWN;
+	return DIRECTION_NONE;
+}
+
 inline float Manhattan(glm::vec2 p1, glm::vec2 p2)
 {
 	return abs(p1.x - p2.x) +

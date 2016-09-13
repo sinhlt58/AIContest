@@ -2,6 +2,7 @@
 #include "ai/Game.h"
 #include "HelperFunctions.h"
 #include "Globals.h"
+#include <glm/detail/func_geometric.inl>
 
 //int numMove;
 MyTank::MyTank(int id):m_iId(id),
@@ -91,9 +92,17 @@ void MyTank::UpdateMovement()
 //		}
 	}
 	int direction = m_pSteeringBehavior->Calculate();
+//	std::cout << "Is move on: " << m_bIsMove << std::endl;
+//	std::cout << "Is seek on: " << m_pSteeringBehavior->On(SteeringBehavior::seek) << std::endl;
+//	PrintVector("My current pos: ", GetPosition());
+//	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
+//	std::cout << "after seek calculation i have to turn: " << direction << std::endl;
 	if (direction != DIRECTION_NONE && m_bIsMove)
 	{
 		SetDirection(direction);
+	}else
+	{
+//		std::cout << "some reason i have to stop.\n";
 	}
 	
 }
@@ -149,6 +158,7 @@ bool MyTank::isAtPosition(glm::vec2 p) const
 void MyTank::AimAndShootAtPosition(glm::vec2 position)
 {
 	int aimDirection = GetDirectionToPosition(position);
+	std::cout << "Aim dir: " << aimDirection << std::endl;
 	if (aimDirection != DIRECTION_NONE)
 	{
 		SetDirection(aimDirection);
@@ -157,28 +167,18 @@ void MyTank::AimAndShootAtPosition(glm::vec2 position)
 	}
 }
 
-int MyTank::GetDirectionToPosition(glm::vec2 position)
+int MyTank::GetDirectionToPosition(glm::vec2 aimPos)
 {
-	int roundMyTankX = GetRoundPosition(GetPosition()).x;
-	int roundMyTankY = GetRoundPosition(GetPosition()).y;
-	int roundPositionX = GetRoundPosition(position).x;
-	int roundPositionY = GetRoundPosition(position).y;
-
-	if (roundMyTankX == roundPositionX)
+	glm::vec2 aimDir;
+	glm::vec2 currentPos = GetPosition();
+	if (isPointInsideXView(currentPos, aimPos))
 	{
-		if (roundPositionY > roundMyTankY)
-			return DIRECTION_DOWN;
-		return DIRECTION_UP;
-	}
-
-	if (roundMyTankY == roundPositionY)
+		aimDir = glm::normalize(glm::vec2(aimDir.x - currentPos.x, 0));
+	}else if (isPointInsideYView(currentPos, aimPos))
 	{
-		if (roundPositionX > roundMyTankX)
-			return DIRECTION_RIGHT;
-		return DIRECTION_LEFT;
+		aimDir = glm::normalize(glm::vec2(0, aimDir.y - currentPos.y));
 	}
-
-	return DIRECTION_NONE;
+	return GetDefaultDirByVectorDir(aimDir);
 }
 
 bool MyTank::isEnemyInView()

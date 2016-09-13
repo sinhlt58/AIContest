@@ -121,8 +121,8 @@ void AI_Update()
 //	std::cout << "Distance to dodge by dir: " << TargetMgr->CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dodgeDir) << std::endl;
 //	std::cout << "Is valid dir and time: " << TargetMgr->isPossibleToMoveByDirAndTime(tankPos, 0.2, glm::vec2(-1, 0), 3) << std::endl;
 //	std::cout << "Time to tank: " << TargetMgr->GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, 1.2) << std::endl;
-	
-
+//	std::vector<glm::vec2> testPathAstar = AStarAlgorithm::Search(glm::vec2(10, 9), glm::vec2(9, 1), -1, -1);
+//	PrintVector("Found goal: ", testPathAstar.front());
 	// =========================================================================================================
 	// Check if there will be any airstrike or EMP
 	// The GetIncomingStrike() function will return an array of strike object. Both called by your team
