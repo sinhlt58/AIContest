@@ -173,7 +173,7 @@ int MyTank::GetDirectionToPosition(glm::vec2 aimPos)
 	glm::vec2 currentPos = GetPosition();
 	if (isPointInsideXView(currentPos, aimPos))
 	{
-		aimDir = glm::normalize(glm::vec2(aimDir.x - currentPos.x, 0));
+		aimDir = glm::normalize(glm::vec2(aimPos.x - currentPos.x, 0));
 	}else if (isPointInsideYView(currentPos, aimPos))
 	{
 		aimDir = glm::normalize(glm::vec2(0, aimDir.y - currentPos.y));

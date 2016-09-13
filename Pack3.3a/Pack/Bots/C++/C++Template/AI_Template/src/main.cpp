@@ -123,7 +123,8 @@ void AI_Update()
 //	std::cout << "Time to tank: " << TargetMgr->GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, 1.2) << std::endl;
 //	std::vector<glm::vec2> testPathAstar = AStarAlgorithm::Search(glm::vec2(10, 9), glm::vec2(9, 1), -1, -1);
 //	PrintVector("Found goal: ", testPathAstar.front());
-	// =========================================================================================================
+//	PrintVector("Check normalize: ", glm::normalize(glm::vec2(14 -5, 0)));
+// =========================================================================================================
 	// Check if there will be any airstrike or EMP
 	// The GetIncomingStrike() function will return an array of strike object. Both called by your team
 	// or enemy team.
