@@ -49,7 +49,7 @@ const int numNodes = (MAP_W - 2)*(MAP_H - 2);
 const int noParrent = -1;
 
 const float goalDodgeBullet = 0;
-const float goalHuntEnemy = 1;
+const float goalHuntEnemy = 2;
 const float goalAttackMainBase = 1;
 
 #define HEAVY_BULLET_TYPE 3;

@@ -14,6 +14,7 @@ GoalDodgeBullet::GoalDodgeBullet(MyTank* pOwner):GoalComposite(pOwner, goal_dodg
 
 void GoalDodgeBullet::Activate()
 {
+//	std::cout << "Inside goal dodge bullet.\n";
 	m_iStatus = active;
 	RemoveAllSubgoals();
 	glm::vec2 bestDirToDodge = m_pOwner->GetBestDirToDodgeDangerBullet();

@@ -35,10 +35,12 @@ void MyTank::Update()
 {
 	//update every loop.
 //	m_pVisionSystem->UpdateVision();
+//	std::cout << "Inside update befor chose goal.\n";
 	if(m_pBrainUpdateRgulator->isReady())
 	{
 		m_pBrain->Aribitrate();
 	}
+//	std::cout << "Inside update after chose goal.\n";
 	m_pBrain->Process();
 	UpdateMovement();
 	if (AI::GetInstance()->GetMyTeam() == TEAM_2)

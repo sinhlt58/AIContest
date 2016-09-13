@@ -73,7 +73,8 @@ bool TargetingSystem::isShootableAEnemy(glm::vec2 checkPosition, glm::vec2 enemy
 	blockTypes.push_back(BLOCK_HARD_OBSTACLE);
 	blockTypes.push_back(BLOCK_SOFT_OBSTACLE);
 	blockTypes.push_back(BLOCK_BASE);
-	return isEmptyBetweenPoints(checkPosition, enemyPosition, blockTypes);
+//	return isEmptyBetweenPoints(checkPosition, enemyPosition, blockTypes);
+	return isShootableFromABulletToASquare(checkPosition, enemyPosition, blockTypes);
 }
 
 bool TargetingSystem::isShootableBase(glm::vec2 checkPosition, glm::vec2 enemyBasePositon)
@@ -196,6 +197,64 @@ bool TargetingSystem::isEmptyBetweenTwoPoints(glm::vec2 p1, glm::vec2 p2, std::v
 		return true;
 	}
 
+	return false;
+}
+
+
+bool TargetingSystem::isShootableFromABulletToASquare(glm::vec2 bulletPos, glm::vec2 squarePos, std::vector<int> blockTypes)
+{
+	if (isInView(bulletPos, squarePos) && !isPointInsideTank(bulletPos, squarePos))
+	{
+		if(isPointInsideXView(bulletPos, squarePos) && isSpecialDividedByOneHalf(bulletPos.y))
+		{
+			glm::vec2 fakeBulletPosUp = glm::vec2(bulletPos.x, bulletPos.y - HALF_TANK_WIDTH);
+			glm::vec2 fakeBulletPosDown = glm::vec2(bulletPos.x, bulletPos.y + HALF_TANK_WIDTH);
+			glm::vec2 fakeSquarePosUp = glm::vec2(squarePos.x, fakeBulletPosUp.y);
+			glm::vec2 fakeSquarePosDown = glm::vec2(squarePos.x, fakeBulletPosDown.y);
+			return 	isShootableFromABulletToASquareNormalCase(fakeBulletPosUp, fakeSquarePosUp, blockTypes)
+				&& isShootableFromABulletToASquareNormalCase(fakeBulletPosDown, fakeSquarePosDown, blockTypes);
+		}else if(isPointInsideYView(bulletPos, squarePos) && isSpecialDividedByOneHalf(bulletPos.x))
+		{
+			glm::vec2 fakeBulletPosLeft = glm::vec2(bulletPos.x - HALF_TANK_WIDTH, bulletPos.y);
+			glm::vec2 fakeBulletPosRight = glm::vec2(bulletPos.x + HALF_TANK_WIDTH, bulletPos.y);
+			glm::vec2 fakeSquarePosLeft = glm::vec2(fakeBulletPosLeft.x, squarePos.y);
+			glm::vec2 fakeSquarePosRight = glm::vec2(fakeBulletPosRight.x, squarePos.y);
+			return isShootableFromABulletToASquareNormalCase(fakeBulletPosLeft, fakeSquarePosLeft, blockTypes)
+				&& isShootableFromABulletToASquareNormalCase(fakeBulletPosRight, fakeSquarePosRight, blockTypes);
+		}else
+		{
+			return isShootableFromABulletToASquareNormalCase(bulletPos, squarePos, blockTypes);
+		}
+	}
+	return false;
+}
+
+bool TargetingSystem::isShootableFromABulletToASquareNormalCase(glm::vec2 bulletPos, glm::vec2 squarePos, std::vector<int> blockTypes)
+{
+	if (isInView(bulletPos, squarePos) && !isPointInsideTank(bulletPos, squarePos))
+	{
+		glm::vec2 dirToRun;
+		if (isPointInsideXView(bulletPos, squarePos))
+		{
+			dirToRun = glm::normalize(glm::vec2(squarePos.x - bulletPos.x, 0));
+		}else if(isPointInsideYView(bulletPos, squarePos))
+		{
+			dirToRun = glm::normalize(glm::vec2(0, squarePos.y - bulletPos.y));
+		}
+		glm::vec2 integerPosContainsTheBullet = GetRoundPosition(bulletPos);
+		glm::vec2 currentRunPos = integerPosContainsTheBullet;
+		int timeToRun = GetTimeAInViewBulletToHitATank(squarePos, currentRunPos + dirToRun, dirToRun, 1);
+		for (int i=0; i<timeToRun; i++)
+		{
+			glm::vec2 checkedPos = currentRunPos + dirToRun;
+			int type = AI::GetInstance()->GetBlock(checkedPos.x, checkedPos.y);
+			auto it = std::find(blockTypes.begin(), blockTypes.end(), type);
+			if (it != blockTypes.end())
+				return false;
+			currentRunPos = checkedPos;
+		}
+		return true;
+	}
 	return false;
 }
 
@@ -660,7 +719,11 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 		}
 	}else //if cant dodge side by side, then go to good pos to cover.
 	{
+//		std::cout << "Before find cover.\n";
+//		PrintVector("Closest bullet pos: ", bulletPos);
+//		PrintVector("Tank pos to find pos to cover: ", tankPos);
 		glm::vec2 bestPosToCover = FindPosToConverIfCantDodgeSideBySide(tankPos, tankSpeed, bulletPos, bulletDir);
+//		std::cout << "after find cover.\n";
 		if (bestPosToCover != glm::vec2())
 		{
 //			PrintVector("Closest bullet pos: ", bulletPos);
@@ -686,13 +749,14 @@ glm::vec2 TargetingSystem::FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPo
 	std::list<glm::vec2> frontier;
 	std::vector<glm::vec2> closedList;
 	frontier.push_back(tankPos);
-
+//	std::cout << "befor while loop.\n";
 	while(!frontier.empty())
 	{
 		closedList.push_back(frontier.front());
 		glm::vec2 node = frontier.front();
 		frontier.pop_front();
-		if (!isShootableAEnemy(node, bulletPos) && !isPointInsideTank(node, tankPos))
+//		PrintVector("Expaned pos: ", node);
+		if (!isShootableAEnemy(bulletPos, node) && !isPointInsideTank(node, tankPos))
 		{
 			bestPosToCover = node;
 			break;
@@ -700,15 +764,17 @@ glm::vec2 TargetingSystem::FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPo
 		for (glm::vec2 dir : dirs)
 		{
 			glm::vec2 childPos = node + tankSpeed * dir;
+
 			auto it = std::find(closedList.begin(), closedList.end(), childPos);
-			if (it == closedList.end() && isValidTankPosition(childPos) 
-				&& !isTheSamePositionWithOtherTank(tankPos, childPos))
+			auto it2 = std::find(frontier.begin(), frontier.end(), childPos);
+			if ((it == closedList.end()) && isValidTankPosition(childPos) 
+				&& !isTheSamePositionWithOtherTank(tankPos, childPos) && (it2 == frontier.end()))
 			{
 				frontier.push_back(childPos);
 			}
 		}
 	}
-
+//	std::cout << "after while loop.\n";
 	return bestPosToCover;
 }
 

@@ -16,6 +16,9 @@ public:
 	bool isShootableBase(glm::vec2 checkPosition, glm::vec2 enemyBasePositon);
 	bool isEmptyBetweenPoints(glm::vec2 p1, glm::vec2 p2, std::vector<int> typeBlocks);
 	bool isEmptyBetweenTwoPoints(glm::vec2 p1, glm::vec2 p2, std::vector<int> typeBlocks);
+	/*New checking isShootable very good :DD*/
+	bool isShootableFromABulletToASquare(glm::vec2 bulletPos, glm::vec2 squarePos, std::vector<int> blockTypes);
+	bool isShootableFromABulletToASquareNormalCase(glm::vec2 bulletPos, glm::vec2 squarePos, std::vector<int> blockTypes);
 
 	/*fucntions for attack enemy*/
 	glm::vec2 GetBestEnemyTargetPositionToAttack(MyTank* myTank);

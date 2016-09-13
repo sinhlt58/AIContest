@@ -111,11 +111,17 @@ void AI_Update()
 	glm::vec2 bulletPos = glm::vec2(7.6, 6);
 	glm::vec2 bulletDir = glm::vec2(-1, 0);
 	glm::vec2 dodgeDir = glm::vec2(0, -1);
+	std::vector<int> blockTypes;
+	blockTypes.push_back(BLOCK_HARD_OBSTACLE);
+	blockTypes.push_back(BLOCK_SOFT_OBSTACLE);
+	blockTypes.push_back(BLOCK_BASE);
+//	std::cout << "Is shootable all case: " << TargetMgr->isShootableFromABulletToASquare(glm::vec2(10, 1.5), glm::vec2(7, 1), blockTypes) << std::endl;
 //	std::cout << isPointInsideTank(glm::vec2(7.8, 1), glm::vec2(7.6, 1)) << std::endl;
 //	std::cout << glm::dot(glm::vec2(1, 0), glm::vec2(-1, 0)) << std::endl;
 //	std::cout << "Distance to dodge by dir: " << TargetMgr->CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dodgeDir) << std::endl;
 //	std::cout << "Is valid dir and time: " << TargetMgr->isPossibleToMoveByDirAndTime(tankPos, 0.2, glm::vec2(-1, 0), 3) << std::endl;
 //	std::cout << "Time to tank: " << TargetMgr->GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, 1.2) << std::endl;
+	
 
 	// =========================================================================================================
 	// Check if there will be any airstrike or EMP

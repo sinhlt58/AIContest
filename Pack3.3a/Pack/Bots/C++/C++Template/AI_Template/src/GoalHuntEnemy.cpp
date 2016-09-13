@@ -16,6 +16,7 @@ GoalHuntEnemy::GoalHuntEnemy(MyTank* pOwner):GoalComposite(pOwner, goal_hunt_ene
 
 void GoalHuntEnemy::Activate()
 {
+//	std::cout << "Inside goal huntn enemy.\n";
 	m_iStatus = active;
 	//chose best enemy target.
 	m_vCurrentAimPosition = TargetMgr->GetBestEnemyTargetPositionToAttack(m_pOwner);
