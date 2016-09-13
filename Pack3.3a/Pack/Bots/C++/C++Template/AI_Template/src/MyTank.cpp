@@ -158,7 +158,6 @@ bool MyTank::isAtPosition(glm::vec2 p) const
 void MyTank::AimAndShootAtPosition(glm::vec2 position)
 {
 	int aimDirection = GetDirectionToPosition(position);
-	std::cout << "Aim dir: " << aimDirection << std::endl;
 	if (aimDirection != DIRECTION_NONE)
 	{
 		SetDirection(aimDirection);
@@ -176,7 +175,7 @@ int MyTank::GetDirectionToPosition(glm::vec2 aimPos)
 		aimDir = glm::normalize(glm::vec2(aimPos.x - currentPos.x, 0));
 	}else if (isPointInsideYView(currentPos, aimPos))
 	{
-		aimDir = glm::normalize(glm::vec2(0, aimDir.y - currentPos.y));
+		aimDir = glm::normalize(glm::vec2(0, aimPos.y - currentPos.y));
 	}
 	return GetDefaultDirByVectorDir(aimDir);
 }
