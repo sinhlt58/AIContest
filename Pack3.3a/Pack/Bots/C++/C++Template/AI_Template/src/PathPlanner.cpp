@@ -16,12 +16,21 @@ bool PathPlanner::RequestPathToPosition(glm::vec2 target)
 	glm::vec2 goal = GetRoundPosition(target);
 //	std::cout << "Find position: " << findPosition.x << " " << findPosition.y << std::endl;
 //	std::cout << "Rounded target: " << goal.x << " " << goal.y << std::endl;
+	if (m_pOwner->GetPosition() == target)
+	{
+		return false;
+	}
+	
+	/*current and goal inside the same integer pos*/
 	if (findPosition == goal)
 	{
 //		std::cout << "Goal is equal to root.\n";
 //		PrintVector("Tank position: ", m_pOwner->GetPosition());
-//		PrintVector("Goal: ", goal);
-		return false;
+//		PrintVector("Goal: ", target);
+		m_Path.clear();
+		m_Path.push_back(m_pOwner->GetPosition());
+		m_Path.push_back(target);
+		return true;
 	}
 	
 	if (goal == glm::vec2(0, 0))
@@ -40,7 +49,7 @@ bool PathPlanner::RequestPathToPosition(glm::vec2 target)
 //		std::cout << "Size too small.\n";
 		return false;
 	}
-	
+//	std::cout << "After run A star and success.\n";
 	return true;
 }
 
@@ -55,10 +64,9 @@ PathPlanner::Path PathPlanner::GetPathAsEdges(glm::vec2 goal) const
 		                               PathEdge::normal_edge));
 	}
 	if (m_pOwner->GetPosition() != pathAsEdges.front().Source())
-	{
+	{			
 		glm::vec2 frontSource = pathAsEdges.front().Source();
 		glm::vec2 frontDes= pathAsEdges.front().Destination();
-		
 		float minX, maxX;
 		float minY, maxY;
 

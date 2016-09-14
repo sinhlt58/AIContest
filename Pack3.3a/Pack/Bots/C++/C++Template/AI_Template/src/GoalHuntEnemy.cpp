@@ -43,6 +43,7 @@ void GoalHuntEnemy::Activate()
 		{
 			AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
 		}
+//	AddSubgoal(new GoalMoveToPosition(m_pOwner, glm::vec2(4, 9.5)));
 //	}else
 //	{
 //		AddSubgoal(new GoalReload(m_pOwner));
