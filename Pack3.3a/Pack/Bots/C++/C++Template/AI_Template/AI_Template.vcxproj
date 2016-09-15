@@ -274,6 +274,7 @@
     <ClCompile Include="src\GoalDodgeBullet.cpp" />
     <ClCompile Include="src\GoalEvaluator.cpp" />
     <ClCompile Include="src\GoalFollowPath.cpp" />
+    <ClCompile Include="src\GoalGoToPosToAttackEnemy.cpp" />
     <ClCompile Include="src\GoalHuntEnemy.cpp" />
     <ClCompile Include="src\GoalMoveToPosition.cpp" />
     <ClCompile Include="src\GoalReload.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="src\GoalDodgeBullet.h" />
     <ClInclude Include="src\GoalEvaluator.h" />
     <ClInclude Include="src\GoalFollowPath.h" />
+    <ClInclude Include="src\GoalGoToPosToAttackEnemy.h" />
     <ClInclude Include="src\GoalHuntEnemy.h" />
     <ClInclude Include="src\GoalMoveToPosition.h" />
     <ClInclude Include="src\GoalReload.h" />

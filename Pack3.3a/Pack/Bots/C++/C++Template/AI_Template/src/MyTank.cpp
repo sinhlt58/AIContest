@@ -46,7 +46,7 @@ void MyTank::Update()
 	UpdateMovement();
 	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
 	{
-		if (numMove < 0)
+		if (numMove < 1)
 		{
 			FireOff();
 			MoveOn();
@@ -214,4 +214,17 @@ bool MyTank::isSafe() const
 	}
 	
 	return true;
+}
+
+void MyTank::StopInTheNextStepIsDangerous()
+{
+	int nextDirToMove = GetSteering()->Calculate();
+	glm::vec2 nextPosInTheFuture = GetPosition() +
+		GetSpeed() * GetDirByDefineDir(nextDirToMove);
+	Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(nextPosInTheFuture);
+	if (closestBullet)
+	{
+		GetSteering()->SeekOff();
+		MoveOff();
+	}
 }

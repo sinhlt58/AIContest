@@ -27,18 +27,8 @@ void GoalTraverseEdge::Activate()
 
 	if (nextDirToMove != DIRECTION_NONE)
 	{
-		glm::vec2 nextPosInTheFuture = m_pOwner->GetPosition() + 
-			m_pOwner->GetSpeed() * GetDirByDefineDir(nextDirToMove);
-		Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(nextPosInTheFuture);
-		if (closestBullet)
-		{
-			m_pOwner->GetSteering()->SeekOff();
-			m_pOwner->MoveOff();
-		}else
-		{
-			m_pOwner->GetSteering()->SeekOn();
-			m_pOwner->MoveOn();
-		}
+		m_pOwner->GetSteering()->SeekOn();
+		m_pOwner->MoveOn();
 	}else
 	{
 		m_pOwner->GetSteering()->SeekOff();

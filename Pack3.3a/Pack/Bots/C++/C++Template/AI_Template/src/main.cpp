@@ -90,7 +90,7 @@ void AI_Placement()
 	else if (p_AI->GetMyTeam() == TEAM_2) {
 		Game::PlaceTank(TANK_HEAVY, 16, 6);
 		Game::PlaceTank(TANK_LIGHT, 17, 15);
-		Game::PlaceTank(TANK_LIGHT, 16, 14);
+		Game::PlaceTank(TANK_LIGHT, 14, 14);
 		Game::PlaceTank(TANK_HEAVY, 16, 20);
 	}
 }
@@ -124,6 +124,8 @@ void AI_Update()
 //	std::vector<glm::vec2> testPathAstar = AStarAlgorithm::Search(glm::vec2(10, 9), glm::vec2(9, 1), -1, -1);
 //	PrintVector("Found goal: ", testPathAstar.front());
 //	PrintVector("Check normalize: ", glm::normalize(glm::vec2(14 -5, 0)));
+//	std::cout << int(0) << std::endl;
+//	std::cout << "Is inside: " << isPointInsideTank(glm::vec2(5, 6.5), glm::vec2(5, 6)) << std::endl;
 // =========================================================================================================
 	// Check if there will be any airstrike or EMP
 	// The GetIncomingStrike() function will return an array of strike object. Both called by your team

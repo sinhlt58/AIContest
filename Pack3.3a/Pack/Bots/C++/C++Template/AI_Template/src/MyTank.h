@@ -63,10 +63,12 @@ public:
 	void SetCurrentEnemyId(int id) { m_iCurrentTargetEnemyId = id; };
 	int GetCurrentEnemyId() const
 	{ return m_iCurrentTargetEnemyId; }
-	bool m_bIsShoot;
+	
+	/*Functions that check the future*/
+	void StopInTheNextStepIsDangerous();
 private:
 	int m_iId;
-	
+	bool m_bIsShoot;
 	bool m_bIsMove;
 	int m_iCurrentDirection;
 

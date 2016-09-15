@@ -14,6 +14,7 @@ enum
 	goal_defend_base,
 	goal_reload,
 	goal_shoot_enemy,
-	goal_cover
+	goal_cover,
+	goal_go_to_pos_to_attack_enemy
 };
 

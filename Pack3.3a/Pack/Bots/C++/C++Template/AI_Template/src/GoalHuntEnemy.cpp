@@ -5,6 +5,7 @@
 #include "GoalReload.h"
 #include "Globals.h"
 #include "HelperFunctions.h"
+#include "GoalGoToPosToAttackEnemy.h"
 
 GoalHuntEnemy::~GoalHuntEnemy()
 {
@@ -21,7 +22,7 @@ void GoalHuntEnemy::Activate()
 	//chose best enemy target.
 	m_vCurrentAimPosition = TargetMgr->GetBestEnemyTargetPositionToAttack(m_pOwner);
 	//chose best position to go.
-	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
+//	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
 //	PrintVector("Mytank position: ", m_pOwner->GetPosition());
 //	PrintVector("Target position: ", m_vCurrentAimPosition);
 //	PrintVector("Position to attack: ", m_vCurrentGoodPosition);
@@ -39,7 +40,7 @@ void GoalHuntEnemy::Activate()
 	}
 	else
 	{
-		AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
+		AddSubgoal(new GoalGoToPosToAttackEnemy(m_pOwner, m_vCurrentAimPosition));
 	}	
 }
 
