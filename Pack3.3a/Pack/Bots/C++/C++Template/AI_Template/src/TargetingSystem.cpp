@@ -791,6 +791,61 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 	return false;
 }
 
+bool TargetingSystem::isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed)
+{
+	glm::vec2 tankPos = myTank->GetPosition();
+	float tankSpeed = myTank->GetSpeed();
+
+	if (isShootableAEnemy(bulletPos, tankPos))
+	{
+		glm::vec2 bestDirToDodge;
+		int bestTimeToDodge = 99;
+		int timeToHit = GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, bulletSpeed);
+
+		/*If can dodge side by side then this value will be true,
+		if not the bot will find best dir to cover as soon as possible
+		*/
+		bool canDodgeSideBySide = false;
+
+		for (glm::vec2 dirToDodge : dirs)
+		{
+			float dot = glm::dot(dirToDodge, bulletDir);
+			/*Dodge side by side*/
+			if (dot == 0)
+			{
+				float distanceToDodge =
+					CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dirToDodge);
+				int timeToDodge = CalculateTimeToDodgeByDistance(tankSpeed, distanceToDodge);
+				if (isPossibleToMoveByDirAndTime(tankPos, tankSpeed, dirToDodge, timeToDodge))
+				{
+					if (timeToDodge < bestTimeToDodge)
+					{
+						bestTimeToDodge = timeToDodge;
+						bestDirToDodge = dirToDodge;
+					}
+				}
+			}
+		}
+
+		if (bestDirToDodge != glm::vec2())
+		{
+			if (timeToHit <= bestTimeToDodge)
+			{
+				return true;
+			}
+		}
+		else //if cant dodge side by side, then go to good pos to cover.
+		{
+			glm::vec2 bestPosToCover = FindPosToConverIfCantDodgeSideBySide(tankPos, tankSpeed, bulletPos, bulletDir);
+			if (bestPosToCover != glm::vec2())
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 glm::vec2 TargetingSystem::FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPos, float tankSpeed, glm::vec2 bulletPos, glm::vec2 bulletDir)
 {
 	glm::vec2 bestPosToCover;
@@ -822,7 +877,6 @@ glm::vec2 TargetingSystem::FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPo
 			}
 		}
 	}
-//	std::cout << "after while loop.\n";
 	return bestPosToCover;
 }
 
@@ -948,4 +1002,21 @@ std::vector<glm::vec2> TargetingSystem::GetAllIntegerPositionsTankOverLap(glm::v
 		}
 	}
 	return overLapPositions;
+}
+
+glm::vec2 TargetingSystem::GetDirInViewPointToPoint(glm::vec2 standingPoint, glm::vec2 checkedPoint)
+{
+	glm::vec2 dirPointToPoint;
+	if (isInView(checkedPoint, standingPoint))
+	{
+		if (isPointInsideXView(checkedPoint, standingPoint))
+		{
+			dirPointToPoint = glm::normalize(glm::vec2(standingPoint.x - checkedPoint.x, 0));
+		}
+		else
+		{
+			dirPointToPoint = glm::normalize(glm::vec2(0, standingPoint.y - checkedPoint.y));
+		}
+	}
+	return dirPointToPoint;
 }

@@ -83,3 +83,14 @@ inline void PrintVector(char* prefix,glm::vec2 v)
 {
 	std::cout << prefix << v.x << " " << v.y << std::endl;
 }
+
+inline float GetBulletSpeedByTankType(int tankType)
+{
+	if (tankType == TANK_HEAVY)
+		return 0.8;
+	if (tankType == TANK_MEDIUM)
+		return 1.0;
+	if (tankType == TANK_LIGHT)
+		return 1.2;
+	return 0;
+}

@@ -43,6 +43,12 @@ void MyTank::Update()
 	}
 //	std::cout << "Inside update after chose goal.\n";
 	m_pBrain->Process();
+//	if (GetPosition() == glm::vec2(6, 15))
+//	{
+//		std::cout << "Is the fake bullet danger: " << TargetMgr->isTheFakeClosestBulletDangerous(this,
+//			glm::vec2(8, 15.5), glm::vec2(-1, 0), GetBulletSpeedByTankType(TANK_LIGHT)) << std::endl;
+//	}
+	
 	UpdateMovement();
 	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
 	{
@@ -59,6 +65,8 @@ void MyTank::Update()
 			SetDirection(DIRECTION_LEFT);
 		}
 	}
+//	MoveOff();
+//	FireOff();
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 	SetCurrentClosestDangerBullet(nullptr);
 	SetBestDirToDodgeDangerBullet(glm::vec2());
@@ -168,15 +176,15 @@ void MyTank::AimAndShootAtPosition(glm::vec2 position)
 
 int MyTank::GetDirectionToPosition(glm::vec2 aimPos)
 {
-	glm::vec2 aimDir;
-	glm::vec2 currentPos = GetPosition();
-	if (isPointInsideXView(currentPos, aimPos))
-	{
-		aimDir = glm::normalize(glm::vec2(aimPos.x - currentPos.x, 0));
-	}else if (isPointInsideYView(currentPos, aimPos))
-	{
-		aimDir = glm::normalize(glm::vec2(0, aimPos.y - currentPos.y));
-	}
+	glm::vec2 aimDir = TargetMgr->GetDirInViewPointToPoint(aimPos, GetPosition());
+//	glm::vec2 currentPos = GetPosition();
+//	if (isPointInsideXView(currentPos, aimPos))
+//	{
+//		aimDir = glm::normalize(glm::vec2(aimPos.x - currentPos.x, 0));
+//	}else if (isPointInsideYView(currentPos, aimPos))
+//	{
+//		aimDir = glm::normalize(glm::vec2(0, aimPos.y - currentPos.y));
+//	}
 	return GetDefaultDirByVectorDir(aimDir);
 }
 

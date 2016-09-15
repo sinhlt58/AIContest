@@ -44,6 +44,7 @@ public:
 	std::vector<Bullet*> GetAllDangerBulletPositions(glm::vec2 tankPosition);
 	Bullet* GetClosestDangerBullet(glm::vec2 tankPosition);
 	bool isTheClosestBulletDangerous(MyTank* myTank, Bullet* closestBullet);
+	bool isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
 	glm::vec2 FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPos, float tankSpeed, glm::vec2 bulletPos, glm::vec2 bulletDir);
 	float GetDistanceFromAInViewBulletToATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir);
 	int GetTimeAInViewBulletToHitATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
@@ -67,6 +68,8 @@ public:
 	bool isValidTankPosition(glm::vec2 tankPos);
 	std::vector<int> ExtractCoordinate(float xOrY);
 	std::vector<glm::vec2> GetAllIntegerPositionsTankOverLap(glm::vec2 tankPos);
+
+	glm::vec2 GetDirInViewPointToPoint(glm::vec2 standingPoint, glm::vec2 checkedPoint);
 
 	static TargetingSystem* GetInstance();
 private:

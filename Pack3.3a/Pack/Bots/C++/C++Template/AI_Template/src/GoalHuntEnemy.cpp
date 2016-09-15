@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "HelperFunctions.h"
 #include "GoalGoToPosToAttackEnemy.h"
+#include "GoalCover.h"
 
 GoalHuntEnemy::~GoalHuntEnemy()
 {
@@ -33,9 +34,32 @@ void GoalHuntEnemy::Activate()
 	{
 		if (m_pOwner->isCurrentEnemyTargetPresent())
 		{	
-			Tank* enemTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
-			int typeEnemy = enemTank->GetType();
-			AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+			Tank* enemyTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
+			int typeEnemy = enemyTank->GetType();
+			int enemyCoolDown = enemyTank->GetCoolDown();
+			glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
+			glm::vec2 dirToMyTank = TargetMgr->GetDirInViewPointToPoint(m_pOwner->GetPosition(), enemyPos);
+			if (enemyCoolDown > 0)
+			{
+				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+			}else
+			{
+				if (m_pOwner->GetApiTank()->GetType() == TANK_HEAVY)
+				{
+					AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+				}else
+				{
+					if (TargetMgr->isTheFakeClosestBulletDangerous(m_pOwner, 
+						enemyPos, dirToMyTank, GetBulletSpeedByTankType(typeEnemy)))
+					{
+						AddSubgoal(new GoalCover(m_pOwner, TargetMgr->GetAllAliveEnemyPositions()));
+					}else
+					{
+						AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+					}
+				}
+			}
+//			AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
 		}
 	}
 	else

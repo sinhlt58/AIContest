@@ -115,7 +115,7 @@ void AI_Update()
 	blockTypes.push_back(BLOCK_HARD_OBSTACLE);
 	blockTypes.push_back(BLOCK_SOFT_OBSTACLE);
 	blockTypes.push_back(BLOCK_BASE);
-//	std::cout << "Is shootable all case: " << TargetMgr->isShootableFromABulletToASquare(glm::vec2(10, 1.5), glm::vec2(7, 1), blockTypes) << std::endl;
+//	std::cout << "Is shootable all case: " << TargetMgr->isShootableFromABulletToASquare(glm::vec2(8, 15.5), glm::vec2(6, 15), blockTypes) << std::endl;
 //	std::cout << isPointInsideTank(glm::vec2(7.8, 1), glm::vec2(7.6, 1)) << std::endl;
 //	std::cout << glm::dot(glm::vec2(1, 0), glm::vec2(-1, 0)) << std::endl;
 //	std::cout << "Distance to dodge by dir: " << TargetMgr->CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dodgeDir) << std::endl;
