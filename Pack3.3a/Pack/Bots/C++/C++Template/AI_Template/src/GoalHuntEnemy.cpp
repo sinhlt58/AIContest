@@ -28,28 +28,19 @@ void GoalHuntEnemy::Activate()
 	//add subgoal to positon.
 	RemoveAllSubgoals();
 	//not shoot when too far or cooldown of enemy is zero (assume enemy will attack soo :D.)
-//	if (m_pOwner->isSafe())
-//	{
-		if (m_pOwner->isShootableAEnemy(m_vCurrentAimPosition))
-		{
-			if (m_pOwner->isCurrentEnemyTargetPresent())
-			{	
-				Tank* enemTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
-				int typeEnemy = enemTank->GetType();
-				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-			}
+	if (m_pOwner->isShootableAEnemy(m_vCurrentAimPosition))
+	{
+		if (m_pOwner->isCurrentEnemyTargetPresent())
+		{	
+			Tank* enemTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
+			int typeEnemy = enemTank->GetType();
+			AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
 		}
-		else
-		{
-			AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
-		}
-//	AddSubgoal(new GoalMoveToPosition(m_pOwner, glm::vec2(4, 9.5)));
-//	}else
-//	{
-//		AddSubgoal(new GoalReload(m_pOwner));
-//	}
-		
-	
+	}
+	else
+	{
+		AddSubgoal(new GoalMoveToPosition(m_pOwner, m_vCurrentGoodPosition));
+	}	
 }
 
 int GoalHuntEnemy::Process()

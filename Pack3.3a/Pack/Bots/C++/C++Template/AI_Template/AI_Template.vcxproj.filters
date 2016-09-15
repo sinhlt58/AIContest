@@ -114,6 +114,9 @@
     <ClCompile Include="src\VisionSystem.cpp">
       <Filter>MyCode</Filter>
     </ClCompile>
+    <ClCompile Include="src\GoalCover.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ai\AI.h">
@@ -240,6 +243,9 @@
       <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="src\VisionSystem.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalCover.h">
       <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>

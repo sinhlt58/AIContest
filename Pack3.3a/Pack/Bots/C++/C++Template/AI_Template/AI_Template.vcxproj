@@ -269,6 +269,7 @@
     <ClCompile Include="src\GoalAtackMainBase.cpp" />
     <ClCompile Include="src\GoalAttackSideBase.cpp" />
     <ClCompile Include="src\GoalComposite.cpp" />
+    <ClCompile Include="src\GoalCover.cpp" />
     <ClCompile Include="src\GoalDefendBase.cpp" />
     <ClCompile Include="src\GoalDodgeBullet.cpp" />
     <ClCompile Include="src\GoalEvaluator.cpp" />
@@ -312,6 +313,7 @@
     <ClInclude Include="src\GoalAtackMainBase.h" />
     <ClInclude Include="src\GoalAttackSideBase.h" />
     <ClInclude Include="src\GoalComposite.h" />
+    <ClInclude Include="src\GoalCover.h" />
     <ClInclude Include="src\GoalDefendBase.h" />
     <ClInclude Include="src\GoalDodgeBullet.h" />
     <ClInclude Include="src\GoalEvaluator.h" />

@@ -459,7 +459,7 @@ glm::vec2 TargetingSystem::GetBestPositionForSniperToAttack(MyTank* myTank, glm:
 	return glm::vec2();
 }
 
-glm::vec2 TargetingSystem::GetBestPositionForSniperToReaload(MyTank* myTank)
+glm::vec2 TargetingSystem::GetBestPositionForSniperToCover(MyTank* myTank)
 {
 	std::vector<glm::vec2> positionsToEvaluated = GetSafePositionsForEvaluation(myTank);
 	std::priority_queue<EvaluationPosition> pq;
@@ -488,6 +488,54 @@ glm::vec2 TargetingSystem::GetBestPositionForSniperToReaload(MyTank* myTank)
 		return pq.top().GetPosition();
 
 	return glm::vec2();
+}
+
+glm::vec2 TargetingSystem::GetPositionToCoverFromTargets(glm::vec2 tankPos, float tankSpeed, std::vector<glm::vec2> targets)
+{
+	glm::vec2 bestPosToCover;
+	std::list<glm::vec2> frontier;
+	std::vector<glm::vec2> closedList;
+	frontier.push_back(tankPos);
+	//	std::cout << "befor while loop.\n";
+	while (!frontier.empty())
+	{
+		closedList.push_back(frontier.front());
+		glm::vec2 node = frontier.front();
+		frontier.pop_front();
+		//		PrintVector("Expaned pos: ", node);
+		if (!isTheSamePositionWithOtherTank(tankPos, node)
+			&& (CalculateNumLineOfFireCrossAPosByEnemyPos(node, targets) == 0)
+			&& (GetAllDangerBulletPositions(node).size() == 0))
+		{
+			bestPosToCover = node;
+			break;
+		}
+		for (glm::vec2 dir : dirs)
+		{
+			glm::vec2 childPos = node + tankSpeed * dir;
+
+			auto it = std::find(closedList.begin(), closedList.end(), childPos);
+			auto it2 = std::find(frontier.begin(), frontier.end(), childPos);
+			if ((it == closedList.end()) && isValidTankPosition(childPos)
+				&& !isTheSamePositionWithOtherTank(tankPos, childPos) && (it2 == frontier.end()))
+			{
+				frontier.push_back(childPos);
+			}
+		}
+	}
+	//	std::cout << "after while loop.\n";
+	return bestPosToCover;
+}
+
+int TargetingSystem::CalculateNumLineOfFireCrossAPosByEnemyPos(glm::vec2 position, std::vector<glm::vec2> enemyPos)
+{
+	int numLineOfFire = 0;
+	for (glm::vec2 enemyP : enemyPos)
+	{
+		if (isShootableAEnemy(enemyP, position))
+			numLineOfFire += 1;
+	}
+	return numLineOfFire;
 }
 
 void TargetingSystem::ChoseEnemyToTarget(int enemyId)

@@ -23,8 +23,10 @@ public:
 	/*fucntions for attack enemy*/
 	glm::vec2 GetBestEnemyTargetPositionToAttack(MyTank* myTank);
 	glm::vec2 GetBestPositionForSniperToAttack(MyTank* myTank, glm::vec2 enemyPosition);
-	glm::vec2 GetBestPositionForSniperToReaload(MyTank* myTank);
-	
+	glm::vec2 GetBestPositionForSniperToCover(MyTank* myTank);
+	glm::vec2 GetPositionToCoverFromTargets(glm::vec2 tankPos, float tankSpeed, std::vector<glm::vec2> targets);
+	int CalculateNumLineOfFireCrossAPosByEnemyPos(glm::vec2 position, std::vector<glm::vec2> enemyPos);
+
 	std::vector<glm::vec2> GetPositionsForAttackEnemy(MyTank* myTank, glm::vec2 enemyPosition);
 	std::vector<glm::vec2> GetSafePositionsForEvaluation(MyTank* myTank);
 	std::vector<glm::vec2> GenarateGroundedPositionsUsingBFS(glm::vec2 root, int numPositions);

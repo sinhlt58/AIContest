@@ -13,6 +13,7 @@ enum
 	goal_attack_side_base,
 	goal_defend_base,
 	goal_reload,
-	goal_shoot_enemy
+	goal_shoot_enemy,
+	goal_cover
 };
 
