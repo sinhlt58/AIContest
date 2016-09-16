@@ -48,6 +48,7 @@ public:
 	void MoveOn() { m_bIsMove = true; }
 	void MoveOff() { m_bIsMove = false; }
 	void SetDirection(int d) { m_iCurrentDirection = d; }
+	int GetCurrentDirection() { return m_iCurrentDirection; }
 
 	void AimAndShootAtPosition(glm::vec2 position);
 	int GetDirectionToPosition(glm::vec2 position);
@@ -56,6 +57,7 @@ public:
 	bool isShootableBase(glm::vec2 enemyBasePositon);
 	bool isBulletDangerous(glm::vec2 bulletPosition);
 	bool isSafe()const;
+	int GetType()const;
 
 	/*Target enemy functions*/
 	bool isCurrentEnemyTargetPresent() const
@@ -67,6 +69,9 @@ public:
 	/*Functions that check the future*/
 	void StopInTheNextStepIsDangerous();
 	void AvoidCanNotDodgePos();
+	bool isClosestEnemyTooCloseToSniper(MyTank* myTank, Tank* enemyTank);
+	std::vector<int> SimulateActionsToChooseGoodActions(MyTank* myTank, Tank* enemyTank);
+	bool isThisActionIsGood(MyTank* myTank, Tank* enemyTank, int action);
 private:
 	int m_iId;
 	bool m_bIsShoot;

@@ -82,16 +82,16 @@ void AI_Placement()
 	int test = 6;
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_LIGHT, 5, 1);
-		Game::PlaceTank(TANK_LIGHT, 6, 7);
-		Game::PlaceTank(TANK_LIGHT, 5, 20);
+		Game::PlaceTank(TANK_HEAVY, 5, 1);
+		Game::PlaceTank(TANK_LIGHT, 6, 6);
 		Game::PlaceTank(TANK_LIGHT, 6, 14);
+		Game::PlaceTank(TANK_HEAVY, 5, 20);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_HEAVY, 16, 6);
+		Game::PlaceTank(TANK_LIGHT, 16, 6);
 		Game::PlaceTank(TANK_LIGHT, 17, 15);
 		Game::PlaceTank(TANK_LIGHT, 14, 14);
-		Game::PlaceTank(TANK_HEAVY, 16, 20);
+		Game::PlaceTank(TANK_LIGHT, 16, 20);
 	}
 }
 
@@ -107,15 +107,15 @@ void AI_Update()
 	}	
 	AI *p_AI = AI::GetInstance();
 	/*test*/
-	glm::vec2 tankPos = glm::vec2(5, 7);
-	glm::vec2 bulletPos = glm::vec2(5.5, 6);
+	glm::vec2 tankPos = glm::vec2(11.5, 11.5);
+	glm::vec2 bulletPos = glm::vec2(11.5, 9.5);
 	glm::vec2 bulletDir = glm::vec2(0, 1);
 	glm::vec2 dodgeDir = glm::vec2(0, -1);
 	std::vector<int> blockTypes;
 	blockTypes.push_back(BLOCK_HARD_OBSTACLE);
 	blockTypes.push_back(BLOCK_SOFT_OBSTACLE);
 	blockTypes.push_back(BLOCK_BASE);
-//	std::cout << "Is shootable all case: " << TargetMgr->isShootableFromABulletToASquare(glm::vec2(8, 15.5), glm::vec2(6, 15), blockTypes) << std::endl;
+//	std::cout << "Is shootable all case: " << TargetMgr->isShootableFromABulletToASquare(glm::vec2(6.8, 7.5), glm::vec2(6, 7), blockTypes) << std::endl;
 //	std::cout << isPointInsideTank(glm::vec2(7.8, 1), glm::vec2(7.6, 1)) << std::endl;
 //	std::cout << glm::dot(glm::vec2(1, 0), glm::vec2(-1, 0)) << std::endl;
 //	std::cout << "Distance to dodge by dir: " << TargetMgr->CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dodgeDir) << std::endl;
@@ -130,6 +130,7 @@ void AI_Update()
 //		bulletPos, bulletDir, 1.2) << std::endl;
 //	glm::vec2 a = 2.0f * glm::vec2();
 //	PrintVector("Check vector zero: ", a);
+//	std::cout << Manhattan(glm::vec2(12, 9), glm::vec2(13, 7.5)) << std::endl;
 // =========================================================================================================
 	// Check if there will be any airstrike or EMP
 	// The GetIncomingStrike() function will return an array of strike object. Both called by your team

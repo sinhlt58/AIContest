@@ -913,6 +913,9 @@ bool TargetingSystem::isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 
 			return true;
 		}
 		return false;
+	}else if (isPointInsideTank(bulletPos, tankPos))
+	{
+		return false;
 	}
 	return true;
 }
