@@ -34,32 +34,40 @@ void GoalHuntEnemy::Activate()
 	{
 		if (m_pOwner->isCurrentEnemyTargetPresent())
 		{	
-			Tank* enemyTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
-			int typeEnemy = enemyTank->GetType();
-			int enemyCoolDown = enemyTank->GetCoolDown();
-			glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
-			glm::vec2 dirToMyTank = TargetMgr->GetDirInViewPointToPoint(m_pOwner->GetPosition(), enemyPos);
-			if (enemyCoolDown > 0)
-			{
-				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-			}else
-			{
-				if (m_pOwner->GetApiTank()->GetType() == TANK_HEAVY)
-				{
-					AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-				}else
-				{
-					if (TargetMgr->isTheFakeClosestBulletDangerous(m_pOwner, 
-						enemyPos, dirToMyTank, GetBulletSpeedByTankType(typeEnemy)))
-					{
-						AddSubgoal(new GoalCover(m_pOwner, TargetMgr->GetAllAliveEnemyPositions()));
-					}else
-					{
-						AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-					}
-				}
-			}
-//			AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+//			Tank* enemyTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
+//			int typeEnemy = enemyTank->GetType();
+//			int enemyCoolDown = enemyTank->GetCoolDown();
+//			glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
+//			glm::vec2 dirToMyTank = TargetMgr->GetDirInViewPointToPoint(m_pOwner->GetPosition(), enemyPos);
+//			if (enemyCoolDown > 0)
+//			{
+//				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+//			}else
+//			{
+//				if (m_pOwner->GetApiTank()->GetType() == TANK_HEAVY)
+//				{
+//					AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+//				}else
+//				{
+//					if (TargetMgr->isTheFakeClosestBulletDangerous(m_pOwner, 
+//						enemyPos, dirToMyTank, GetBulletSpeedByTankType(typeEnemy)))
+//					{
+//						AddSubgoal(new GoalCover(m_pOwner, TargetMgr->GetAllAliveEnemyPositions()));
+//					}else
+//					{
+//						AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+//					}
+//				}
+//			}
+			AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+		}
+	}else if (TargetMgr->isShootableAEnemy(m_vCurrentAimPosition, m_pOwner->GetPosition()))
+	{
+		if (m_pOwner->isCurrentEnemyTargetPresent())
+		{
+			std::vector<glm::vec2> target;
+			target.push_back(m_vCurrentAimPosition);
+			AddSubgoal(new GoalCover(m_pOwner, target));
 		}
 	}
 	else

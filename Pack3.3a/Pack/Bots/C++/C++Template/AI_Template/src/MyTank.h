@@ -66,6 +66,7 @@ public:
 	
 	/*Functions that check the future*/
 	void StopInTheNextStepIsDangerous();
+	void AvoidCanNotDodgePos();
 private:
 	int m_iId;
 	bool m_bIsShoot;

@@ -20,6 +20,9 @@ public:
 	bool isShootableFromABulletToASquare(glm::vec2 bulletPos, glm::vec2 squarePos, std::vector<int> blockTypes);
 	bool isShootableFromABulletToASquareNormalCase(glm::vec2 bulletPos, glm::vec2 squarePos, std::vector<int> blockTypes);
 
+	/*functions for predict move*/
+	Tank* GetClosestEnemyTank(glm::vec2 tankPos);
+
 	/*fucntions for attack enemy*/
 	glm::vec2 GetBestEnemyTargetPositionToAttack(MyTank* myTank);
 	glm::vec2 GetBestPositionForSniperToAttack(MyTank* myTank, glm::vec2 enemyPosition);
@@ -45,6 +48,8 @@ public:
 	Bullet* GetClosestDangerBullet(glm::vec2 tankPosition);
 	bool isTheClosestBulletDangerous(MyTank* myTank, Bullet* closestBullet);
 	bool isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
+	bool isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 tankPos, float tankSpeed,
+		glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
 	glm::vec2 FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPos, float tankSpeed, glm::vec2 bulletPos, glm::vec2 bulletDir);
 	float GetDistanceFromAInViewBulletToATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir);
 	int GetTimeAInViewBulletToHitATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
@@ -58,6 +63,7 @@ public:
 	int GetEnemyIdMostChosen();
 	int GetNumChosen(int enemyId);
 	std::vector<glm::vec2> GetAllAliveEnemyPositions();
+	std::vector<Tank*> GetAllAliveEnemyTank();
 	bool isValidGroundPosition(glm::vec2 p);
 	bool isPosInMap(glm::vec2 p);
 	bool isValidPositionByType(glm::vec2 position, std::vector<int> types);

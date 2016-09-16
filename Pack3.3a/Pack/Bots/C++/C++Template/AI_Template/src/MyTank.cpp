@@ -43,12 +43,11 @@ void MyTank::Update()
 	}
 //	std::cout << "Inside update after chose goal.\n";
 	m_pBrain->Process();
-//	if (GetPosition() == glm::vec2(6, 15))
+//	if (GetPosition() == glm::vec2(8, 7))
 //	{
 //		std::cout << "Is the fake bullet danger: " << TargetMgr->isTheFakeClosestBulletDangerous(this,
-//			glm::vec2(8, 15.5), glm::vec2(-1, 0), GetBulletSpeedByTankType(TANK_LIGHT)) << std::endl;
+//			glm::vec2(6, 7), glm::vec2(1, 0), GetBulletSpeedByTankType(TANK_LIGHT)) << std::endl;
 //	}
-	
 	UpdateMovement();
 	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
 	{
@@ -67,6 +66,7 @@ void MyTank::Update()
 	}
 //	MoveOff();
 //	FireOff();
+	AvoidCanNotDodgePos();
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 	SetCurrentClosestDangerBullet(nullptr);
 	SetBestDirToDodgeDangerBullet(glm::vec2());
@@ -234,5 +234,64 @@ void MyTank::StopInTheNextStepIsDangerous()
 	{
 		GetSteering()->SeekOff();
 		MoveOff();
+	}
+}
+
+void MyTank::AvoidCanNotDodgePos()
+{
+	/*This function simulates minimax depth 1*/
+	Tank* closestEnemyTank = TargetMgr->GetClosestEnemyTank(GetPosition());
+	float dangerDistance = 2.5;
+	float dangerCooldown = 1;
+	int currentDirection = m_iCurrentDirection;
+//	std::cout << "Current dir: " << m_iCurrentDirection << std::endl;
+	std::vector<int> setGoodActions;
+	if (closestEnemyTank)
+	{
+		glm::vec2 closestEnemyPos = glm::vec2(closestEnemyTank->GetX(), closestEnemyTank->GetY());
+		if (Manhattan(GetPosition(), closestEnemyPos) <= dangerDistance &&
+			closestEnemyTank->GetCoolDown() <= dangerCooldown)
+		{
+//			PrintVector("My pos: ", GetPosition());
+//			PrintVector("Closest enemy pos: ", closestEnemyPos);
+			for (int myTankAction : GetAllPossibleAction())
+			{
+				glm::vec2 futureMyTankPos = GetPosition() + GetDirByDefineDir(myTankAction)
+					* GetSpeed();
+				if (TargetMgr->isValidTankPosition(futureMyTankPos))
+				{
+					bool isChoose = true;
+					for (int enemyAction : GetAllPossibleAction())
+					{
+						glm::vec2 futureEnemyTankPos = closestEnemyPos + GetDirByDefineDir(enemyAction)
+							* closestEnemyTank->GetSpeed();
+						if (TargetMgr->isValidTankPosition(futureEnemyTankPos) &&
+							!isTwoSquareOverLap(futureMyTankPos, futureEnemyTankPos))
+						{
+							int enemyType = closestEnemyTank->GetType();
+							glm::vec2 fakeBulletDir = 
+								TargetMgr->GetDirInViewPointToPoint(futureMyTankPos, futureEnemyTankPos);
+							int enemyBulletSpeed = GetBulletSpeedByTankType(enemyType);
+							if (fakeBulletDir != glm::vec2() && 
+								!TargetMgr->isTheFakeClosestBulletPossibleToDodgeSideBySide(futureMyTankPos, GetSpeed(),
+									futureEnemyTankPos, fakeBulletDir, enemyBulletSpeed))
+							{
+								isChoose = false;
+								break;
+							}
+						}
+					}
+					if (isChoose)
+						setGoodActions.push_back(myTankAction);
+				}
+			}
+		}
+	}
+
+	auto it = std::find(setGoodActions.begin(), setGoodActions.end(), currentDirection);
+	if (!setGoodActions.empty() && it == setGoodActions.end())
+	{
+		/*maybe evaluate actions here.*/
+		SetDirection(setGoodActions[0]);
 	}
 }

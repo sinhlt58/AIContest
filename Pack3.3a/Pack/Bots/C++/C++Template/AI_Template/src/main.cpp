@@ -82,9 +82,9 @@ void AI_Placement()
 	int test = 6;
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_HEAVY, 5, 1);
+		Game::PlaceTank(TANK_LIGHT, 5, 1);
 		Game::PlaceTank(TANK_LIGHT, 6, 7);
-		Game::PlaceTank(TANK_HEAVY, 5, 20);
+		Game::PlaceTank(TANK_LIGHT, 5, 20);
 		Game::PlaceTank(TANK_LIGHT, 6, 14);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
@@ -107,9 +107,9 @@ void AI_Update()
 	}	
 	AI *p_AI = AI::GetInstance();
 	/*test*/
-	glm::vec2 tankPos = glm::vec2(5, 6);
-	glm::vec2 bulletPos = glm::vec2(7.6, 6);
-	glm::vec2 bulletDir = glm::vec2(-1, 0);
+	glm::vec2 tankPos = glm::vec2(5, 7);
+	glm::vec2 bulletPos = glm::vec2(5.5, 6);
+	glm::vec2 bulletDir = glm::vec2(0, 1);
 	glm::vec2 dodgeDir = glm::vec2(0, -1);
 	std::vector<int> blockTypes;
 	blockTypes.push_back(BLOCK_HARD_OBSTACLE);
@@ -126,6 +126,10 @@ void AI_Update()
 //	PrintVector("Check normalize: ", glm::normalize(glm::vec2(14 -5, 0)));
 //	std::cout << int(0) << std::endl;
 //	std::cout << "Is inside: " << isPointInsideTank(glm::vec2(5, 6.5), glm::vec2(5, 6)) << std::endl;
+//	std::cout << "Test possible to dodge side by side: " << TargetMgr->isTheFakeClosestBulletPossibleToDodgeSideBySide(tankPos, 0.5,
+//		bulletPos, bulletDir, 1.2) << std::endl;
+//	glm::vec2 a = 2.0f * glm::vec2();
+//	PrintVector("Check vector zero: ", a);
 // =========================================================================================================
 	// Check if there will be any airstrike or EMP
 	// The GetIncomingStrike() function will return an array of strike object. Both called by your team

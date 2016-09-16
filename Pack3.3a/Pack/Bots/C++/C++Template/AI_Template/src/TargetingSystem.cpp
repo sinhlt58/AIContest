@@ -258,6 +258,22 @@ bool TargetingSystem::isShootableFromABulletToASquareNormalCase(glm::vec2 bullet
 	return false;
 }
 
+Tank* TargetingSystem::GetClosestEnemyTank(glm::vec2 tankPos)
+{
+	float closestDistance = 999;
+	Tank* closestEnemyTank = nullptr;
+	for (Tank* enemyTank : GetAllAliveEnemyTank())
+	{
+		float distance = Manhattan(glm::vec2(enemyTank->GetX(), enemyTank->GetY()), tankPos);
+		if (distance < closestDistance)
+		{
+			closestDistance = distance;
+			closestEnemyTank = enemyTank;
+		}
+	}
+	return closestEnemyTank;
+}
+
 std::vector<glm::vec2> TargetingSystem::GetPositionsForAttackEnemy(MyTank* myTank, glm::vec2 enemyPosition)
 {
 //	std::vector<glm::vec2> positions;
@@ -567,6 +583,20 @@ std::vector<glm::vec2> TargetingSystem::GetAllAliveEnemyPositions()
 	return enemyPositions;
 }
 
+std::vector<Tank*> TargetingSystem::GetAllAliveEnemyTank()
+{
+	std::vector<Tank*> tanks;
+	for (int i = 0; i< NUMBER_OF_TANK; i++)
+	{
+		Tank* enemyTank = AI::GetInstance()->GetEnemyTank(i);
+		if (enemyTank->GetHP() > 0)
+		{
+			tanks.push_back(enemyTank);
+		}
+	}
+	return tanks;
+}
+
 int TargetingSystem::GetEnemyIdMostChosen()
 {
 	int mostChosen = 0;
@@ -844,6 +874,47 @@ bool TargetingSystem::isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 
 		}
 	}
 	return false;
+}
+
+bool TargetingSystem::isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 tankPos, float tankSpeed,
+	glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed)
+{
+	if (isShootableAEnemy(bulletPos, tankPos))
+	{
+		glm::vec2 bestDirToDodge;
+		int bestTimeToDodge = 99;
+		int timeToHit = GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, bulletSpeed);
+		for (glm::vec2 dirToDodge : dirs)
+		{
+			float dot = glm::dot(dirToDodge, bulletDir);
+			/*Dodge side by side*/
+			if (dot == 0)
+			{
+				float distanceToDodge =
+					CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dirToDodge);
+				int timeToDodge = CalculateTimeToDodgeByDistance(tankSpeed, distanceToDodge);
+				if (isPossibleToMoveByDirAndTime(tankPos, tankSpeed, dirToDodge, timeToDodge))
+				{
+					if (timeToDodge < bestTimeToDodge)
+					{
+						bestTimeToDodge = timeToDodge;
+						bestDirToDodge = dirToDodge;
+					}
+				}
+			}
+		}
+
+		if (bestDirToDodge != glm::vec2())
+		{
+			if (timeToHit < bestTimeToDodge)
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	return true;
 }
 
 glm::vec2 TargetingSystem::FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPos, float tankSpeed, glm::vec2 bulletPos, glm::vec2 bulletDir)

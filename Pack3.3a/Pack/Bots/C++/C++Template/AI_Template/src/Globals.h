@@ -66,3 +66,14 @@ const float goalHuntEnemy = 2;
 const float goalAttackMainBase = 1;
 
 #define HEAVY_BULLET_TYPE 3;
+
+inline std::vector<int> GetAllPossibleAction()
+{
+	std::vector<int> actions;
+	actions.push_back(DIRECTION_LEFT);
+	actions.push_back(DIRECTION_DOWN);
+	actions.push_back(DIRECTION_RIGHT);
+	actions.push_back(DIRECTION_UP);
+	actions.push_back(DIRECTION_NONE);
+	return actions;
+}
