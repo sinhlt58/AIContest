@@ -25,7 +25,7 @@ void GoalHuntEnemy::Activate()
 	//chose best position to go.
 //	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
 //	PrintVector("Mytank position: ", m_pOwner->GetPosition());
-//	PrintVector("Target position: ", m_vCurrentAimPosition);
+	PrintVector("Target position: ", m_vCurrentAimPosition);
 //	PrintVector("Position to attack: ", m_vCurrentGoodPosition);
 	//add subgoal to positon.
 	RemoveAllSubgoals();
@@ -60,14 +60,6 @@ void GoalHuntEnemy::Activate()
 //				}
 //			}
 			AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-		}
-	}else if (TargetMgr->isShootableAEnemy(m_vCurrentAimPosition, m_pOwner->GetPosition()))
-	{
-		if (m_pOwner->isCurrentEnemyTargetPresent())
-		{
-			std::vector<glm::vec2> target;
-			target.push_back(m_vCurrentAimPosition);
-			AddSubgoal(new GoalCover(m_pOwner, target));
 		}
 	}
 	else

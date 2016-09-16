@@ -67,6 +67,8 @@ void MyTank::Update()
 //	MoveOff();
 //	FireOff();
 	AvoidCanNotDodgePos();
+	PrintVector("My current pos: ", GetPosition());
+	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 	SetCurrentClosestDangerBullet(nullptr);
 	SetBestDirToDodgeDangerBullet(glm::vec2());
