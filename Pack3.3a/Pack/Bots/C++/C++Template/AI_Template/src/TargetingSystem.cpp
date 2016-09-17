@@ -876,14 +876,18 @@ bool TargetingSystem::isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 
 	return false;
 }
 
-bool TargetingSystem::isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 tankPos, float tankSpeed,
+bool TargetingSystem::isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 originTankPos, glm::vec2 futureTankPos, float tankSpeed,
 	glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed)
 {
-	if (isShootableAEnemy(bulletPos, tankPos))
+	if (isShootableAEnemy(bulletPos, futureTankPos))
 	{
+//		PrintVector("Tank origin pos: ", originTankPos);
+//		PrintVector("Tank future pos: ", futureTankPos);
+//		PrintVector("Fake bullet pos: ", bulletPos);
 		glm::vec2 bestDirToDodge;
-		int bestTimeToDodge = 99;
-		int timeToHit = GetTimeAInViewBulletToHitATank(tankPos, bulletPos, bulletDir, bulletSpeed);
+		int bestTimeToDodge = 999;
+		int timeToHit = GetTimeAInViewBulletToHitATank(futureTankPos, bulletPos, bulletDir, bulletSpeed);
+//		std::cout << "Time to hit: " << timeToHit << std::endl;
 		for (glm::vec2 dirToDodge : dirs)
 		{
 			float dot = glm::dot(dirToDodge, bulletDir);
@@ -891,10 +895,14 @@ bool TargetingSystem::isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 
 			if (dot == 0)
 			{
 				float distanceToDodge =
-					CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dirToDodge);
+					CalculateDistanceToDodgeBulletByDir(futureTankPos, bulletPos, bulletDir, dirToDodge);
 				int timeToDodge = CalculateTimeToDodgeByDistance(tankSpeed, distanceToDodge);
-				if (isPossibleToMoveByDirAndTime(tankPos, tankSpeed, dirToDodge, timeToDodge))
+//				std::cout << "Time to dodge by dir ";
+//				PrintVector("", dirToDodge);
+//				std::cout << " " << timeToDodge << std::endl;
+				if (isPossibleToMoveByDirAndTime(originTankPos, futureTankPos, tankSpeed, dirToDodge, timeToDodge))
 				{
+//					std::cout << "Inside possible to move by dir and time.\n";
 					if (timeToDodge < bestTimeToDodge)
 					{
 						bestTimeToDodge = timeToDodge;
@@ -908,12 +916,16 @@ bool TargetingSystem::isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 
 		{
 			if (timeToHit < bestTimeToDodge)
 			{
+//				std::cout << "Time to hit: " << timeToHit << std::endl;
+//				std::cout << "Best time to doge: " << bestTimeToDodge << std::endl;
 				return false;
 			}
+//			std::cout << "Can dodge: !!!!!!11" << std::endl;
 			return true;
 		}
+//		std::cout << "Cant find side to dodge:!!!\n";
 		return false;
-	}else if (isPointInsideTank(bulletPos, tankPos))
+	}else if (isPointInsideTank(bulletPos, futureTankPos))
 	{
 		return false;
 	}
@@ -1032,6 +1044,19 @@ bool TargetingSystem::isPossibleToMoveByDirAndTime(glm::vec2 tankPos, float tank
 	{
 		glm::vec2 futurePos = currentTankPos + tankSpeed * dirToMove;
 		if (!isValidTankPosition(futurePos) || isTheSamePositionWithOtherTank(tankPos, futurePos))
+			return false;
+		currentTankPos = futurePos;
+	}
+	return true;
+}
+
+bool TargetingSystem::isPossibleToMoveByDirAndTime(glm::vec2 originTankPos, glm::vec2 tankFuturePos, float tankSpeed, glm::vec2 dirToMove, int timeToMove)
+{
+	glm::vec2 currentTankPos = tankFuturePos;
+	for (int i = 0; i<timeToMove; i++)
+	{
+		glm::vec2 futurePos = currentTankPos + tankSpeed * dirToMove;
+		if (!isValidTankPosition(futurePos) || isTheSamePositionWithOtherTank(originTankPos, futurePos))
 			return false;
 		currentTankPos = futurePos;
 	}

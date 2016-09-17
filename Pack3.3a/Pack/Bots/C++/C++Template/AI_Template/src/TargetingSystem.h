@@ -48,7 +48,7 @@ public:
 	Bullet* GetClosestDangerBullet(glm::vec2 tankPosition);
 	bool isTheClosestBulletDangerous(MyTank* myTank, Bullet* closestBullet);
 	bool isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
-	bool isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 tankPos, float tankSpeed,
+	bool isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 originTankPos, glm::vec2 futureTankPos, float tankSpeed,
 		glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
 	glm::vec2 FindPosToConverIfCantDodgeSideBySide(glm::vec2 tankPos, float tankSpeed, glm::vec2 bulletPos, glm::vec2 bulletDir);
 	float GetDistanceFromAInViewBulletToATank(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir);
@@ -56,7 +56,7 @@ public:
 	float CalculateDistanceToDodgeBulletByDir(glm::vec2 tankPos, glm::vec2 bulletPos, glm::vec2 bulletDir, glm::vec2 dodgeDir);
 	int CalculateTimeToDodgeByDistance(float speed, float distance);
 	bool isPossibleToMoveByDirAndTime(glm::vec2 tankPos, float tankSpeed, glm::vec2 dirToMove, int timeToMove);
-
+	bool isPossibleToMoveByDirAndTime(glm::vec2 originTankPos, glm::vec2 tankFuturePos, float tankSpeed, glm::vec2 dirToMove, int timeToMove);
 	/*Helpful functions*/
 	void ChoseEnemyToTarget(int enemyId);
 	void UnchoseEnemyToTarget(int enemyId);

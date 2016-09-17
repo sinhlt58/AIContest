@@ -83,8 +83,8 @@ void AI_Placement()
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
 		Game::PlaceTank(TANK_HEAVY, 5, 1);
-		Game::PlaceTank(TANK_LIGHT, 6, 6);
-		Game::PlaceTank(TANK_LIGHT, 6, 14);
+		Game::PlaceTank(TANK_LIGHT, 5, 9);
+		Game::PlaceTank(TANK_LIGHT, 7, 14);
 		Game::PlaceTank(TANK_HEAVY, 5, 20);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
