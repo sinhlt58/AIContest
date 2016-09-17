@@ -268,18 +268,20 @@ void MyTank::AvoidCanNotDodgePos()
 //		PrintVector("Close enemy pos: ", glm::vec2(closestEnemyTank->GetX(), closestEnemyTank->GetY()));
 		if (isClosestEnemyTooCloseToSniper(this, closestEnemyTank))
 		{
-			PrintVector("My pos: ", GetPosition());
+//			PrintVector("My pos: ", GetPosition());
 //			PrintVector("Too close enemy pos=================: ", glm::vec2(closestEnemyTank->GetX(), closestEnemyTank->GetY()));
 			std::vector<int> goodActions = SimulateActionsToChooseGoodActions(this, closestEnemyTank);
-			for (int action : goodActions)
-			{
-				std::cout << action << " is a good action.\n";
-			}
+//			for (int action : goodActions)
+//			{
+//				std::cout << action << " is a good action.\n";
+//			}
 			auto it = std::find(goodActions.begin(), goodActions.end(), m_iCurrentDirection);
 			if (!goodActions.empty() && it == goodActions.end())
 			{
 				/*Mybe evaluate the best action here.*/
 				SetDirection(goodActions[0]);
+				if (goodActions[0] != DIRECTION_NONE)
+					MoveOn();
 				FireOff();
 			}
 		}
