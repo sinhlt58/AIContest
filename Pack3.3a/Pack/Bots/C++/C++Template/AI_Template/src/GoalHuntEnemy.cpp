@@ -7,7 +7,7 @@
 #include "HelperFunctions.h"
 #include "GoalGoToPosToAttackEnemy.h"
 #include "GoalCover.h"
-
+glm::vec2 testTargetPos = glm::vec2(2, 14.5);
 GoalHuntEnemy::~GoalHuntEnemy()
 {
 }
@@ -22,7 +22,7 @@ void GoalHuntEnemy::Activate()
 	m_iStatus = active;
 	//chose best enemy target.
 	m_vCurrentAimPosition = TargetMgr->GetBestEnemyTargetPositionToAttack(m_pOwner);
-//	m_vCurrentAimPosition = glm::vec2(5.5, 14);
+//	m_vCurrentAimPosition = testTargetPos;
 	//chose best position to go.
 //	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
 //	PrintVector("Mytank position: ", m_pOwner->GetPosition());
@@ -41,7 +41,7 @@ void GoalHuntEnemy::Activate()
 //				std::cout << "Inside not good to shoot.\n";
 				std::vector<glm::vec2> target;
 				target.push_back(glm::vec2(targetEnemy->GetX(), targetEnemy->GetY()));
-//				target.push_back(glm::vec2(5.5, 14));
+//				target.push_back(testTargetPos);
 				AddSubgoal(new GoalCover(m_pOwner, target));
 			}else
 			{
@@ -73,7 +73,7 @@ bool GoalHuntEnemy::isGoodTooShootThisEnemy(MyTank* myTank, Tank* targetEnemy)
 {
 	glm::vec2 myTankPos = myTank->GetPosition();
 	glm::vec2 fakeBulletPos = glm::vec2(targetEnemy->GetX(), targetEnemy->GetY());
-//	glm::vec2 fakeBulletPos = glm::vec2(5.5, 14);
+//	glm::vec2 fakeBulletPos = testTargetPos;
 	if (TargetMgr->isShootableAEnemy(fakeBulletPos, myTankPos))
 	{
 		float myTankSpeed = myTank->GetSpeed();

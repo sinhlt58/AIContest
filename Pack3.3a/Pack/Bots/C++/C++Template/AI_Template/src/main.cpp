@@ -10,6 +10,7 @@
 #include <set>
 #include "HelperFunctions.h"
 #include <glm/detail/func_geometric.inl>
+#include "MyTeam.h"
 
 // ==================== HOW TO RUN THIS =====================
 // Call:
@@ -76,6 +77,7 @@ void MyInit()
 		MyTank* myTank = new MyTank(i);
 		myTanks.push_back(myTank);
 	}
+	MyTeamMgr->SetTanks(myTanks);
 }
 void AI_Placement()
 {
@@ -83,15 +85,15 @@ void AI_Placement()
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
 		Game::PlaceTank(TANK_HEAVY, 5, 1);
-		Game::PlaceTank(TANK_LIGHT, 5, 9);
-		Game::PlaceTank(TANK_LIGHT, 5, 15);
+		Game::PlaceTank(TANK_LIGHT, 6, 7);
+		Game::PlaceTank(TANK_LIGHT, 6, 14);
 		Game::PlaceTank(TANK_HEAVY, 5, 20);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_LIGHT, 16, 6);
-		Game::PlaceTank(TANK_LIGHT, 17, 15);
-		Game::PlaceTank(TANK_LIGHT, 14, 14);
-		Game::PlaceTank(TANK_LIGHT, 16, 20);
+		Game::PlaceTank(TANK_HEAVY, 5, 1);
+		Game::PlaceTank(TANK_LIGHT, 15, 7);
+		Game::PlaceTank(TANK_LIGHT, 15, 14);
+		Game::PlaceTank(TANK_HEAVY, 5, 20);
 	}
 }
 
@@ -198,10 +200,7 @@ void AI_Update()
 //	}
 
 	std::clock_t start = std::clock();
-	for (auto tank : myTanks)
-	{
-		tank->Update();
-	}
+	MyTeamMgr->Update();
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 	cout << "Update time: " << duration << " s" << endl;
 	// =========================================================================================================

@@ -262,6 +262,8 @@
     <ClCompile Include="src\EvaluationPosition.cpp" />
     <ClCompile Include="src\EvaluatorAttackMainBase.cpp" />
     <ClCompile Include="src\EvaluatorDodgeBullet.cpp" />
+    <ClCompile Include="src\EvaluatorDodgeStrike.cpp" />
+    <ClCompile Include="src\EvaluatorGetPowerUp.cpp" />
     <ClCompile Include="src\EvaluatorHuntEnemy.cpp" />
     <ClCompile Include="src\EvaluatorReload.cpp" />
     <ClCompile Include="src\Globals.cpp" />
@@ -272,8 +274,10 @@
     <ClCompile Include="src\GoalCover.cpp" />
     <ClCompile Include="src\GoalDefendBase.cpp" />
     <ClCompile Include="src\GoalDodgeBullet.cpp" />
+    <ClCompile Include="src\GoalDodgeStrike.cpp" />
     <ClCompile Include="src\GoalEvaluator.cpp" />
     <ClCompile Include="src\GoalFollowPath.cpp" />
+    <ClCompile Include="src\GoalGetPowerUp.cpp" />
     <ClCompile Include="src\GoalGoToPosToAttackEnemy.cpp" />
     <ClCompile Include="src\GoalHuntEnemy.cpp" />
     <ClCompile Include="src\GoalMoveToPosition.cpp" />
@@ -284,6 +288,7 @@
     <ClCompile Include="src\GoalType.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MyTank.cpp" />
+    <ClCompile Include="src\MyTeam.cpp" />
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\PathPlanner.cpp" />
     <ClCompile Include="src\Regulator.cpp" />
@@ -307,6 +312,8 @@
     <ClInclude Include="src\EvaluationPosition.h" />
     <ClInclude Include="src\EvaluatorAttackMainBase.h" />
     <ClInclude Include="src\EvaluatorDodgeBullet.h" />
+    <ClInclude Include="src\EvaluatorDodgeStrike.h" />
+    <ClInclude Include="src\EvaluatorGetPowerUp.h" />
     <ClInclude Include="src\EvaluatorHuntEnemy.h" />
     <ClInclude Include="src\EvaluatorReload.h" />
     <ClInclude Include="src\Globals.h" />
@@ -317,8 +324,10 @@
     <ClInclude Include="src\GoalCover.h" />
     <ClInclude Include="src\GoalDefendBase.h" />
     <ClInclude Include="src\GoalDodgeBullet.h" />
+    <ClInclude Include="src\GoalDodgeStrike.h" />
     <ClInclude Include="src\GoalEvaluator.h" />
     <ClInclude Include="src\GoalFollowPath.h" />
+    <ClInclude Include="src\GoalGetPowerUp.h" />
     <ClInclude Include="src\GoalGoToPosToAttackEnemy.h" />
     <ClInclude Include="src\GoalHuntEnemy.h" />
     <ClInclude Include="src\GoalMoveToPosition.h" />
@@ -329,6 +338,7 @@
     <ClInclude Include="src\GoalType.h" />
     <ClInclude Include="src\HelperFunctions.h" />
     <ClInclude Include="src\MyTank.h" />
+    <ClInclude Include="src\MyTeam.h" />
     <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\PathEdge.h" />
     <ClInclude Include="src\PathPlanner.h" />

@@ -3,7 +3,7 @@
 #include "HelperFunctions.h"
 #include "Globals.h"
 #include <glm/detail/func_geometric.inl>
-
+glm::vec2 testPos = glm::vec2(2, 14.5);
 //int numMove;
 MyTank::MyTank(int id):m_iId(id),
 					   m_bIsShoot(false),
@@ -35,56 +35,19 @@ MyTank::~MyTank()
 void MyTank::Update()
 {
 	//update every loop.
-//	m_pVisionSystem->UpdateVision();
-//	std::cout << "Inside update befor chose goal.\n";
 	if(m_pBrainUpdateRgulator->isReady())
 	{
 		m_pBrain->Aribitrate();
 	}
-//	std::cout << "Inside update after chose goal.\n";
 	m_pBrain->Process();
-//	if (GetPosition() == glm::vec2(8, 7))
-//	{
-//		std::cout << "Is the fake bullet danger: " << TargetMgr->isTheFakeClosestBulletDangerous(this,
-//			glm::vec2(6, 7), glm::vec2(1, 0), GetBulletSpeedByTankType(TANK_LIGHT)) << std::endl;
-//	}
 	UpdateMovement();
-	if (AI::GetInstance()->GetMyTeam() == TEAM_2)
-	{
-		if (numMove < 0)
-		{
-			FireOff();
-			MoveOn();
-			SetDirection(DIRECTION_DOWN);
-			numMove++;
-		}else
-		{
-			FireOff();
-			MoveOff();
-			SetDirection(DIRECTION_LEFT);
-		}
-		for (Bullet* bullet : AI::GetInstance()->GetMyBullets())
-		{
-			glm::vec2 buletPos = glm::vec2(bullet->GetX(), bullet->GetY());
-			if (buletPos.y == 6)
-			{
-//				PrintVector("My pos: ", GetPosition());
-//				std::cout << "Cooldown: " << GetApiTank()->GetCoolDown() << std::endl;
-//				PrintVector("Bullet pos: ", buletPos);
-			}
-			
-		}
-	}else
-	{
-		
-	}
 	
-//	MoveOff();
-//	FireOff();
+//	std::cout << "Is move before final move: " << m_bIsMove << std::endl;
 //	std::cout << "My before final dir to go: " << m_iCurrentDirection << std::endl;
 	AvoidCanNotDodgePos();
 //	PrintVector("My current pos: ", GetPosition());
 //	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
+//	std::cout << "Is move final move: " << m_bIsMove << std::endl;
 //	std::cout << "My final dir to go: " << m_iCurrentDirection << std::endl;
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 	SetCurrentClosestDangerBullet(nullptr);
@@ -93,31 +56,6 @@ void MyTank::Update()
 
 void MyTank::UpdateMovement()
 {
-	if (AI::GetInstance()->GetMyTeam() == TEAM_1)
-	{
-//		FireOff();
-//		m_pSteeringBehavior->SeekOn();
-//		MoveOn();
-//		Bullet* closestBullet = TargetMgr->GetClosestDangerBullet(GetPosition());
-//		if (closestBullet)
-//		{
-//			MoveOn();
-//			if (TargetMgr->isTheClosestBulletDangerous(this, closestBullet))
-//			{
-//				glm::vec2 bestDirToDodge = GetBestDirToDodgeDangerBullet();
-//				glm::vec2 posToDodge = GetPosition() + bestDirToDodge * GetSpeed();
-//				m_pSteeringBehavior->SetTarget(posToDodge);
-//			}else
-//			{
-//				MoveOff();
-//			}
-//			
-//		}
-//		else
-//		{
-//			MoveOff();
-//		}
-	}
 	int direction = m_pSteeringBehavior->Calculate();
 //	std::cout << "Is move on: " << m_bIsMove << std::endl;
 //	std::cout << "Is seek on: " << m_pSteeringBehavior->On(SteeringBehavior::seek) << std::endl;
@@ -127,11 +65,7 @@ void MyTank::UpdateMovement()
 	if (direction != DIRECTION_NONE && m_bIsMove)
 	{
 		SetDirection(direction);
-	}else
-	{
-//		std::cout << "some reason i have to stop.\n";
 	}
-	
 }
 
 Tank* MyTank::GetApiTank() const
@@ -196,14 +130,6 @@ void MyTank::AimAndShootAtPosition(glm::vec2 position)
 int MyTank::GetDirectionToPosition(glm::vec2 aimPos)
 {
 	glm::vec2 aimDir = TargetMgr->GetDirInViewPointToPoint(aimPos, GetPosition());
-//	glm::vec2 currentPos = GetPosition();
-//	if (isPointInsideXView(currentPos, aimPos))
-//	{
-//		aimDir = glm::normalize(glm::vec2(aimPos.x - currentPos.x, 0));
-//	}else if (isPointInsideYView(currentPos, aimPos))
-//	{
-//		aimDir = glm::normalize(glm::vec2(0, aimPos.y - currentPos.y));
-//	}
 	return GetDefaultDirByVectorDir(aimDir);
 }
 
@@ -293,11 +219,11 @@ void MyTank::AvoidCanNotDodgePos()
 bool MyTank::isClosestEnemyTooCloseToSniper(MyTank* myTank, Tank* enemyTank)
 {
 	float dangerDistance = 2.5;
-	float dangerCooldown = 1;
+	float dangerCooldown = 0;
 	float distanceBetween = Manhattan(myTank->GetPosition(), 
 		glm::vec2(enemyTank->GetX(), enemyTank->GetY()));
 //	float distanceBetween = Manhattan(myTank->GetPosition(),
-//		glm::vec2(5.5, 14));
+//		testPos);
 //	std::cout << "Distance: " << distanceBetween << std::endl;
 //	std::cout << "Enemy cool down: " << enemyTank->GetCoolDown() << std::endl;
 	return (myTank->GetType() != TANK_HEAVY) &&
@@ -326,7 +252,7 @@ bool MyTank::isThisActionIsGood(MyTank* myTank, Tank* enemyTank, int action)
 	if (TargetMgr->isValidTankPosition(myTankFuturePos))
 	{
 		glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
-//		glm::vec2 enemyPos = glm::vec2(5.5, 14);
+//		glm::vec2 enemyPos = testPos;
 		float bulletSpeed = GetBulletSpeedByTankType(enemyTank->GetType());
 		for (int enemyAction : GetAllPossibleAction())
 		{

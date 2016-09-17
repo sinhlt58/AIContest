@@ -57,6 +57,7 @@ public:
 	int CalculateTimeToDodgeByDistance(float speed, float distance);
 	bool isPossibleToMoveByDirAndTime(glm::vec2 tankPos, float tankSpeed, glm::vec2 dirToMove, int timeToMove);
 	bool isPossibleToMoveByDirAndTime(glm::vec2 originTankPos, glm::vec2 tankFuturePos, float tankSpeed, glm::vec2 dirToMove, int timeToMove);
+	
 	/*Helpful functions*/
 	void ChoseEnemyToTarget(int enemyId);
 	void UnchoseEnemyToTarget(int enemyId);

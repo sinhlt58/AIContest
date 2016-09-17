@@ -120,6 +120,21 @@
     <ClCompile Include="src\GoalGoToPosToAttackEnemy.cpp">
       <Filter>MyCode</Filter>
     </ClCompile>
+    <ClCompile Include="src\GoalGetPowerUp.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluatorGetPowerUp.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoalDodgeStrike.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluatorDodgeStrike.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyTeam.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ai\AI.h">
@@ -252,6 +267,21 @@
       <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="src\GoalGoToPosToAttackEnemy.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalGetPowerUp.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluatorGetPowerUp.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalDodgeStrike.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluatorDodgeStrike.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyTeam.h">
       <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>

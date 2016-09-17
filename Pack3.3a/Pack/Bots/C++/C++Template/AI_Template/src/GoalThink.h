@@ -23,6 +23,8 @@ public:
 	void AddGoalDodgeBullet();
 	void AddGoalAttackMainBase();
 	void AddGoalReload();
+	void AddGoalGetPowerUp();
+	void AddGoalDodgeStrike();
 
 private:
 	std::vector<GoalEvaluator*> m_vEvaluators;
