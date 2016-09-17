@@ -63,7 +63,7 @@ public:
 	bool isCurrentEnemyTargetPresent() const
 	{ return m_iCurrentTargetEnemyId != -1; }
 	void SetCurrentEnemyId(int id) { m_iCurrentTargetEnemyId = id; };
-	int GetCurrentEnemyId() const
+	int GetCurrentTargetEnemyId() const
 	{ return m_iCurrentTargetEnemyId; }
 	
 	/*Functions that check the future*/

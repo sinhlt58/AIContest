@@ -410,6 +410,18 @@ bool TargetingSystem::isTheSamePositionWithOtherTank(glm::vec2 myTankPosition, g
 	return false;
 }
 
+bool TargetingSystem::isTheSamePositionWithOtherTanks(glm::vec2 checkPos, std::vector<glm::vec2> otherTankPos)
+{
+	for (glm::vec2 p : otherTankPos)
+	{
+		if (isTwoSquareOverLap(checkPos, p))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 std::vector<glm::vec2> TargetingSystem::GetGroundAjacentPositions(glm::vec2 position)
 {
 	std::vector<glm::vec2> ajacentPositions;

@@ -18,5 +18,7 @@ public:
 private:
 	glm::vec2 m_vCurrentAimPosition;
 	glm::vec2 m_vCurrentGoodPosition;
+
+	bool isGoodTooShootThisEnemy(MyTank* myTank, Tank* targetEnemy);
 };
 

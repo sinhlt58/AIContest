@@ -81,9 +81,11 @@ void MyTank::Update()
 	
 //	MoveOff();
 //	FireOff();
+//	std::cout << "My before final dir to go: " << m_iCurrentDirection << std::endl;
 	AvoidCanNotDodgePos();
 //	PrintVector("My current pos: ", GetPosition());
 //	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
+//	std::cout << "My final dir to go: " << m_iCurrentDirection << std::endl;
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 	SetCurrentClosestDangerBullet(nullptr);
 	SetBestDirToDodgeDangerBullet(glm::vec2());
@@ -290,12 +292,12 @@ void MyTank::AvoidCanNotDodgePos()
 
 bool MyTank::isClosestEnemyTooCloseToSniper(MyTank* myTank, Tank* enemyTank)
 {
-	float dangerDistance = 3.5;
-	float dangerCooldown = 2;
+	float dangerDistance = 2.5;
+	float dangerCooldown = 1;
 	float distanceBetween = Manhattan(myTank->GetPosition(), 
 		glm::vec2(enemyTank->GetX(), enemyTank->GetY()));
 //	float distanceBetween = Manhattan(myTank->GetPosition(),
-//		glm::vec2(5, 12));
+//		glm::vec2(5.5, 14));
 //	std::cout << "Distance: " << distanceBetween << std::endl;
 //	std::cout << "Enemy cool down: " << enemyTank->GetCoolDown() << std::endl;
 	return (myTank->GetType() != TANK_HEAVY) &&
@@ -324,18 +326,23 @@ bool MyTank::isThisActionIsGood(MyTank* myTank, Tank* enemyTank, int action)
 	if (TargetMgr->isValidTankPosition(myTankFuturePos))
 	{
 		glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
-//		glm::vec2 enemyPos = glm::vec2(5, 12);
+//		glm::vec2 enemyPos = glm::vec2(5.5, 14);
 		float bulletSpeed = GetBulletSpeedByTankType(enemyTank->GetType());
 		for (int enemyAction : GetAllPossibleAction())
 		{
 			glm::vec2 enemyFuturePos = enemyPos + 
 				enemyTank->GetSpeed() * GetDirByDefineDir(enemyAction);
+
+			if (isTwoSquareOverLap(myTankFuturePos, enemyFuturePos))
+				return false;
+
 			if(TargetMgr->isValidTankPosition(enemyFuturePos) && 
 			   TargetMgr->isShootableAEnemy(enemyFuturePos, myTankFuturePos))
 			{
 				glm::vec2 fakeBulletDir = 
 					TargetMgr->GetDirInViewPointToPoint(myTankFuturePos, enemyFuturePos);
-				glm::vec2 fakeBulletPos = enemyFuturePos + bulletSpeed * fakeBulletDir;
+//				glm::vec2 fakeBulletPos = enemyFuturePos + bulletSpeed * fakeBulletDir;
+				glm::vec2 fakeBulletPos = enemyFuturePos;
 				if (!TargetMgr->isTheFakeClosestBulletPossibleToDodgeSideBySide(myTank->GetPosition(), myTankFuturePos, myTank->GetSpeed(),
 					fakeBulletPos, fakeBulletDir, bulletSpeed))
 				{
@@ -344,8 +351,7 @@ bool MyTank::isThisActionIsGood(MyTank* myTank, Tank* enemyTank, int action)
 //					PrintVector("Counter enemy future pos: ", enemyFuturePos);
 //					PrintVector("Fakek bullet enemy counter pos: ", fakeBulletPos);
 					return false;
-				}
-					
+				}		
 			}
 		}
 		return true;

@@ -22,6 +22,7 @@ void GoalHuntEnemy::Activate()
 	m_iStatus = active;
 	//chose best enemy target.
 	m_vCurrentAimPosition = TargetMgr->GetBestEnemyTargetPositionToAttack(m_pOwner);
+//	m_vCurrentAimPosition = glm::vec2(5.5, 14);
 	//chose best position to go.
 //	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);
 //	PrintVector("Mytank position: ", m_pOwner->GetPosition());
@@ -34,32 +35,18 @@ void GoalHuntEnemy::Activate()
 	{
 		if (m_pOwner->isCurrentEnemyTargetPresent())
 		{	
-//			Tank* enemyTank = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentEnemyId());
-//			int typeEnemy = enemyTank->GetType();
-//			int enemyCoolDown = enemyTank->GetCoolDown();
-//			glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
-//			glm::vec2 dirToMyTank = TargetMgr->GetDirInViewPointToPoint(m_pOwner->GetPosition(), enemyPos);
-//			if (enemyCoolDown > 0)
-//			{
-//				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-//			}else
-//			{
-//				if (m_pOwner->GetApiTank()->GetType() == TANK_HEAVY)
-//				{
-//					AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-//				}else
-//				{
-//					if (TargetMgr->isTheFakeClosestBulletDangerous(m_pOwner, 
-//						enemyPos, dirToMyTank, GetBulletSpeedByTankType(typeEnemy)))
-//					{
-//						AddSubgoal(new GoalCover(m_pOwner, TargetMgr->GetAllAliveEnemyPositions()));
-//					}else
-//					{
-//						AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-//					}
-//				}
-//			}
-			AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+			Tank* targetEnemy = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentTargetEnemyId());
+			if (!isGoodTooShootThisEnemy(m_pOwner, targetEnemy))
+			{
+//				std::cout << "Inside not good to shoot.\n";
+				std::vector<glm::vec2> target;
+				target.push_back(glm::vec2(targetEnemy->GetX(), targetEnemy->GetY()));
+//				target.push_back(glm::vec2(5.5, 14));
+				AddSubgoal(new GoalCover(m_pOwner, target));
+			}else
+			{
+				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
+			}
 		}
 	}
 	else
@@ -80,4 +67,32 @@ int GoalHuntEnemy::Process()
 void GoalHuntEnemy::Terminate()
 {
 //	m_pOwner->MoveOff();
+}
+
+bool GoalHuntEnemy::isGoodTooShootThisEnemy(MyTank* myTank, Tank* targetEnemy)
+{
+	glm::vec2 myTankPos = myTank->GetPosition();
+	glm::vec2 fakeBulletPos = glm::vec2(targetEnemy->GetX(), targetEnemy->GetY());
+//	glm::vec2 fakeBulletPos = glm::vec2(5.5, 14);
+	if (TargetMgr->isShootableAEnemy(fakeBulletPos, myTankPos))
+	{
+		float myTankSpeed = myTank->GetSpeed();
+		glm::vec2 fakeBulletDir = TargetMgr->GetDirInViewPointToPoint(myTankPos, fakeBulletPos);
+		float bulletSpeed = GetBulletSpeedByTankType(targetEnemy->GetType());
+
+//		bool isNotGoodToShoot = myTank->isClosestEnemyTooCloseToSniper(myTank, targetEnemy)
+//			&& (targetEnemy->GetCoolDown() <= 0)
+//			&& (myTank->SimulateActionsToChooseGoodActions(myTank, targetEnemy).size() == 0)
+//			&& TargetMgr->isTheFakeClosestBulletPossibleToDodgeSideBySide(myTankPos, myTankPos, myTankSpeed,
+//															fakeBulletPos, fakeBulletDir, bulletSpeed)
+//			;
+		bool isNotGoodToShoot = myTank->isClosestEnemyTooCloseToSniper(myTank, targetEnemy)
+			&& (targetEnemy->GetCoolDown() <= 0)
+			&& TargetMgr->isTheFakeClosestBulletPossibleToDodgeSideBySide(myTankPos, myTankPos, myTankSpeed,
+				fakeBulletPos, fakeBulletDir, bulletSpeed)
+			;
+
+		return !isNotGoodToShoot;
+	}
+	return true;
 }

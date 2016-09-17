@@ -69,7 +69,8 @@ public:
 	bool isValidPositionByType(glm::vec2 position, std::vector<int> types);
 	std::vector<glm::vec2> GetAllTankPositions();
 	bool isTheSamePositionWithOtherTank(glm::vec2 myTankPosition, glm::vec2 checkedPosition);
-	
+	bool isTheSamePositionWithOtherTanks(glm::vec2 checkPos, std::vector<glm::vec2> otherTankPos);
+
 	/*Check valid tank position*/
 	bool isValidTankPosition(glm::vec2 tankPos);
 	std::vector<int> ExtractCoordinate(float xOrY);
