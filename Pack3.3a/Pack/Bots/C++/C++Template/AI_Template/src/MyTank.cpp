@@ -3,6 +3,7 @@
 #include "HelperFunctions.h"
 #include "Globals.h"
 #include <glm/detail/func_geometric.inl>
+#include "MyTeam.h"
 glm::vec2 testPos = glm::vec2(2, 14.5);
 //int numMove;
 MyTank::MyTank(int id):m_iId(id),
@@ -40,6 +41,8 @@ void MyTank::Update()
 		m_pBrain->Aribitrate();
 	}
 	m_pBrain->Process();
+	PrintVector("Current pos: ", GetPosition());
+	std::cout << "I am in side my side: " << MyTeamMgr->isMyTankInsideMySide(GetPosition()) << std::endl;
 	UpdateMovement();
 	
 //	std::cout << "Is move before final move: " << m_bIsMove << std::endl;
@@ -172,6 +175,16 @@ bool MyTank::isSafe() const
 int MyTank::GetType() const
 {
 	return GetApiTank()->GetType();
+}
+
+glm::vec2 MyTank::GetCurrentTargetEnemyPos()
+{
+	if (isCurrentEnemyTargetPresent())
+	{
+		Tank* enemyTank = AI::GetInstance()->GetEnemyTank(m_iCurrentTargetEnemyId);
+		return glm::vec2(enemyTank->GetX(), enemyTank->GetY());
+	}
+	return glm::vec2();
 }
 
 void MyTank::StopInTheNextStepIsDangerous()

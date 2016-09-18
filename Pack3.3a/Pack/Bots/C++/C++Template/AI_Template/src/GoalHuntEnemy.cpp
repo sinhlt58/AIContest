@@ -21,7 +21,7 @@ void GoalHuntEnemy::Activate()
 //	std::cout << "Inside goal huntn enemy.\n";
 	m_iStatus = active;
 	//chose best enemy target.
-	m_vCurrentAimPosition = TargetMgr->GetBestEnemyTargetPositionToAttack(m_pOwner);
+	m_vCurrentAimPosition = m_pOwner->GetCurrentTargetEnemyPos();
 //	m_vCurrentAimPosition = testTargetPos;
 	//chose best position to go.
 //	m_vCurrentGoodPosition = TargetMgr->GetBestPositionForSniperToAttack(m_pOwner, m_vCurrentAimPosition);

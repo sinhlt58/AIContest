@@ -7,8 +7,10 @@ EvaluatorHuntEnemy::~EvaluatorHuntEnemy()
 
 float EvaluatorHuntEnemy::CalculateDesirability(MyTank* pTank)
 {
-	if (pTank->GetCoolDown() <= 0)
+	if (pTank->GetCoolDown() <= 0 && pTank->isCurrentEnemyTargetPresent())
 	{
+		if (TargetMgr->isShootableAEnemy(pTank->GetPosition(), pTank->GetCurrentTargetEnemyPos()))
+			return 201;
 		return 100;
 	}
 	return goalHuntEnemy;

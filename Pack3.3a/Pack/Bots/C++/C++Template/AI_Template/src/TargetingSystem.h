@@ -24,7 +24,7 @@ public:
 	Tank* GetClosestEnemyTank(glm::vec2 tankPos);
 
 	/*fucntions for attack enemy*/
-	glm::vec2 GetBestEnemyTargetPositionToAttack(MyTank* myTank);
+	void UpdateTargetForATank(MyTank* myTank);
 	glm::vec2 GetBestPositionForSniperToAttack(MyTank* myTank, glm::vec2 enemyPosition);
 	glm::vec2 GetBestPositionForSniperToCover(MyTank* myTank);
 	glm::vec2 GetPositionToCoverFromTargets(glm::vec2 tankPos, float tankSpeed, std::vector<glm::vec2> targets);

@@ -434,7 +434,7 @@ std::vector<glm::vec2> TargetingSystem::GetGroundAjacentPositions(glm::vec2 posi
 	return ajacentPositions;
 }
 
-glm::vec2 TargetingSystem::GetBestEnemyTargetPositionToAttack(MyTank* myTank)
+void TargetingSystem::UpdateTargetForATank(MyTank* myTank)
 {
 	std::priority_queue<EvaluationPosition> pq;
 	for (int i=0; i<NUMBER_OF_TANK; i++)
@@ -457,10 +457,7 @@ glm::vec2 TargetingSystem::GetBestEnemyTargetPositionToAttack(MyTank* myTank)
 	{
 		myTank->SetCurrentEnemyId(pq.top().GetTargetEnemyId());
 		ChoseEnemyToTarget(pq.top().GetTargetEnemyId());
-		return pq.top().GetPosition();
 	}
-		
-	return glm::vec2();
 }
 
 glm::vec2 TargetingSystem::GetBestPositionForSniperToAttack(MyTank* myTank, glm::vec2 enemyPosition)

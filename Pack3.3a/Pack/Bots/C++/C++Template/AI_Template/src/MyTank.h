@@ -65,6 +65,7 @@ public:
 	void SetCurrentEnemyId(int id) { m_iCurrentTargetEnemyId = id; };
 	int GetCurrentTargetEnemyId() const
 	{ return m_iCurrentTargetEnemyId; }
+	glm::vec2 GetCurrentTargetEnemyPos();
 	
 	/*Functions that check the future*/
 	void StopInTheNextStepIsDangerous();

@@ -20,7 +20,6 @@ void GoalGetPowerUp::Activate()
 	glm::vec2 powerUpPos = MyTeamMgr->GetCurrentPowerUpPos();
 	if (powerUpPos != glm::vec2())
 	{
-		PrintVector("Power up pos inside goal: ", powerUpPos);
 		AddSubgoal(new GoalMoveToPosition(m_pOwner, powerUpPos));
 	}
 }
