@@ -37,6 +37,14 @@ public:
 	/*Preparing for attacking*/
 	glm::vec2 GetBestPreparingPosition(glm::vec2 tankPos);
 
+	/*Dodge strikes*/
+	bool isTheComingStrikeDangerous();
+	std::vector<glm::vec2> GetDangerouseStrikePos();
+	std::vector<glm::vec2> GetDangerouseStrikePosToTank(glm::vec2 tankPos);
+	void UpdateDangerousStrike();
+
+	/*helpfull*/
+	int GetMyTeam() { return m_iMyTeam; }
 	static MyTeam* GetInstance();
 private:
 	std::vector<MyTank*> m_vTanks;
@@ -49,4 +57,5 @@ private:
 	int m_iEnemyTeam;
 	std::vector<glm::vec2> m_vPreparingPositions;
 	std::vector<glm::vec2> m_vDefendingPositions;
+	std::vector<glm::vec2> m_vUpComingDangerStrikePos;
 };

@@ -12,4 +12,7 @@ public:
 	void Activate() override;
 	int Process() override;
 	void Terminate() override;
+
+private:
+	glm::vec2 CalculateBestPosToRunAway(glm::vec2 strikePos);
 };

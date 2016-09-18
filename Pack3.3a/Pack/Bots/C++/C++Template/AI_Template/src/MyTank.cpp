@@ -41,13 +41,14 @@ void MyTank::Update()
 		m_pBrain->Aribitrate();
 	}
 	m_pBrain->Process();
+	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
 	UpdateMovement();
 	
 //	std::cout << "Is move before final move: " << m_bIsMove << std::endl;
 //	std::cout << "My before final dir to go: " << m_iCurrentDirection << std::endl;
 	AvoidCanNotDodgePos();
 //	PrintVector("My current pos: ", GetPosition());
-//	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
+	
 //	std::cout << "Is move final move: " << m_bIsMove << std::endl;
 //	std::cout << "My final dir to go: " << m_iCurrentDirection << std::endl;
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);

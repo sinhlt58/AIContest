@@ -84,16 +84,16 @@ void AI_Placement()
 	int test = 6;
 	AI *p_AI = AI::GetInstance();
 	if (p_AI->GetMyTeam() == TEAM_1) {
-		Game::PlaceTank(TANK_HEAVY, 5, 1);
-		Game::PlaceTank(TANK_LIGHT, 6, 7);
-		Game::PlaceTank(TANK_LIGHT, 6, 14);
-		Game::PlaceTank(TANK_HEAVY, 5, 20);
+		Game::PlaceTank(TANK_LIGHT, 7, 1);
+		Game::PlaceTank(TANK_LIGHT, 7, 7);
+		Game::PlaceTank(TANK_LIGHT, 7, 14);
+		Game::PlaceTank(TANK_LIGHT, 7, 20);
 	}
 	else if (p_AI->GetMyTeam() == TEAM_2) {
-		Game::PlaceTank(TANK_HEAVY, 5, 1);
-		Game::PlaceTank(TANK_LIGHT, 15, 7);
-		Game::PlaceTank(TANK_LIGHT, 15, 14);
-		Game::PlaceTank(TANK_HEAVY, 5, 20);
+		Game::PlaceTank(TANK_LIGHT, 14, 1);
+		Game::PlaceTank(TANK_LIGHT, 14, 7);
+		Game::PlaceTank(TANK_LIGHT, 14, 14);
+		Game::PlaceTank(TANK_LIGHT, 14, 20);
 	}
 }
 
@@ -134,71 +134,6 @@ void AI_Update()
 //	PrintVector("Check vector zero: ", a);
 //	std::cout << Manhattan(glm::vec2(12, 9), glm::vec2(13, 7.5)) << std::endl;
 // =========================================================================================================
-	// Check if there will be any airstrike or EMP
-	// The GetIncomingStrike() function will return an array of strike object. Both called by your team
-	// or enemy team.
-	// =========================================================================================================
-
-	std::vector<Strike*> strike = p_AI->GetIncomingStrike();
-	for (int i = 0; i<strike.size(); i++)
-	{
-		float x = strike[i]->GetX();
-		float y = strike[i]->GetY();
-		int count = strike[i]->GetCountDown(); // Delay (in server loop) before the strike reach the battlefield.
-		int type = strike[i]->GetType();
-
-		if (type == POWERUP_AIRSTRIKE)
-		{
-			// You may want to do something here, like moving your tank away if the strike is on top of your tank.
-		}
-		else if (type == POWERUP_EMP)
-		{
-			// Run... RUN!!!!
-		}
-	}
-
-	// =========================================================================================================
-	// Get power up list on the map. You may want to move your tank there and secure it before your enemy
-	// does it. You can get coordination, and type from this object
-	// =========================================================================================================
-	std::vector<PowerUp*>  powerUp = p_AI->GetPowerUpList();
-	for (int i = 0; i<powerUp.size(); i++) {
-		float x = powerUp[i]->GetX();
-		float y = powerUp[i]->GetY();
-		int type = powerUp[i]->GetType();
-		if (type == POWERUP_AIRSTRIKE)
-		{
-			// You may want to move your tank to this position to secure this power up.
-		}
-		else if (type == POWERUP_EMP)
-		{
-			// Do something else
-		}
-	}
-	
-	// =========================================================================================================
-	// This is an example on how you command your tanks.
-	// In this example, I go through all of my "still intact" tanks, and give them random commands.
-	// =========================================================================================================
-	// Loop through all tank (if not dead yet)
-//	for (int i = 0; i<NUMBER_OF_TANK; i++) {
-//		Tank* tempTank = p_AI->GetMyTank(i);
-//		//don't waste effort if tank's death
-//		if ((tempTank == NULL) || (tempTank->GetHP() == 0))
-//			continue;
-//		
-//		// Run randomly and fire as soon as cooldown finish.
-//		// You may want a more ... intelligent algorithm here.
-//		Game::CommandTank(i, DIRECTION_UP, true, true);
-////		if (rand() % 100 > 90) {
-////			int direction = rand() % 4 + 1;
-////			Game::CommandTank(i, direction, true, true);	// Turn into the direction, keep moving, and firing like there is no tomorrow
-////		}
-////		else {
-////			Game::CommandTank(i, NULL, true, true);	// Keep the old direction, keep on moving and firing.
-////		}
-//	}
-
 	std::clock_t start = std::clock();
 	MyTeamMgr->Update();
 	double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
@@ -233,7 +168,6 @@ void AI_Update()
 	// Leave this here, don't remove it.
 	// This command will send all of your tank command to server
 	Game::GetInstance()->SendCommand();
-	Globals::s_TotalLoops++;
 //	std::cout << "Num of loops: " << Globals::s_TotalLoops << std::endl;
 }
 

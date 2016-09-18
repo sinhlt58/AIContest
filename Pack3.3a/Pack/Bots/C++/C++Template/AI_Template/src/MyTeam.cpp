@@ -6,7 +6,7 @@
 
 int const left_side = 7;
 int const right_side = 14;
-int const prepare_time = 3;
+int const prepare_time = 4;
 
 MyTeam::MyTeam()
 {
@@ -49,6 +49,10 @@ void MyTeam::Update()
 	UpdateClosestTankToPowerUp();
 	UpdateTarget();
 	UpdateState();
+	UpdateDangerousStrike();
+	
+//	std::cout << "Total loop: " << Globals::s_TotalLoops << std::endl;
+//	PrintVector("Good preparing pos: ", GetBestPreparingPosition(glm::vec2(15, 7)));
 	for (MyTank* tank : m_vTanks)
 	{
 		tank->Update();
@@ -61,9 +65,19 @@ void MyTeam::UpdateClosestTankToPowerUp()
 	std::vector<PowerUp*>  powerUp = AI::GetInstance()->GetPowerUpList();
 	m_iClosestTankToPowerUp = -1;
 	m_vCurrentPowerUpPos = glm::vec2();
+	std::cout << powerUp.size() << std::endl;
 	if (!powerUp.empty())
 	{
-		m_vCurrentPowerUpPos = glm::vec2(powerUp[0]->GetX(), powerUp[0]->GetY());
+		int firstPowerUpActive = 0;
+//		for(int i=0; i< powerUp.size(); i++)
+//		{
+//			if (powerUp[i]->IsActive())
+//			{
+//				firstPowerUpActive = i;
+//				break;
+//			}
+//		}
+		m_vCurrentPowerUpPos = glm::vec2(powerUp[firstPowerUpActive]->GetX(), powerUp[firstPowerUpActive]->GetY());
 		float fastestTimeToPowerUp = 999;
 		for (MyTank* tank : m_vTanks)
 		{
@@ -153,6 +167,49 @@ glm::vec2 MyTeam::GetBestPreparingPosition(glm::vec2 tankPos)
 		}
 	}
 	return bestPreparingPos;
+}
+
+bool MyTeam::isTheComingStrikeDangerous()
+{
+	return !m_vUpComingDangerStrikePos.empty();
+}
+
+std::vector<glm::vec2> MyTeam::GetDangerouseStrikePos()
+{
+	return m_vUpComingDangerStrikePos;
+}
+
+std::vector<glm::vec2> MyTeam::GetDangerouseStrikePosToTank(glm::vec2 tankPos)
+{
+	float dangerousDistance = 6;
+	std::vector<glm::vec2> dangerousPos;
+	for (glm::vec2 p : m_vUpComingDangerStrikePos)
+	{
+		if (Manhattan(tankPos, p) <= dangerousDistance)
+		{
+			dangerousPos.push_back(p);
+		}
+	}
+	return dangerousPos;
+}
+
+void MyTeam::UpdateDangerousStrike()
+{
+	int dangerousTimeStrike = 6;
+	m_vUpComingDangerStrikePos.clear();
+	std::vector<Strike*> strike = AI::GetInstance()->GetIncomingStrike();
+	for (int i = 0; i<strike.size(); i++)
+	{
+		float x = strike[i]->GetX();
+		float y = strike[i]->GetY();
+		int count = strike[i]->GetCountDown(); // Delay (in server loop) before the strike reach the battlefield.
+		int type = strike[i]->GetType();
+		
+		if (count <= dangerousTimeStrike)
+		{
+			m_vUpComingDangerStrikePos.push_back(glm::vec2(x, y));
+		}
+	}
 }
 
 MyTeam* MyTeam::GetInstance()
