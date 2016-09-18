@@ -25,6 +25,7 @@ public:
 	void AddGoalReload();
 	void AddGoalGetPowerUp();
 	void AddGoalDodgeStrike();
+	void AddGoalTakeGoodPosition();
 
 private:
 	std::vector<GoalEvaluator*> m_vEvaluators;

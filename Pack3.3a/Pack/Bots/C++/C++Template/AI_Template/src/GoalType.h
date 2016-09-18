@@ -16,6 +16,7 @@ enum
 	goal_cover,
 	goal_go_to_pos_to_attack_enemy,
 	goal_get_powerup,
-	goal_dodge_strike
+	goal_dodge_strike,
+	goal_take_good_position
 };
 

@@ -41,8 +41,6 @@ void MyTank::Update()
 		m_pBrain->Aribitrate();
 	}
 	m_pBrain->Process();
-	PrintVector("Current pos: ", GetPosition());
-	std::cout << "I am in side my side: " << MyTeamMgr->isMyTankInsideMySide(GetPosition()) << std::endl;
 	UpdateMovement();
 	
 //	std::cout << "Is move before final move: " << m_bIsMove << std::endl;

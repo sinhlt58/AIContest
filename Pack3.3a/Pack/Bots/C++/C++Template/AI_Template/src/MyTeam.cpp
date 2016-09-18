@@ -6,9 +6,11 @@
 
 int const left_side = 7;
 int const right_side = 14;
+int const prepare_time = 3;
 
 MyTeam::MyTeam()
 {
+	float preparingX;
 	m_iClosestTankToPowerUp = -1;
 	if (AI::GetInstance()->GetMyTeam() == TEAM_1)
 	{
@@ -16,12 +18,18 @@ MyTeam::MyTeam()
 		m_fMySide = left_side;
 		m_iMyTeam = TEAM_1;
 		m_iEnemyTeam = TEAM_2;
+		preparingX = 9;
 	}else
 	{
 		m_fEnemySide = left_side;
 		m_fMySide = right_side;
 		m_iMyTeam = TEAM_2;
 		m_iEnemyTeam = TEAM_1;
+		preparingX = 12;
+	}
+	for (int i=1; i<=MAP_W-2;i++)
+	{
+		m_vPreparingPositions.push_back(glm::vec2(preparingX, i));
 	}
 	m_iCurrentState = PREPARE_ATTACKING;
 }
@@ -40,10 +48,12 @@ void MyTeam::Update()
 {
 	UpdateClosestTankToPowerUp();
 	UpdateTarget();
+	UpdateState();
 	for (MyTank* tank : m_vTanks)
 	{
 		tank->Update();
 	}
+	Globals::s_TotalLoops++;
 }
 
 void MyTeam::UpdateClosestTankToPowerUp()
@@ -84,7 +94,14 @@ void MyTeam::UpdateTarget()
 
 void MyTeam::UpdateState()
 {
-
+	if (Globals::s_TotalLoops <= prepare_time)
+	{
+		m_iCurrentState = PREPARE_ATTACKING;
+	}	
+	else
+	{
+		m_iCurrentState = ATTACKING;
+	}
 }
 
 void MyTeam::SetState(unsigned state)
@@ -120,6 +137,22 @@ bool MyTeam::isTankInsideTheirSide(float x, int team, float sideX)
 		return x > sideX - 1;
 	}
 	return false;
+}
+
+glm::vec2 MyTeam::GetBestPreparingPosition(glm::vec2 tankPos)
+{
+	float closestDistance = 999;
+	glm::vec2 bestPreparingPos;
+	for (glm::vec2 p : m_vPreparingPositions)
+	{
+		float distance = Manhattan(p, tankPos);
+		if (distance < closestDistance)
+		{
+			closestDistance = distance;
+			bestPreparingPos = p;
+		}
+	}
+	return bestPreparingPos;
 }
 
 MyTeam* MyTeam::GetInstance()

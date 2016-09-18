@@ -135,6 +135,12 @@
     <ClCompile Include="src\MyTeam.cpp">
       <Filter>MyCode</Filter>
     </ClCompile>
+    <ClCompile Include="src\GoalTakeGoodPosition.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EvaluatorTakeGoodPosition.cpp">
+      <Filter>MyCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ai\AI.h">
@@ -282,6 +288,12 @@
       <Filter>MyCode</Filter>
     </ClInclude>
     <ClInclude Include="src\MyTeam.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoalTakeGoodPosition.h">
+      <Filter>MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EvaluatorTakeGoodPosition.h">
       <Filter>MyCode</Filter>
     </ClInclude>
   </ItemGroup>

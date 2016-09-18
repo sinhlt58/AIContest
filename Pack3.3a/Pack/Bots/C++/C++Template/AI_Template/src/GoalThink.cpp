@@ -14,6 +14,8 @@
 #include "GoalDodgeStrike.h"
 #include "EvaluatorGetPowerUp.h"
 #include "EvaluatorDodgeStrike.h"
+#include "GoalTakeGoodPosition.h"
+#include "EvaluatorTakeGoodPosition.h"
 
 
 GoalThink::GoalThink(MyTank* pOwner):GoalComposite(pOwner, goal_think)
@@ -24,6 +26,7 @@ GoalThink::GoalThink(MyTank* pOwner):GoalComposite(pOwner, goal_think)
 	m_vEvaluators.push_back(new EvaluatorReload(1));
 	m_vEvaluators.push_back(new EvaluatorGetPowerUp(1));
 	m_vEvaluators.push_back(new EvaluatorDodgeStrike(1));
+	m_vEvaluators.push_back(new EvaluatorTakeGoodPosition(1));
 }
 
 GoalThink::~GoalThink()
@@ -119,4 +122,10 @@ void GoalThink::AddGoalDodgeStrike()
 {
 	RemoveAllSubgoals();
 	AddSubgoal(new GoalDodgeStrike(m_pOwner));
+}
+
+void GoalThink::AddGoalTakeGoodPosition()
+{
+	RemoveAllSubgoals();
+	AddSubgoal(new GoalTakeGoodPosition(m_pOwner));
 }

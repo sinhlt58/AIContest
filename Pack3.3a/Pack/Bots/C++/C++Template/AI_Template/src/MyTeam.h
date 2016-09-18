@@ -4,17 +4,15 @@
 #define MyTeamMgr MyTeam::GetInstance()
 
 class MyTank;
-
+enum
+{
+	DEFENDING,
+	ATTACKING,
+	PREPARE_ATTACKING
+};
 class  MyTeam
 {
 public:
-	enum
-	{
-		DEFENDING,
-		ATTACKING,
-		PREPARE_ATTACKING
-	};
-	
 	MyTeam();
 	~MyTeam();
 	void SetTanks(std::vector<MyTank*> tanks);
@@ -36,6 +34,9 @@ public:
 	bool isEnemyTankInsideTheirSide(glm::vec2 tankPos);
 	bool isTankInsideTheirSide(float y, int team, float sideY);
 
+	/*Preparing for attacking*/
+	glm::vec2 GetBestPreparingPosition(glm::vec2 tankPos);
+
 	static MyTeam* GetInstance();
 private:
 	std::vector<MyTank*> m_vTanks;
@@ -46,4 +47,6 @@ private:
 	float m_fMySide;
 	int m_iMyTeam;
 	int m_iEnemyTeam;
+	std::vector<glm::vec2> m_vPreparingPositions;
+	std::vector<glm::vec2> m_vDefendingPositions;
 };

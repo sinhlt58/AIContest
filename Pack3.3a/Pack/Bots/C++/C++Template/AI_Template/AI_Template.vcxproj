@@ -266,6 +266,7 @@
     <ClCompile Include="src\EvaluatorGetPowerUp.cpp" />
     <ClCompile Include="src\EvaluatorHuntEnemy.cpp" />
     <ClCompile Include="src\EvaluatorReload.cpp" />
+    <ClCompile Include="src\EvaluatorTakeGoodPosition.cpp" />
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\Goal.cpp" />
     <ClCompile Include="src\GoalAtackMainBase.cpp" />
@@ -283,6 +284,7 @@
     <ClCompile Include="src\GoalMoveToPosition.cpp" />
     <ClCompile Include="src\GoalReload.cpp" />
     <ClCompile Include="src\GoalShootEnemy.cpp" />
+    <ClCompile Include="src\GoalTakeGoodPosition.cpp" />
     <ClCompile Include="src\GoalThink.cpp" />
     <ClCompile Include="src\GoalTraverseEdge.cpp" />
     <ClCompile Include="src\GoalType.cpp" />
@@ -316,6 +318,7 @@
     <ClInclude Include="src\EvaluatorGetPowerUp.h" />
     <ClInclude Include="src\EvaluatorHuntEnemy.h" />
     <ClInclude Include="src\EvaluatorReload.h" />
+    <ClInclude Include="src\EvaluatorTakeGoodPosition.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Goal.h" />
     <ClInclude Include="src\GoalAtackMainBase.h" />
@@ -333,6 +336,7 @@
     <ClInclude Include="src\GoalMoveToPosition.h" />
     <ClInclude Include="src\GoalReload.h" />
     <ClInclude Include="src\GoalShootEnemy.h" />
+    <ClInclude Include="src\GoalTakeGoodPosition.h" />
     <ClInclude Include="src\GoalThink.h" />
     <ClInclude Include="src\GoalTraverseEdge.h" />
     <ClInclude Include="src\GoalType.h" />
