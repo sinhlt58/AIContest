@@ -6,6 +6,7 @@
 #include <queue>
 #include "EvaluationPosition.h"
 #include <glm/detail/func_geometric.inl>
+#include "MyTeam.h"
 
 TargetingSystem::~TargetingSystem()
 {
@@ -445,7 +446,10 @@ void TargetingSystem::UpdateTargetForATank(MyTank* myTank)
 			glm::vec2 enemyPos = glm::vec2(enemyTank->GetX(), enemyTank->GetY());
 			EvaluationPosition ep = EvaluationPosition(enemyPos);
 			ep.EvaluateDistanceToMyTankScore(myTank, 10);
-//			ep.EvaluateCloseToMainBase(GetMyMainBasePosition(), 300);
+			if (MyTeamMgr->GetCurrentState() == DEFENDING)
+			{
+				ep.EvaluateCloseToMainBase(GetMyMainBasePosition(), 70);
+			}
 			ep.EvaluateShootableEnemy(myTank->GetPosition(), 50);
 //			ep.EvaluateNumberOfMyTankChosenScore(i, 15);
 			ep.SetTargetEnemyId(i);//this is a little bit dump ##!.

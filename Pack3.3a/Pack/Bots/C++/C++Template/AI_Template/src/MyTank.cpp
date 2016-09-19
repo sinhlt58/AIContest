@@ -49,7 +49,7 @@ void MyTank::Update()
 	
 //	std::cout << "Is move before final move: " << m_bIsMove << std::endl;
 //	std::cout << "My before final dir to go: " << m_iCurrentDirection << std::endl;
-//	AvoidCanNotDodgePos();
+	AvoidCanNotDodgePos();
 //	PrintVector("My current pos: ", GetPosition());
 	
 //	std::cout << "Is move final move: " << m_bIsMove << std::endl;

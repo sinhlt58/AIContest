@@ -114,6 +114,20 @@ void MyTeam::UpdateState()
 	}	
 	else
 	{
+		int numEnemyTankInsideMySide = 0;
+		int dangerNumEnemyTank = 2;
+		for (glm::vec2 enemyPos : TargetMgr->GetAllAliveEnemyPositions())
+		{
+			if (isMyTankInsideMySide(enemyPos))
+			{
+				numEnemyTankInsideMySide++;
+			}
+		}
+		if (numEnemyTankInsideMySide >= dangerNumEnemyTank)
+		{
+			m_iCurrentState = DEFENDING;
+			return;
+		}
 		m_iCurrentState = ATTACKING;
 	}
 }

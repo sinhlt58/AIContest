@@ -7,6 +7,7 @@
 #include "HelperFunctions.h"
 #include "GoalGoToPosToAttackEnemy.h"
 #include "GoalCover.h"
+#include "MyTeam.h"
 glm::vec2 testTargetPos = glm::vec2(2, 14.5);
 GoalHuntEnemy::~GoalHuntEnemy()
 {
@@ -35,18 +36,18 @@ void GoalHuntEnemy::Activate()
 	{
 		if (m_pOwner->isCurrentEnemyTargetPresent())
 		{	
-//			Tank* targetEnemy = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentTargetEnemyId());
-//			if (!isGoodTooShootThisEnemy(m_pOwner, targetEnemy))
-//			{
-////				std::cout << "Inside not good to shoot.\n";
-//				std::vector<glm::vec2> target;
-//				target.push_back(glm::vec2(targetEnemy->GetX(), targetEnemy->GetY()));
-////				target.push_back(testTargetPos);
-//				AddSubgoal(new GoalCover(m_pOwner, target));
-//			}else
-//			{
+			Tank* targetEnemy = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentTargetEnemyId());
+			if (!isGoodTooShootThisEnemy(m_pOwner, targetEnemy))
+			{
+//				std::cout << "Inside not good to shoot.\n";
+				std::vector<glm::vec2> target;
+				target.push_back(glm::vec2(targetEnemy->GetX(), targetEnemy->GetY()));
+//				target.push_back(testTargetPos);
+				AddSubgoal(new GoalCover(m_pOwner, target));
+			}else
+			{
 				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-//			}
+			}
 		}
 	}
 	else
@@ -60,13 +61,18 @@ int GoalHuntEnemy::Process()
 	//if see enemy then attack.
 	ActivateIfInactive();
 	m_iStatus = ProcessSubgoals();
+	if (m_pOwner->GetApiTank()->GetType() == TANK_HEAVY &&
+		!MyTeamMgr->isMyTankInsideMySide(m_pOwner->GetPosition()))
+	{
+		m_pOwner->FireOn();
+	}
 	ReactivateIfFailed();
 	return m_iStatus;
 }
 
 void GoalHuntEnemy::Terminate()
 {
-//	m_pOwner->MoveOff();
+	m_pOwner->FireOff();
 }
 
 bool GoalHuntEnemy::isGoodTooShootThisEnemy(MyTank* myTank, Tank* targetEnemy)

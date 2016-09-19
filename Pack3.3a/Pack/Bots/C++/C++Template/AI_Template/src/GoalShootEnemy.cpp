@@ -1,5 +1,6 @@
 #include "GoalShootEnemy.h"
 #include "GoalType.h"
+#include "MyTeam.h"
 
 GoalShootEnemy::GoalShootEnemy(MyTank* pOwner, glm::vec2 aimPosition) 
 	: Goal(pOwner, goal_shoot_enemy),

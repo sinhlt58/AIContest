@@ -7,7 +7,7 @@ EvaluatorReload::~EvaluatorReload()
 float EvaluatorReload::CalculateDesirability(MyTank* pTank)
 {
 	if (pTank->GetCoolDown() >= 0 && (pTank->GetApiTank()->GetType() != TANK_HEAVY))
-		return 0;
+		return 100;
 	return 0;
 }
 

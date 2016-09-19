@@ -1,6 +1,7 @@
 #include "EvaluatorGetPowerUp.h"
 #include "MyTeam.h"
 #include "HelperFunctions.h"
+#include "Globals.h"
 
 EvaluatorGetPowerUp::~EvaluatorGetPowerUp()
 {
@@ -8,10 +9,14 @@ EvaluatorGetPowerUp::~EvaluatorGetPowerUp()
 
 float EvaluatorGetPowerUp::CalculateDesirability(MyTank* pTank)
 {
-	if (MyTeamMgr->GetClosetTankToPowerUpId() == pTank->ID())
+	glm::vec2 closestPowerup = MyTeamMgr->GetCurrentPowerUpPos();
+	float safeDistanceToGet = 3.5;
+	float distance = Manhattan(closestPowerup, pTank->GetPosition());
+	if (MyTeamMgr->GetClosetTankToPowerUpId() == pTank->ID()
+		&& distance <= safeDistanceToGet)
 	{
 //		PrintVector("Tank to powerup: ", pTank->GetPosition());
-		return 1;
+		return 101;
 	}
 	return 1;
 }

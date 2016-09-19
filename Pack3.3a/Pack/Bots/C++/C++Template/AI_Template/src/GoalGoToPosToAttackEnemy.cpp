@@ -23,6 +23,7 @@ int GoalGoToPosToAttackEnemy::Process()
 {
 	ActivateIfInactive();
 	m_iStatus = ProcessSubgoals();
+
 	m_pOwner->StopInTheNextStepIsDangerous();
 	ReactivateIfFailed();
 	return m_iStatus;

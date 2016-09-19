@@ -12,7 +12,7 @@ EvaluatorDodgePosition::~EvaluatorDodgePosition()
 
 float EvaluatorDodgePosition::CalculateDesirability(MyTank* pTank)
 {
-	float bias = 500;
+	float bias = 0;
 	Tank* closestEnemyTank = TargetMgr->GetClosestEnemyTank(pTank->GetPosition());
 	if (closestEnemyTank)
 	{
