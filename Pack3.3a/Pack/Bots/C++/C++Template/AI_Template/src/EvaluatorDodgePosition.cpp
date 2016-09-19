@@ -21,9 +21,9 @@ float EvaluatorDodgePosition::CalculateDesirability(MyTank* pTank)
 
 		glm::vec2 fakeBulletPos =
 			glm::vec2(closestEnemyTank->GetX(), closestEnemyTank->GetY());
-		float enemyCoolDown = closestEnemyTank->GetCoolDown();
+		int enemyCoolDown = closestEnemyTank->GetCoolDown();
 //		glm::vec2 fakeBulletPos = debugEnemyTankPos;
-		int enemyCooldown = 4;
+//		int enemyCooldown = 4;
 
 		if (TargetMgr->isShootableAEnemy(fakeBulletPos, tankPos))
 		{
@@ -71,7 +71,7 @@ float EvaluatorDodgePosition::CalculateDesirability(MyTank* pTank)
 //			{
 //				std::cout << "Distance: " << distance << std::endl;
 //			}		
-			if (tankCoolDown == 0 && enemyCooldown <= dangerCoolDown
+			if (tankCoolDown == 0 && enemyCoolDown <= dangerCoolDown
 				&& distance <= dangerDistance)
 			{
 //				if (tankPos == glm::vec2(4, 7))
