@@ -19,6 +19,7 @@ MyTeam::MyTeam()
 		m_iMyTeam = TEAM_1;
 		m_iEnemyTeam = TEAM_2;
 		preparingX = 9;
+		m_vMainBasePos = glm::vec2(1.5, 10.5);
 	}else
 	{
 		m_fEnemySide = left_side;
@@ -26,6 +27,7 @@ MyTeam::MyTeam()
 		m_iMyTeam = TEAM_2;
 		m_iEnemyTeam = TEAM_1;
 		preparingX = 12;
+		m_vMainBasePos = glm::vec2(19.5, 10.5);
 	}
 	for (int i=1; i<=MAP_W-2;i++)
 	{
@@ -57,6 +59,8 @@ void MyTeam::Update()
 	{
 		tank->Update();
 	}
+
+	UsePowerUpIfSafeForMyBase();
 	Globals::s_TotalLoops++;
 }
 
@@ -123,7 +127,9 @@ void MyTeam::UpdateState()
 				numEnemyTankInsideMySide++;
 			}
 		}
-		if (numEnemyTankInsideMySide >= dangerNumEnemyTank)
+		if (numEnemyTankInsideMySide >= dangerNumEnemyTank
+			|| (numEnemyTankInsideMySide == 1 
+				&& TargetMgr->GetAllAliveEnemyPositions().size() == 1))
 		{
 			m_iCurrentState = DEFENDING;
 			return;
@@ -224,6 +230,34 @@ void MyTeam::UpdateDangerousStrike()
 			m_vUpComingDangerStrikePos.push_back(glm::vec2(x, y));
 		}
 	}
+}
+
+void MyTeam::UsePowerUpIfSafeForMyBase()
+{
+	glm::vec2 safePosToUsePowerUp = FindFirstSafeEnemyPosToUsePowerUp();
+	if (safePosToUsePowerUp != glm::vec2())
+	{
+		if (AI::GetInstance()->HasAirstrike())
+		{
+			AI::GetInstance()->UseAirstrike(safePosToUsePowerUp.x, safePosToUsePowerUp.y);
+		}
+		if (AI::GetInstance()->HasEMP())
+		{
+			AI::GetInstance()->UseEMP(safePosToUsePowerUp.x, safePosToUsePowerUp.y);
+		}
+	}
+}
+
+glm::vec2 MyTeam::FindFirstSafeEnemyPosToUsePowerUp()
+{
+	float safeDistance = 8;
+	for (glm::vec2 p : TargetMgr->GetAllAliveEnemyPositions())
+	{
+		float distance = EuclidianDistance(p, m_vMainBasePos);
+		if (distance >= safeDistance)
+			return p;
+	}
+	return glm::vec2();
 }
 
 MyTeam* MyTeam::GetInstance()

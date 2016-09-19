@@ -59,6 +59,12 @@ inline float Manhattan(glm::vec2 p1, glm::vec2 p2)
 		abs(p1.y - p2.y);
 }
 
+inline float EuclidianDistance(glm::vec2 p1, glm::vec2 p2)
+{
+	return sqrt(abs(p1.x - p2.x)*abs(p1.x - p2.x)
+		+ abs(p1.y - p2.y)*abs(p1.y - p2.y));
+}
+
 const int numNodes = (MAP_W - 2)*(MAP_H - 2);
 const int noParrent = -1;
 

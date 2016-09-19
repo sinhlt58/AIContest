@@ -10,7 +10,7 @@ EvaluatorGetPowerUp::~EvaluatorGetPowerUp()
 float EvaluatorGetPowerUp::CalculateDesirability(MyTank* pTank)
 {
 	glm::vec2 closestPowerup = MyTeamMgr->GetCurrentPowerUpPos();
-	float safeDistanceToGet = 3.5;
+	float safeDistanceToGet = 4;
 	float distance = Manhattan(closestPowerup, pTank->GetPosition());
 	if (MyTeamMgr->GetClosetTankToPowerUpId() == pTank->ID()
 		&& distance <= safeDistanceToGet)
