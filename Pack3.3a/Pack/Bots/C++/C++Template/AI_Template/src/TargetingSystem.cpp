@@ -776,25 +776,8 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 	*/
 	bool canDodgeSideBySide = false;
 
-	for (glm::vec2 dirToDodge : dirs)
-	{
-		float dot = glm::dot(dirToDodge, bulletDir);
-		/*Dodge side by side*/
-		if (dot == 0)
-		{
-			float distanceToDodge =
-				CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dirToDodge);
-			int timeToDodge = CalculateTimeToDodgeByDistance(tankSpeed, distanceToDodge);
-			if (isPossibleToMoveByDirAndTime(tankPos, tankSpeed, dirToDodge, timeToDodge))
-			{
-				if (timeToDodge < bestTimeToDodge)
-				{
-					bestTimeToDodge = timeToDodge;
-					bestDirToDodge = dirToDodge;
-				}
-			}
-		}
-	}
+	CalculateBestTimeAndDirToDodgeBullet(tankPos, tankSpeed, bulletPos, bulletDir, timeToHit,
+				bestDirToDodge, bestTimeToDodge);
 
 	if (bestDirToDodge != glm::vec2())
 	{
@@ -830,6 +813,31 @@ bool TargetingSystem::isTheClosestBulletDangerous(MyTank* myTank, Bullet* closes
 	return false;
 }
 
+void TargetingSystem::CalculateBestTimeAndDirToDodgeBullet(glm::vec2 tankPos, float tankSpeed, 
+	glm::vec2 bulletPos, glm::vec2 bulletDir, int timeToHit, 
+	glm::vec2 & bestDirToDodge, int & bestTimeToDodge)
+{
+	for (glm::vec2 dirToDodge : dirs)
+	{
+		float dot = glm::dot(dirToDodge, bulletDir);
+		/*Dodge side by side*/
+		if (dot == 0)
+		{
+			float distanceToDodge =
+				CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dirToDodge);
+			int timeToDodge = CalculateTimeToDodgeByDistance(tankSpeed, distanceToDodge);
+			if (isPossibleToMoveByDirAndTime(tankPos, tankSpeed, dirToDodge, timeToDodge))
+			{
+				if (timeToDodge < bestTimeToDodge)
+				{
+					bestTimeToDodge = timeToDodge;
+					bestDirToDodge = dirToDodge;
+				}
+			}
+		}
+	}
+}
+
 bool TargetingSystem::isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed)
 {
 	glm::vec2 tankPos = myTank->GetPosition();
@@ -846,25 +854,8 @@ bool TargetingSystem::isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 
 		*/
 		bool canDodgeSideBySide = false;
 
-		for (glm::vec2 dirToDodge : dirs)
-		{
-			float dot = glm::dot(dirToDodge, bulletDir);
-			/*Dodge side by side*/
-			if (dot == 0)
-			{
-				float distanceToDodge =
-					CalculateDistanceToDodgeBulletByDir(tankPos, bulletPos, bulletDir, dirToDodge);
-				int timeToDodge = CalculateTimeToDodgeByDistance(tankSpeed, distanceToDodge);
-				if (isPossibleToMoveByDirAndTime(tankPos, tankSpeed, dirToDodge, timeToDodge))
-				{
-					if (timeToDodge < bestTimeToDodge)
-					{
-						bestTimeToDodge = timeToDodge;
-						bestDirToDodge = dirToDodge;
-					}
-				}
-			}
-		}
+		CalculateBestTimeAndDirToDodgeBullet(tankPos, tankSpeed, bulletPos, bulletDir, timeToHit,
+			bestDirToDodge, bestTimeToDodge);
 
 		if (bestDirToDodge != glm::vec2())
 		{
@@ -875,7 +866,8 @@ bool TargetingSystem::isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 
 		}
 		else //if cant dodge side by side, then go to good pos to cover.
 		{
-			glm::vec2 bestPosToCover = FindPosToConverIfCantDodgeSideBySide(tankPos, tankSpeed, bulletPos, bulletDir);
+			glm::vec2 bestPosToCover =
+				FindPosToConverIfCantDodgeSideBySide(tankPos, tankSpeed, bulletPos, bulletDir);
 			if (bestPosToCover != glm::vec2())
 			{
 				return true;

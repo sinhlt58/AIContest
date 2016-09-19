@@ -5,6 +5,7 @@
 
 #define TANK_WIDTH 1
 #define HALF_TANK_WIDTH 0.5
+#define CANT_DODGE_VALUE 99
 
 class Globals
 {

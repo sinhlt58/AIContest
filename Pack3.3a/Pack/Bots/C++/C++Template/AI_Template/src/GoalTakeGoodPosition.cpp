@@ -19,6 +19,7 @@ void GoalTakeGoodPosition::Activate()
 	RemoveAllSubgoals();
 	glm::vec2 goodPos = MyTeamMgr->GetBestPreparingPosition(m_pOwner->GetPosition());
 //	PrintVector("Good preparing pos: ", goodPos);
+//	PrintVector("Tank pos:", m_pOwner->GetPosition());
 	if (goodPos != glm::vec2())
 	{
 		AddSubgoal(new GoalMoveToPosition(m_pOwner, goodPos));

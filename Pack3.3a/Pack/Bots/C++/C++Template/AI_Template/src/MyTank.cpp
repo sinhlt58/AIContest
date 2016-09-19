@@ -21,6 +21,9 @@ MyTank::MyTank(int id):m_iId(id),
 
 	m_iCurrentTargetEnemyId = -1;
 	numMove = 0;
+
+	m_iTimeToHitDodgePos = -1;
+	m_iBestTimeToDodgePos = -1;
 }
 
 MyTank::~MyTank()
@@ -41,12 +44,12 @@ void MyTank::Update()
 		m_pBrain->Aribitrate();
 	}
 	m_pBrain->Process();
-	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
+//	PrintVector("Target seek pos: ", m_pSteeringBehavior->m_vTarget);
 	UpdateMovement();
 	
 //	std::cout << "Is move before final move: " << m_bIsMove << std::endl;
 //	std::cout << "My before final dir to go: " << m_iCurrentDirection << std::endl;
-	AvoidCanNotDodgePos();
+//	AvoidCanNotDodgePos();
 //	PrintVector("My current pos: ", GetPosition());
 	
 //	std::cout << "Is move final move: " << m_bIsMove << std::endl;
@@ -54,6 +57,8 @@ void MyTank::Update()
 	Game::CommandTank(m_iId, m_iCurrentDirection, m_bIsMove, m_bIsShoot);
 	SetCurrentClosestDangerBullet(nullptr);
 	SetBestDirToDodgeDangerBullet(glm::vec2());
+	SetTimeToHitDodgePosition(-1);
+	SetBestTimeToDodgePosition(-1);
 }
 
 void MyTank::UpdateMovement()

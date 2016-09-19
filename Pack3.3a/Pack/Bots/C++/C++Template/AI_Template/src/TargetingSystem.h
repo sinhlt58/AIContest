@@ -47,6 +47,9 @@ public:
 	std::vector<Bullet*> GetAllDangerBulletPositions(glm::vec2 tankPosition);
 	Bullet* GetClosestDangerBullet(glm::vec2 tankPosition);
 	bool isTheClosestBulletDangerous(MyTank* myTank, Bullet* closestBullet);
+	void CalculateBestTimeAndDirToDodgeBullet(glm::vec2 tankPos, float tankSpeed,
+		glm::vec2 bulletPos, glm::vec2 bulletDir, int timeToHit,
+		glm::vec2 & bestDirToDodge, int & bestTimeToDodge);
 	bool isTheFakeClosestBulletDangerous(MyTank* myTank, glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);
 	bool isTheFakeClosestBulletPossibleToDodgeSideBySide(glm::vec2 originTankPos, glm::vec2 futureTankPos, float tankSpeed,
 		glm::vec2 bulletPos, glm::vec2 bulletDir, float bulletSpeed);

@@ -17,8 +17,8 @@ void GoalReload::Activate()
 {
 	m_iStatus = active;
 	RemoveAllSubgoals();
-	std::vector<glm::vec2> enemyPos = TargetMgr->GetAllAliveEnemyPositions();
-	AddSubgoal(new GoalCover(m_pOwner, enemyPos));
+//	std::vector<glm::vec2> enemyPos = TargetMgr->GetAllAliveEnemyPositions();
+//	AddSubgoal(new GoalCover(m_pOwner, enemyPos));
 }
 
 int GoalReload::Process()

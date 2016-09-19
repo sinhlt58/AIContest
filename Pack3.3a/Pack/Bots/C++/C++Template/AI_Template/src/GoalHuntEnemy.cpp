@@ -35,18 +35,18 @@ void GoalHuntEnemy::Activate()
 	{
 		if (m_pOwner->isCurrentEnemyTargetPresent())
 		{	
-			Tank* targetEnemy = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentTargetEnemyId());
-			if (!isGoodTooShootThisEnemy(m_pOwner, targetEnemy))
-			{
-//				std::cout << "Inside not good to shoot.\n";
-				std::vector<glm::vec2> target;
-				target.push_back(glm::vec2(targetEnemy->GetX(), targetEnemy->GetY()));
-//				target.push_back(testTargetPos);
-				AddSubgoal(new GoalCover(m_pOwner, target));
-			}else
-			{
+//			Tank* targetEnemy = AI::GetInstance()->GetEnemyTank(m_pOwner->GetCurrentTargetEnemyId());
+//			if (!isGoodTooShootThisEnemy(m_pOwner, targetEnemy))
+//			{
+////				std::cout << "Inside not good to shoot.\n";
+//				std::vector<glm::vec2> target;
+//				target.push_back(glm::vec2(targetEnemy->GetX(), targetEnemy->GetY()));
+////				target.push_back(testTargetPos);
+//				AddSubgoal(new GoalCover(m_pOwner, target));
+//			}else
+//			{
 				AddSubgoal(new GoalShootEnemy(m_pOwner, m_vCurrentAimPosition));
-			}
+//			}
 		}
 	}
 	else

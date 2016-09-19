@@ -65,7 +65,7 @@ void MyTeam::UpdateClosestTankToPowerUp()
 	std::vector<PowerUp*>  powerUp = AI::GetInstance()->GetPowerUpList();
 	m_iClosestTankToPowerUp = -1;
 	m_vCurrentPowerUpPos = glm::vec2();
-	std::cout << powerUp.size() << std::endl;
+//	std::cout << powerUp.size() << std::endl;
 	if (!powerUp.empty())
 	{
 		int firstPowerUpActive = 0;
@@ -181,7 +181,7 @@ std::vector<glm::vec2> MyTeam::GetDangerouseStrikePos()
 
 std::vector<glm::vec2> MyTeam::GetDangerouseStrikePosToTank(glm::vec2 tankPos)
 {
-	float dangerousDistance = 6;
+	float dangerousDistance = 8;
 	std::vector<glm::vec2> dangerousPos;
 	for (glm::vec2 p : m_vUpComingDangerStrikePos)
 	{
@@ -195,7 +195,7 @@ std::vector<glm::vec2> MyTeam::GetDangerouseStrikePosToTank(glm::vec2 tankPos)
 
 void MyTeam::UpdateDangerousStrike()
 {
-	int dangerousTimeStrike = 6;
+	int dangerousTimeStrike = 8;
 	m_vUpComingDangerStrikePos.clear();
 	std::vector<Strike*> strike = AI::GetInstance()->GetIncomingStrike();
 	for (int i = 0; i<strike.size(); i++)

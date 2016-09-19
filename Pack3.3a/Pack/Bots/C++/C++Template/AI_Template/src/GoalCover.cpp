@@ -30,7 +30,7 @@ int GoalCover::Process()
 {
 	ActivateIfInactive();
 	m_iStatus = ProcessSubgoals();
-	m_pOwner->StopInTheNextStepIsDangerous();
+//	m_pOwner->StopInTheNextStepIsDangerous();
 	ReactivateIfFailed();
 	return m_iStatus;
 }

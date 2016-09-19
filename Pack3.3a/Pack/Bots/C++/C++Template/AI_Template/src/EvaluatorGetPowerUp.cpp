@@ -8,10 +8,10 @@ EvaluatorGetPowerUp::~EvaluatorGetPowerUp()
 
 float EvaluatorGetPowerUp::CalculateDesirability(MyTank* pTank)
 {
-	if (MyTeamMgr->GetClosetTankToPowerUpId() == pTank->ID() && MyTeamMgr->GetMyTeam() == TEAM_2)
+	if (MyTeamMgr->GetClosetTankToPowerUpId() == pTank->ID())
 	{
-		PrintVector("Tank to powerup: ", pTank->GetPosition());
-		return 10000;
+//		PrintVector("Tank to powerup: ", pTank->GetPosition());
+		return 1;
 	}
 	return 1;
 }

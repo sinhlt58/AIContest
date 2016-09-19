@@ -73,6 +73,12 @@ public:
 	bool isClosestEnemyTooCloseToSniper(MyTank* myTank, Tank* enemyTank);
 	std::vector<int> SimulateActionsToChooseGoodActions(MyTank* myTank, Tank* enemyTank);
 	bool isThisActionIsGood(MyTank* myTank, Tank* enemyTank, int action);
+
+	/*function for dodge position*/
+	void SetTimeToHitDodgePosition(int t) { m_iTimeToHitDodgePos = t; }
+	void SetBestTimeToDodgePosition(int t) { m_iBestTimeToDodgePos = t; }
+	int GetTimeToHitDodgePosition() const { return m_iTimeToHitDodgePos; }
+	int GetBestTImeToDodgePosition() const { return m_iBestTimeToDodgePos; }
 private:
 	int m_iId;
 	bool m_bIsShoot;
@@ -97,7 +103,12 @@ private:
 	Bullet* m_pClosestDangerBullet;
 	glm::vec2 m_vBestDirToDodgeDangerousBullet;
 
+	/*current target*/
 	int m_iCurrentTargetEnemyId;
+
+	/*info about dodge position*/
+	int m_iTimeToHitDodgePos;
+	int m_iBestTimeToDodgePos;
 
 	int numMove;
 };

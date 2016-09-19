@@ -262,6 +262,7 @@
     <ClCompile Include="src\EvaluationPosition.cpp" />
     <ClCompile Include="src\EvaluatorAttackMainBase.cpp" />
     <ClCompile Include="src\EvaluatorDodgeBullet.cpp" />
+    <ClCompile Include="src\EvaluatorDodgePosition.cpp" />
     <ClCompile Include="src\EvaluatorDodgeStrike.cpp" />
     <ClCompile Include="src\EvaluatorGetPowerUp.cpp" />
     <ClCompile Include="src\EvaluatorHuntEnemy.cpp" />
@@ -275,6 +276,7 @@
     <ClCompile Include="src\GoalCover.cpp" />
     <ClCompile Include="src\GoalDefendBase.cpp" />
     <ClCompile Include="src\GoalDodgeBullet.cpp" />
+    <ClCompile Include="src\GoalDodgePosition.cpp" />
     <ClCompile Include="src\GoalDodgeStrike.cpp" />
     <ClCompile Include="src\GoalEvaluator.cpp" />
     <ClCompile Include="src\GoalFollowPath.cpp" />
@@ -314,6 +316,7 @@
     <ClInclude Include="src\EvaluationPosition.h" />
     <ClInclude Include="src\EvaluatorAttackMainBase.h" />
     <ClInclude Include="src\EvaluatorDodgeBullet.h" />
+    <ClInclude Include="src\EvaluatorDodgePosition.h" />
     <ClInclude Include="src\EvaluatorDodgeStrike.h" />
     <ClInclude Include="src\EvaluatorGetPowerUp.h" />
     <ClInclude Include="src\EvaluatorHuntEnemy.h" />
@@ -327,6 +330,7 @@
     <ClInclude Include="src\GoalCover.h" />
     <ClInclude Include="src\GoalDefendBase.h" />
     <ClInclude Include="src\GoalDodgeBullet.h" />
+    <ClInclude Include="src\GoalDodgePosition.h" />
     <ClInclude Include="src\GoalDodgeStrike.h" />
     <ClInclude Include="src\GoalEvaluator.h" />
     <ClInclude Include="src\GoalFollowPath.h" />
